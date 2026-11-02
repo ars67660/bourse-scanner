@@ -330,7 +330,7 @@ def plot_asset_chart(asset_name, df, levels):
 # Titre
 st.title("📈 Terminal de Trading & Gestion de Portefeuille")
 
-# --- BOUTON D'AIDE & EXPLICATION DES PARAMÈTRES (MODAL / EXPANDER) ---
+# --- BOUTON D'AIDE & EXPLICATION DES PARAMÈTRES ---
 with st.expander("📖 GUIDE D'UTILISATION & EXPLICATION DES PARAMÈTRES D'ENTRÉE", expanded=False):
     st.markdown("""
     ### 1. Comment utiliser le programme ?
@@ -939,16 +939,20 @@ with tab5:
 
         st.markdown("---")
         st.subheader("📋 Tableau Détaillé des Résultats par Position")
-        df_results = pd.DataFrame(all_positions)
+        
+        if len(all_positions) > 0:
+            df_results = pd.DataFrame(all_positions)
 
-        def color_pnl(val):
-            if val > 0:
-                return 'color: #16a34a; font-weight: bold;'
-            elif val < 0:
-                return 'color: #dc2626; font-weight: bold;'
-            return 'color: #64748b;'
+            def color_pnl(val):
+                if val > 0:
+                    return 'color: #16a34a; font-weight: bold;'
+                elif val < 0:
+                    return 'color: #dc2626; font-weight: bold;'
+                return 'color: #64748b;'
 
-        st.dataframe(df_results.style.map(color_pnl, subset=['P&L (€)', 'P&L (%)']), use_container_width=True)
+            st.dataframe(df_results.style.map(color_pnl, subset=['P&L (€)', 'P&L (%)']), use_container_width=True)
+        else:
+            st.info("ℹ️ Aucune position active enregistrée dans vos portefeuilles pour le moment. Ajoutez des ordres depuis l'onglet 'Scanner & Indicateurs'.")
 
 with tab6:
     st.header("💾 Sauvegarde & Restauration des Données")
