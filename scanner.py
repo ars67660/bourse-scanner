@@ -215,43 +215,228 @@ assets_db = [
     {"name": "Cuivre (Copper)", "type": "Matières Premières", "symbol": "HG=F", "liquidity": 2, "volatility": 1, "trend": 1, "risk_reward": 1, "catalyst": 0}
 ]
 
+def _clean_ohlcv_frame(df):
+    """Normalise un historique OHLCV et élimine les lignes inutilisables."""
+    if df is None or not isinstance(df, pd.DataFrame) or df.empty:
+        return None
+    frame = df.copy()
+    # Harmonise les noms de colonnes entre fournisseurs.
+    frame.columns = [str(c).strip().title() for c in frame.columns]
+    if "Datetime" in frame.columns and "Date" not in frame.columns:
+        frame = frame.rename(columns={"Datetime": "Date"})
+    required = ["Close"]
+    if not all(col in frame.columns for col in required):
+        return None
+    for col in ["Open", "High", "Low", "Close", "Volume"]:
+        if col not in frame.columns:
+            frame[col] = np.nan
+        frame[col] = pd.to_numeric(frame[col], errors="coerce")
+    frame = frame.dropna(subset=["Close"])
+    frame = frame[frame["Close"] > 0]
+    if frame.empty:
+        return None
+    # Les indicateurs ATR ont besoin de High/Low; repli prudent si absents.
+    frame["High"] = frame["High"].fillna(frame["Close"])
+    frame["Low"] = frame["Low"].fillna(frame["Close"])
+    return frame.sort_index()
+
+
+def _get_stooq_history(symbol):
+    """Stooq en secours pour les actions US simples; pas d'approximation de symbole."""
+    # Les suffixes, indices, devises, contrats futures et cryptos ne sont pas
+    # convertis automatiquement: un mauvais mapping serait plus dangereux qu'un échec.
+    if not symbol or any(ch in symbol for ch in ".^=-/ "):
+        return None
+    stooq_symbol = urllib.parse.quote(symbol.lower() + ".us", safe="")
+    url = f"https://stooq.com/q/d/l/?s={stooq_symbol}&i=d"
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=5) as response:
+        raw = response.read().decode("utf-8", errors="replace")
+    if not raw or "No data" in raw or raw.count("\n") < 2:
+        return None
+    frame = pd.read_csv(io.StringIO(raw), parse_dates=["Date"], index_col="Date")
+    return _clean_ohlcv_frame(frame)
+
+
+def _get_api_key(secret_name):
+    """Lit une clé depuis Streamlit Secrets ou une variable d'environnement."""
+    try:
+        value = st.secrets.get(secret_name, "")
+    except Exception:
+        value = ""
+    return value or os.getenv(secret_name, "")
+
+
+def _http_json(url, timeout=10):
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=timeout) as response:
+        return json.loads(response.read().decode("utf-8", errors="replace"))
+
+
+def _get_twelve_data_history(symbol):
+    """Historique journalier Twelve Data; nécessite TWELVE_DATA_API_KEY."""
+    api_key = _get_api_key("TWELVE_DATA_API_KEY")
+    if not api_key or not symbol:
+        return None
+    # Les symboles multi-marchés peuvent nécessiter une notation Twelve Data spécifique.
+    params = urllib.parse.urlencode({
+        "symbol": symbol, "interval": "1day", "outputsize": 5000,
+        "apikey": api_key
+    })
+    payload = _http_json(f"https://api.twelvedata.com/time_series?{params}")
+    values = payload.get("values")
+    if not isinstance(values, list) or not values:
+        return None
+    frame = pd.DataFrame(values).rename(columns={
+        "datetime": "Date", "open": "Open", "high": "High",
+        "low": "Low", "close": "Close", "volume": "Volume"
+    })
+    frame["Date"] = pd.to_datetime(frame["Date"], errors="coerce")
+    frame = frame.set_index("Date").sort_index()
+    return _clean_ohlcv_frame(frame)
+
+
+def _get_finnhub_history(symbol):
+    """Bougies journalières Finnhub; nécessite FINNHUB_API_KEY."""
+    api_key = _get_api_key("FINNHUB_API_KEY")
+    if not api_key or not symbol or symbol.startswith("^"):
+        return None
+    import time
+    to_ts = int(time.time())
+    from_ts = to_ts - 10 * 365 * 24 * 60 * 60
+    params = urllib.parse.urlencode({
+        "symbol": symbol, "resolution": "D", "from": from_ts,
+        "to": to_ts, "token": api_key
+    })
+    payload = _http_json(f"https://finnhub.io/api/v1/stock/candle?{params}")
+    if payload.get("s") != "ok" or not payload.get("c"):
+        return None
+    frame = pd.DataFrame({
+        "Date": pd.to_datetime(payload.get("t", []), unit="s", errors="coerce"),
+        "Open": payload.get("o", []), "High": payload.get("h", []),
+        "Low": payload.get("l", []), "Close": payload.get("c", []),
+        "Volume": payload.get("v", [])
+    }).set_index("Date").sort_index()
+    return _clean_ohlcv_frame(frame)
+
+
+def _get_eodhd_history(symbol):
+    """Historique journalier EODHD; nécessite EODHD_API_KEY."""
+    api_key = _get_api_key("EODHD_API_KEY")
+    if not api_key or not symbol:
+        return None
+    # EODHD utilise généralement EXCHANGE ticker (ex. AAPL.US, AIR.PA).
+    # Les symboles Yahoo avec préfixe ^ ou suffixes de contrats ne sont pas convertis.
+    if symbol.startswith("^") or symbol.endswith("=F"):
+        return None
+    from datetime import date, timedelta
+    date_from = (date.today() - timedelta(days=365 * 10)).isoformat()
+    params = urllib.parse.urlencode({
+        "api_token": api_key, "fmt": "json", "period": "d", "from": date_from
+    })
+    encoded_symbol = urllib.parse.quote(symbol, safe=".")
+    payload = _http_json(f"https://eodhd.com/api/eod/{encoded_symbol}?{params}")
+    if not isinstance(payload, list) or not payload:
+        return None
+    frame = pd.DataFrame(payload).rename(columns={
+        "date": "Date", "open": "Open", "high": "High",
+        "low": "Low", "close": "Close", "volume": "Volume"
+    })
+    frame["Date"] = pd.to_datetime(frame["Date"], errors="coerce")
+    frame = frame.set_index("Date").sort_index()
+    return _clean_ohlcv_frame(frame)
+
+
 @st.cache_data(ttl=60)
 def get_market_indicators(symbol, period="1y", interval="1d"):
+    """Essaie Yahoo Finance, puis Stooq, Twelve Data, Finnhub et EODHD en secours.
+
+    Les sources de secours sont réservées aux bougies journalières pour éviter de
+    mélanger silencieusement des fréquences ou de présenter un cours retardé comme temps réel.
+    Les API payantes/gratuites optionnelles ne sont appelées que si leur clé est configurée.
+    """
+    candidates = []
+    errors = []
+
+    # 1) Yahoo Finance, source principale et seule source pour l'intraday.
     try:
         ticker = yf.Ticker(symbol)
-        df = ticker.history(period=period, interval=interval)
-        
-        if df.empty and interval in ["1h", "4h"]:
-            df = ticker.history(period="1mo", interval="1h")
-            
-        if not df.empty and len(df) >= 5:
-            current_price = float(df['Close'].iloc[-1])
-            
-            sma_200_value = df['Close'].rolling(window=200, min_periods=200).mean().iloc[-1]
-            sma_200 = float(sma_200_value) if pd.notna(sma_200_value) else float('nan')
-            sma_50_value = df['Close'].rolling(window=50, min_periods=50).mean().iloc[-1]
-            sma_50 = float(sma_50_value) if pd.notna(sma_50_value) else float('nan')
+        df_yahoo = ticker.history(period=period, interval=interval, auto_adjust=False)
+        df_yahoo = _clean_ohlcv_frame(df_yahoo)
+        # Yahoo ne fournit pas toujours une bougie 4h; dans ce cas on conserve
+        # le repli historique existant vers des bougies 1h, uniquement intraday.
+        if (df_yahoo is None or df_yahoo.empty) and interval in ("1h", "4h"):
+            df_yahoo = _clean_ohlcv_frame(
+                ticker.history(period="1mo", interval="1h", auto_adjust=False)
+            )
+        if df_yahoo is not None and len(df_yahoo) >= 5:
+            df_yahoo.attrs["source"] = "Yahoo Finance"
+            candidates.append(df_yahoo)
+    except Exception as exc:
+        errors.append(f"Yahoo Finance: {type(exc).__name__}")
 
-            delta = df['Close'].diff()
-            gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
-            loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
-            rs = gain / loss
-            rsi_series = 100 - (100 / (1 + rs))
-            rsi_14 = float(rsi_series.iloc[-1]) if not rsi_series.empty and not np.isnan(rsi_series.iloc[-1]) else 50.0
+    # 2 et 3) Secours historiques uniquement pour l'intervalle journalier.
+    is_daily = interval in ("1d", "5d", "1wk", "1mo", "3mo")
+    if not candidates and is_daily:
+        for provider_name, provider_fn in (
+            ("Stooq", _get_stooq_history),
+            ("Twelve Data", _get_twelve_data_history),
+            ("Finnhub", _get_finnhub_history),
+            ("EODHD", _get_eodhd_history),
+        ):
+            try:
+                fallback_df = provider_fn(symbol)
+                if fallback_df is not None and len(fallback_df) >= 5:
+                    # Applique une fenêtre comparable à la demande initiale.
+                    if period.endswith("y") and period[:-1].isdigit():
+                        cutoff = pd.Timestamp.now(tz=None) - pd.Timedelta(days=365 * int(period[:-1]))
+                        idx = pd.to_datetime(fallback_df.index, errors="coerce")
+                        fallback_df = fallback_df.loc[idx >= cutoff]
+                    elif period.endswith("mo") and period[:-2].isdigit():
+                        cutoff = pd.Timestamp.now(tz=None) - pd.Timedelta(days=30 * int(period[:-2]))
+                        idx = pd.to_datetime(fallback_df.index, errors="coerce")
+                        fallback_df = fallback_df.loc[idx >= cutoff]
+                    fallback_df = _clean_ohlcv_frame(fallback_df)
+                    if fallback_df is not None and len(fallback_df) >= 5:
+                        fallback_df.attrs["source"] = provider_name
+                        candidates.append(fallback_df)
+                        break
+            except Exception as exc:
+                errors.append(f"{provider_name}: {type(exc).__name__}")
 
-            high_low = df['High'] - df['Low']
-            high_close = np.abs(df['High'] - df['Close'].shift())
-            low_close = np.abs(df['Low'] - df['Close'].shift())
-            true_range = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
-            atr_14 = float(true_range.rolling(window=14).mean().iloc[-1])
-            
-            if np.isnan(atr_14) or atr_14 <= 0:
-                atr_14 = current_price * 0.015
+    if not candidates:
+        return None, float("nan"), float("nan"), 50.0, float("nan"), None
 
-            return current_price, sma_200, sma_50, rsi_14, atr_14, df
+    df = candidates[0]
+    try:
+        current_price = float(df["Close"].iloc[-1])
+        if not np.isfinite(current_price) or current_price <= 0:
+            return None, float("nan"), float("nan"), 50.0, float("nan"), None
+
+        close = pd.to_numeric(df["Close"], errors="coerce")
+        sma_200_value = close.rolling(window=200, min_periods=200).mean().iloc[-1]
+        sma_200 = float(sma_200_value) if pd.notna(sma_200_value) else float("nan")
+        sma_50_value = close.rolling(window=50, min_periods=50).mean().iloc[-1]
+        sma_50 = float(sma_50_value) if pd.notna(sma_50_value) else float("nan")
+
+        delta = close.diff()
+        gain = delta.where(delta > 0, 0).rolling(window=14).mean()
+        loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
+        rs = gain / loss.replace(0, np.nan)
+        rsi_series = 100 - (100 / (1 + rs))
+        rsi_14 = float(rsi_series.iloc[-1]) if not rsi_series.empty and pd.notna(rsi_series.iloc[-1]) else 50.0
+
+        high_low = df["High"] - df["Low"]
+        high_close = np.abs(df["High"] - close.shift())
+        low_close = np.abs(df["Low"] - close.shift())
+        true_range = pd.concat([high_low, high_close, low_close], axis=1).max(axis=1)
+        atr_value = true_range.rolling(window=14, min_periods=14).mean().iloc[-1]
+        atr_14 = float(atr_value) if pd.notna(atr_value) else float("nan")
+        if not np.isfinite(atr_14) or atr_14 <= 0:
+            atr_14 = current_price * 0.015
+        return current_price, sma_200, sma_50, rsi_14, atr_14, df
     except Exception:
-        pass
-    return None, float('nan'), float('nan'), 50.0, float('nan'), None
+        return None, float("nan"), float("nan"), 50.0, float("nan"), None
 
 def compute_trading_setup(current_price, atr, scores, sma_200, sma_50, rsi_14):
     if current_price is None or not np.isfinite(current_price) or current_price <= 0:
@@ -454,6 +639,8 @@ with tab1:
     if live_price is None or not np.isfinite(live_price) or live_price <= 0:
         st.error("Impossible de récupérer un cours valide pour cet actif. Analyse et investissement désactivés pour éviter tout prix fictif.")
         st.stop()
+    data_source = getattr(history_df, "attrs", {}).get("source", "fournisseur non identifié") if history_df is not None else "fournisseur non identifié"
+    st.caption(f"Source des données : **{data_source}** — les fournisseurs de secours peuvent fournir des cours retardés ou uniquement journaliers.")
 
     tv_symbol = selected_asset["symbol"].replace("=X", "").replace("-USD", "USD").replace("=F", "")
     tv_url = f"https://www.tradingview.com/chart/?symbol={urllib.parse.quote(tv_symbol)}"
