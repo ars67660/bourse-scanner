@@ -9,6 +9,8 @@ from datetime import datetime
 import urllib.parse
 import urllib.request
 import io
+import tempfile
+import shutil
 
 # Configuration de la page
 st.set_page_config(
@@ -90,24 +92,39 @@ def load_app_data():
     return validate_app_data(data)
 
 def save_app_data(app_data):
+    """Sauvegarde JSON atomique; conserve une copie du dernier fichier valide."""
     validated_data = validate_app_data(app_data)
+    temp_path = None
     try:
+        directory = os.path.dirname(os.path.abspath(PORTFOLIO_FILE))
+        fd, temp_path = tempfile.mkstemp(prefix=".portefeuille_", suffix=".tmp", dir=directory)
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(validated_data, f, indent=4, ensure_ascii=False)
+            f.flush()
+            os.fsync(f.fileno())
+
+        # Ne remplace la sauvegarde de secours qu'après avoir vérifié le JSON existant.
         if os.path.exists(PORTFOLIO_FILE):
             try:
                 with open(PORTFOLIO_FILE, "r", encoding="utf-8") as f:
-                    backup_content = f.read()
-                with open(BACKUP_FILE, "w", encoding="utf-8") as f:
-                    f.write(backup_content)
-            except Exception:
+                    json.load(f)
+                shutil.copy2(PORTFOLIO_FILE, BACKUP_FILE)
+            except (OSError, json.JSONDecodeError):
                 pass
 
-        with open(PORTFOLIO_FILE, "w", encoding="utf-8") as f:
-            json.dump(validated_data, f, indent=4, ensure_ascii=False)
+        os.replace(temp_path, PORTFOLIO_FILE)
+        temp_path = None
         st.session_state.app_data = validated_data
         return True
     except Exception as e:
         st.error(f"❌ Erreur critique lors de la sauvegarde : {e}")
         return False
+    finally:
+        if temp_path and os.path.exists(temp_path):
+            try:
+                os.remove(temp_path)
+            except OSError:
+                pass
 
 if "app_data" not in st.session_state:
     st.session_state.app_data = load_app_data()
@@ -210,8 +227,10 @@ def get_market_indicators(symbol, period="1y", interval="1d"):
         if not df.empty and len(df) >= 5:
             current_price = float(df['Close'].iloc[-1])
             
-            sma_200 = float(df['Close'].rolling(window=min(200, len(df))).mean().iloc[-1]) if len(df) >= 5 else current_price
-            sma_50 = float(df['Close'].rolling(window=min(50, len(df))).mean().iloc[-1]) if len(df) >= 5 else current_price
+            sma_200_value = df['Close'].rolling(window=200, min_periods=200).mean().iloc[-1]
+            sma_200 = float(sma_200_value) if pd.notna(sma_200_value) else float('nan')
+            sma_50_value = df['Close'].rolling(window=50, min_periods=50).mean().iloc[-1]
+            sma_50 = float(sma_50_value) if pd.notna(sma_50_value) else float('nan')
 
             delta = df['Close'].diff()
             gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
@@ -232,13 +251,19 @@ def get_market_indicators(symbol, period="1y", interval="1d"):
             return current_price, sma_200, sma_50, rsi_14, atr_14, df
     except Exception:
         pass
-    return None, 100.0, 100.0, 50.0, 1.0, None
+    return None, float('nan'), float('nan'), 50.0, float('nan'), None
 
 def compute_trading_setup(current_price, atr, scores, sma_200, sma_50, rsi_14):
-    if current_price is None or np.isnan(current_price):
-        current_price = 100.0
-    if atr is None or np.isnan(atr) or atr <= 0:
+    if current_price is None or not np.isfinite(current_price) or current_price <= 0:
+        raise ValueError("Cours de marché indisponible ou invalide; analyse annulée.")
+    if atr is None or not np.isfinite(atr) or atr <= 0:
         atr = current_price * 0.015
+    if sma_200 is None or not np.isfinite(sma_200):
+        sma_200 = float('nan')
+    if sma_50 is None or not np.isfinite(sma_50):
+        sma_50 = float('nan')
+    if rsi_14 is None or not np.isfinite(rsi_14):
+        rsi_14 = 50.0
 
     weighted_score = (
         scores["t"] * 2.5 +
@@ -251,37 +276,26 @@ def compute_trading_setup(current_price, atr, scores, sma_200, sma_50, rsi_14):
     percentage_score = int(((weighted_score + 18) / 36) * 100)
     percentage_score = max(0, min(100, percentage_score))
 
-    trend_bullish = (current_price > sma_200) and (sma_50 > sma_200)
-    trend_bearish = (current_price < sma_200) and (sma_50 < sma_200)
+    trend_bullish = bool(np.isfinite(sma_200) and np.isfinite(sma_50) and current_price > sma_200 and sma_50 > sma_200)
 
-    if percentage_score >= 75:
-        if not trend_bullish or rsi_14 > 78:
-            percentage_score = 52
-    elif percentage_score <= 25:
-        if not trend_bearish or rsi_14 < 22:
-            percentage_score = 48
+    # Le score est un indicateur heuristique, pas une probabilité de réussite.
+    if not trend_bullish:
+        percentage_score = min(percentage_score, 54)
+    if rsi_14 > 78:
+        percentage_score = min(percentage_score, 54)
 
     if percentage_score >= 75:
         signal = "ACHAT FORT"
     elif percentage_score >= 55:
         signal = "ACHAT"
-    elif percentage_score <= 25:
-        signal = "VENTE FORTE"
-    elif percentage_score <= 45:
-        signal = "VENTE"
     else:
-        signal = "NEUTRE"
+        signal = "NEUTRE / ÉVITER"
 
-    if "ACHAT" in signal or (signal == "NEUTRE" and weighted_score >= 0):
-        entry = current_price * 0.998
-        sl = entry - (1.5 * atr)
-        tp_ct = entry + (2.0 * atr)
-        tp_lt = entry + (4.5 * atr)
-    else:
-        entry = current_price * 1.002
-        sl = entry + (1.5 * atr)
-        tp_ct = entry - (2.0 * atr)
-        tp_lt = entry - (4.5 * atr)
+    # Stratégie strictement long-only : niveaux de risque/rendement orientés à la hausse.
+    entry = current_price * 0.998
+    sl = entry - (1.5 * atr)
+    tp_ct = entry + (2.0 * atr)
+    tp_lt = entry + (4.5 * atr)
 
     daily_move = atr if atr > 0 else (current_price * 0.01)
     
@@ -437,16 +451,16 @@ with tab1:
                     st.rerun()
 
     live_price, sma_200, sma_50, rsi_14, atr_val, history_df = get_market_indicators(selected_asset["symbol"], period="1y", interval="1d")
-    if live_price is None:
-        st.error("Impossible de récupérer les données en direct pour cet actif.")
-        live_price, sma_200, sma_50, rsi_14, atr_val = 100.0, 100.0, 100.0, 50.0, 1.5
+    if live_price is None or not np.isfinite(live_price) or live_price <= 0:
+        st.error("Impossible de récupérer un cours valide pour cet actif. Analyse et investissement désactivés pour éviter tout prix fictif.")
+        st.stop()
 
     tv_symbol = selected_asset["symbol"].replace("=X", "").replace("-USD", "USD").replace("=F", "")
     tv_url = f"https://www.tradingview.com/chart/?symbol={urllib.parse.quote(tv_symbol)}"
     st.markdown(f"🔗 **[Ouvrir cet actif sur TradingView]({tv_url})**", unsafe_allow_html=True)
 
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric(label="Prix en Direct", value=f"{live_price:,.2f} €")
+    col1.metric(label="Prix de marché (devise de cotation)", value=f"{live_price:,.2f}")
     col2.metric(label="ATR Réel (14)", value=f"{atr_val:,.4f}")
     col3.metric(label="SMA 50 / 200", value=f"{sma_50:,.1f} / {sma_200:,.1f}")
     col4.metric(label="RSI (14)", value=f"{rsi_14}")
@@ -468,9 +482,9 @@ with tab1:
     result = compute_trading_setup(live_price, atr_val, scores, sma_200, sma_50, rsi_14)
 
     if result["score"] >= 75:
-        st.success(f"🌟 **HAUT POTENTIEL DE RÉUSSITE (TENDANCE FILTRÉE)** — Score : {result['score']}/100")
-    elif result["score"] <= 25:
-        st.error(f"Signal : **VENTE FORTE** (Score : {result['score']}/100)")
+        st.success(f"🌟 **SIGNAL TECHNIQUE FORT (TENDANCE FILTRÉE)** — Score : {result['score']}/100")
+    elif result["signal"] == "NEUTRE / ÉVITER":
+        st.info(f"Signal : **{result['signal']}** (Score technique : {result['score']}/100)")
     else:
         st.info(f"Signal : **{result['signal']}** (Score : {result['score']}/100)")
 
@@ -492,7 +506,8 @@ with tab1:
             st.warning("Historique indisponible.")
 
     st.markdown("---")
-    st.subheader("Passer un Ordre / Plan DCA")
+    st.subheader("Enregistrer un achat simulé / Plan DCA indicatif")
+    st.caption("Cette application suit un plan DCA mais n’exécute aucun ordre et ne déclenche pas automatiquement les achats futurs.")
     
     portfolios = st.session_state.app_data["portfolios"]
     if len(portfolios) > 0:
@@ -508,13 +523,26 @@ with tab1:
             frequency = st.selectbox("Fréquence (DCA) :", ["Achat unique (Manuel)", "1 fois par semaine", "2 fois par mois", "Tous les mois", "Tous les 3 mois"], key="freq_dca")
             fees_eur = st.number_input("Frais (€) :", min_value=0.0, value=1.0, step=0.5, key="fees_inv")
 
+        # Le budget est en EUR alors que le cours peut être en USD/GBP/etc.
+        # Sans taux FX explicite, ne pas simuler une quantité financièrement trompeuse.
+        quote_currency = "EUR" if selected_asset["symbol"].endswith("=X") and selected_asset["symbol"].startswith("EUR") else ("USD" if selected_asset["symbol"].endswith("-USD") or selected_asset["symbol"].endswith("=F") else "UNKNOWN")
+        if selected_asset["symbol"].endswith("=X"):
+            quote_currency = selected_asset["symbol"].split("=")[0][-3:]
+        elif selected_asset["symbol"].endswith(".L"):
+            quote_currency = "GBP"
+        elif selected_asset["symbol"].endswith(".PA") or selected_asset["symbol"].endswith(".DE") or selected_asset["symbol"].endswith(".AS"):
+            quote_currency = "EUR"
+
         applied_price = live_price if pricing_mode == "Prix du marché en direct" else result["entry"]
         net_budget = max(0.0, budget_eur - fees_eur)
-        quantity_bought = net_budget / applied_price if applied_price > 0 else 0
+        currency_supported = quote_currency == "EUR"
+        quantity_bought = net_budget / applied_price if currency_supported and applied_price > 0 else 0
+        if not currency_supported:
+            st.warning(f"Le cours de cet actif est probablement coté en {quote_currency}. La conversion EUR/ devise n'est pas encore fiable dans cette version : l'enregistrement simulé est désactivé pour éviter une quantité erronée.")
+        else:
+            st.write(f"**Synthèse :** Pour {budget_eur} € (frais: {fees_eur} €) -> **{quantity_bought:.4f} unités** de {selected_asset['name']} au prix de {applied_price:.4f} (cours en EUR).")
 
-        st.write(f"**Synthèse :** Pour {budget_eur} € (frais: {fees_eur} €) -> **{quantity_bought:.4f} unités** de {selected_asset['name']} au prix de {applied_price} €.")
-
-        if st.button("Valider l'Investissement", key="btn_validate_inv"):
+        if st.button("Valider l'Investissement", key="btn_validate_inv", disabled=not currency_supported):
             if budget_eur <= 0:
                 st.error("❌ Le montant investi doit être supérieur à 0.")
             elif quantity_bought <= 0:
@@ -612,11 +640,11 @@ with tab2:
                 "Ticker": asset["symbol"],
                 "Catégorie": asset["type"],
                 "Horizon": timeframe_label,
-                "Cours Réel (€)": res["price"],
-                "Entrée (€)": res["entry"],
-                "Stop Loss (€)": res["sl"],
-                "Take Profit CT (€)": res["tp_ct"],
-                "Take Profit LT (€)": res["tp_lt"],
+                "Cours (devise de cotation)": res["price"],
+                "Entrée (devise de cotation)": res["entry"],
+                "Stop Loss (devise de cotation)": res["sl"],
+                "Take Profit CT (devise de cotation)": res["tp_ct"],
+                "Take Profit LT (devise de cotation)": res["tp_lt"],
                 "Signal": res["signal"],
                 "Score (/100)": res["score"],
                 "RSI (14)": res["rsi_14"],
@@ -852,7 +880,8 @@ with tab4:
 
             for idx, item in enumerate(bank_items):
                 current_p, _, _, _, _, _ = get_market_indicators(item["symbol"], period="1y", interval="1d")
-                if current_p is None:
+                price_is_live = current_p is not None and np.isfinite(current_p) and current_p > 0
+                if not price_is_live:
                     current_p = item["entry_price"]
                 
                 qty = item.get("qty", 1.0)
@@ -865,8 +894,8 @@ with tab4:
 
                 portfolio_table.append({
                     "Index": idx,
-                    "Actif": item["name"],
-                    "Fréquence": item.get("frequency", "Unique"),
+                    "Actif": item["name"] + (" (cours indisponible; valeur au PRU)" if not price_is_live else ""),
+                    "Fréquence / plan indicatif": item.get("frequency", "Unique"),
                     "Quantité": round(qty, 4),
                     "Investi (€)": round(inv_eur, 2),
                     "Valeur (€)": round(valeur_totale, 2),
@@ -902,7 +931,8 @@ with tab5:
         for bank_name, items in portfolios.items():
             for item in items:
                 current_p, _, _, _, _, _ = get_market_indicators(item["symbol"], period="1y", interval="1d")
-                if current_p is None:
+                price_is_live = current_p is not None and np.isfinite(current_p) and current_p > 0
+                if not price_is_live:
                     current_p = item["entry_price"]
                 
                 qty = item.get("qty", 1.0)
