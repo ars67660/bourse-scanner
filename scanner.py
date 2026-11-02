@@ -129,6 +129,65 @@ def save_app_data(app_data):
 if "app_data" not in st.session_state:
     st.session_state.app_data = load_app_data()
 
+# --- Menu de configuration des fournisseurs de données ---
+_PROVIDER_DEFAULTS = {
+    "Yahoo Finance": True,
+    "Stooq": True,
+    "Twelve Data": True,
+    "Finnhub": True,
+    "EODHD": True,
+}
+_PROVIDER_FALLBACKS = ["Stooq", "Twelve Data", "Finnhub", "EODHD"]
+_API_SECRET_NAMES = {
+    "Twelve Data": "TWELVE_DATA_API_KEY",
+    "Finnhub": "FINNHUB_API_KEY",
+    "EODHD": "EODHD_API_KEY",
+}
+if "provider_config_applied" not in st.session_state:
+    st.session_state.provider_config_applied = {
+        "enabled": dict(_PROVIDER_DEFAULTS),
+        "order": list(_PROVIDER_FALLBACKS),
+    }
+for _provider, _enabled in _PROVIDER_DEFAULTS.items():
+    st.session_state.setdefault(f"provider_ui_enabled_{_provider}", _enabled)
+for _secret_name in _API_SECRET_NAMES.values():
+    st.session_state.setdefault(f"provider_api_input_{_secret_name}", "")
+st.session_state.setdefault("provider_ui_order", list(_PROVIDER_FALLBACKS))
+
+with st.sidebar.expander("🔌 Fournisseurs de cours & API", expanded=False):
+    st.caption("Activez les sources et renseignez vos clés API. Yahoo Finance reste la source principale si activée.")
+    for _provider in _PROVIDER_DEFAULTS:
+        st.checkbox(_provider, key=f"provider_ui_enabled_{_provider}")
+    st.markdown("**Clés API (facultatives)**")
+    for _provider, _secret_name in _API_SECRET_NAMES.items():
+        st.text_input(
+            f"Clé API — {_provider}",
+            key=f"provider_api_input_{_secret_name}",
+            type="password",
+            help=f"Utilisée uniquement pour cette session. Pour un stockage persistant, configurez {_secret_name} dans les Secrets de Streamlit Cloud."
+        )
+    st.multiselect(
+        "Ordre des fournisseurs de secours",
+        options=_PROVIDER_FALLBACKS,
+        key="provider_ui_order",
+        help="Sélectionnez les fournisseurs dans l’ordre souhaité. Les sources désactivées seront ignorées."
+    )
+    if st.button("Appliquer la configuration", key="apply_provider_config", use_container_width=True):
+        st.session_state.provider_config_applied = {
+            "enabled": {
+                provider: bool(st.session_state.get(f"provider_ui_enabled_{provider}", True))
+                for provider in _PROVIDER_DEFAULTS
+            },
+            "order": list(st.session_state.get("provider_ui_order", _PROVIDER_FALLBACKS)),
+        }
+        try:
+            st.cache_data.clear()
+        except Exception:
+            pass
+        st.success("Configuration appliquée.")
+    _applied = st.session_state.provider_config_applied
+    st.caption("Configuration active : " + ("Yahoo Finance, " if _applied["enabled"].get("Yahoo Finance", True) else "") + ", ".join(p for p in _applied["order"] if _applied["enabled"].get(p, True)))
+
 # --- Récupération sécurisée du Sentiment du Marché ---
 @st.cache_data(ttl=300)
 def get_crypto_fear_and_greed():
@@ -259,7 +318,13 @@ def _get_stooq_history(symbol):
 
 
 def _get_api_key(secret_name):
-    """Lit une clé depuis Streamlit Secrets ou une variable d'environnement."""
+    """Lit d’abord la clé saisie dans le menu, puis Streamlit Secrets/env."""
+    try:
+        value = st.session_state.get(f"provider_api_input_{secret_name}", "")
+    except Exception:
+        value = ""
+    if value:
+        return value.strip()
     try:
         value = st.secrets.get(secret_name, "")
     except Exception:
@@ -358,32 +423,41 @@ def get_market_indicators(symbol, period="1y", interval="1d"):
     candidates = []
     errors = []
 
-    # 1) Yahoo Finance, source principale et seule source pour l'intraday.
-    try:
-        ticker = yf.Ticker(symbol)
-        df_yahoo = ticker.history(period=period, interval=interval, auto_adjust=False)
-        df_yahoo = _clean_ohlcv_frame(df_yahoo)
-        # Yahoo ne fournit pas toujours une bougie 4h; dans ce cas on conserve
-        # le repli historique existant vers des bougies 1h, uniquement intraday.
-        if (df_yahoo is None or df_yahoo.empty) and interval in ("1h", "4h"):
-            df_yahoo = _clean_ohlcv_frame(
-                ticker.history(period="1mo", interval="1h", auto_adjust=False)
-            )
-        if df_yahoo is not None and len(df_yahoo) >= 5:
-            df_yahoo.attrs["source"] = "Yahoo Finance"
-            candidates.append(df_yahoo)
-    except Exception as exc:
-        errors.append(f"Yahoo Finance: {type(exc).__name__}")
+    # Configuration active du menu latéral. Yahoo est la seule source intraday.
+    provider_config = st.session_state.get("provider_config_applied", {})
+    enabled = provider_config.get("enabled", _PROVIDER_DEFAULTS)
+    fallback_order = provider_config.get("order", _PROVIDER_FALLBACKS)
 
-    # 2 et 3) Secours historiques uniquement pour l'intervalle journalier.
+    # 1) Yahoo Finance, source principale si activée.
+    if enabled.get("Yahoo Finance", True):
+        try:
+            ticker = yf.Ticker(symbol)
+            df_yahoo = ticker.history(period=period, interval=interval, auto_adjust=False)
+            df_yahoo = _clean_ohlcv_frame(df_yahoo)
+            # Yahoo ne fournit pas toujours une bougie 4h; repli vers 1h uniquement intraday.
+            if (df_yahoo is None or df_yahoo.empty) and interval in ("1h", "4h"):
+                df_yahoo = _clean_ohlcv_frame(
+                    ticker.history(period="1mo", interval="1h", auto_adjust=False)
+                )
+            if df_yahoo is not None and len(df_yahoo) >= 5:
+                df_yahoo.attrs["source"] = "Yahoo Finance"
+                candidates.append(df_yahoo)
+        except Exception as exc:
+            errors.append(f"Yahoo Finance: {type(exc).__name__}")
+
+    # Les fournisseurs de secours sont réservés aux historiques journaliers.
     is_daily = interval in ("1d", "5d", "1wk", "1mo", "3mo")
+    provider_functions = {
+        "Stooq": _get_stooq_history,
+        "Twelve Data": _get_twelve_data_history,
+        "Finnhub": _get_finnhub_history,
+        "EODHD": _get_eodhd_history,
+    }
     if not candidates and is_daily:
-        for provider_name, provider_fn in (
-            ("Stooq", _get_stooq_history),
-            ("Twelve Data", _get_twelve_data_history),
-            ("Finnhub", _get_finnhub_history),
-            ("EODHD", _get_eodhd_history),
-        ):
+        for provider_name in fallback_order:
+            provider_fn = provider_functions.get(provider_name)
+            if provider_fn is None or not enabled.get(provider_name, True):
+                continue
             try:
                 fallback_df = provider_fn(symbol)
                 if fallback_df is not None and len(fallback_df) >= 5:
