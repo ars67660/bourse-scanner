@@ -606,13 +606,14 @@ with tab2:
 
     screened_list = []
     excel_export_data = []
+    unavailable_assets = []
 
     for asset in assets_db:
         if filter_type != "Tous" and asset["type"] != filter_type:
             continue
         
         p, sma_200, sma_50, rsi, atr_val, history_df_scr = get_market_indicators(asset["symbol"], period=selected_period, interval=selected_interval)
-        if p:
+        if p is not None and np.isfinite(p) and p > 0:
             res = compute_trading_setup(p, atr_val, {
                 "l": asset["liquidity"], "v": asset["volatility"], 
                 "t": asset["trend"], "r": asset["risk_reward"], "c": asset["catalyst"]
@@ -650,6 +651,13 @@ with tab2:
                 "RSI (14)": res["rsi_14"],
                 "ATR (14)": res["atr"]
             })
+        else:
+            unavailable_assets.append(asset["symbol"])
+
+    if unavailable_assets:
+        shown = ", ".join(unavailable_assets[:12])
+        suffix = f" et {len(unavailable_assets) - 12} autre(s)" if len(unavailable_assets) > 12 else ""
+        st.warning(f"Cours indisponible ou invalide pour {len(unavailable_assets)} actif(s) : {shown}{suffix}. Ces actifs ont été ignorés dans le screener.")
 
     if sort_order == "Score (Plus élevé au plus bas)":
         screened_list.sort(key=lambda x: x["res"]["score"], reverse=True)
@@ -761,7 +769,7 @@ with tab3:
 
         for asset in fav_assets_objs:
             p, sma_200, sma_50, rsi, atr_val, history_df_fav = get_market_indicators(asset["symbol"], period="1y", interval="1d")
-            if p:
+            if p is not None and np.isfinite(p) and p > 0:
                 res = compute_trading_setup(p, atr_val, {
                     "l": asset["liquidity"], "v": asset["volatility"], 
                     "t": asset["trend"], "r": asset["risk_reward"], "c": asset["catalyst"]
