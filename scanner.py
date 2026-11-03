@@ -685,6 +685,10 @@ def compute_opportunity_analysis(df, direction_mode="both_watch"):
 
     avg_vol = volume.rolling(20).mean()
     vol_ratio = float(volume.iloc[-1] / avg_vol.iloc[-1]) if len(volume) and pd.notna(avg_vol.iloc[-1]) and avg_vol.iloc[-1] > 0 else 1.0
+    last_return = float(close.pct_change().iloc[-1]) if len(close) >= 2 else 0.0
+    # Le volume ne confirme un scénario que s'il accompagne le mouvement dans son sens.
+    volume_up = vol_ratio >= 1.2 and last_return > 0
+    volume_down = vol_ratio >= 1.2 and last_return < 0
     prior_high = float(high.shift(1).rolling(20).max().iloc[-1]) if len(high) >= 21 else price
     prior_low = float(low.shift(1).rolling(20).min().iloc[-1]) if len(low) >= 21 else price
     m20 = float(sma20.iloc[-1]) if pd.notna(sma20.iloc[-1]) else price
@@ -698,22 +702,32 @@ def compute_opportunity_analysis(df, direction_mode="both_watch"):
     pullback_down = price <= m50 and abs(price-m20) / price < 0.025 and rsi <= 58
     trend_up = price > m50 and (not np.isfinite(m200) or m50 > m200)
     trend_down = price < m50 and (not np.isfinite(m200) or m50 < m200)
-    strong_adx = adx >= 20
-    vol_confirm = vol_ratio >= 1.2
-
-    # Pondérations séparées: tendance 25, momentum 20, ADX 15, volume 15,
-    # structure/cassure 15, qualité du risque 10.
+    # Score de confluence : tendance, momentum, ADX directionnel, volume confirmé,
+    # structure, risque et pénalité si le cours est déjà trop étiré.
     def score_side(bull):
         trend = (int(price > m50) + int(m50 > m200 if np.isfinite(m200) else price > m50) + int(m20 > m50)) if bull else (int(price < m50) + int(m50 < m200 if np.isfinite(m200) else price < m50) + int(m20 < m50))
         trend_pts = trend / 3 * 25
-        momentum_ok = (macd_up and 45 <= rsi <= 70) if bull else (macd_down and 30 <= rsi <= 55)
-        momentum_pts = (12 if (macd_up if bull else macd_down) else 0) + (8 if (45 <= rsi <= 70 if bull else 30 <= rsi <= 55) else 0)
-        adx_pts = min(15, adx / 35 * 15) if ((pdi >= mdi) if bull else (mdi >= pdi)) else 0
-        volume_pts = 15 if vol_confirm else (7 if vol_ratio >= 0.9 else 0)
-        structure_pts = 15 if (breakout_up if bull else breakout_down) else (11 if (pullback_up if bull else pullback_down) else (5 if (trend_up if bull else trend_down) else 0))
-        # Pénalise volatilité extrême et setups sans stop ATR exploitable.
-        risk_pts = 10 if 0.3 <= atr_pct <= 5 else (6 if atr_pct <= 8 else 1)
-        total = int(round(trend_pts + momentum_pts + adx_pts + volume_pts + structure_pts + risk_pts))
+        macd_ok = macd_up if bull else macd_down
+        rsi_ok = (45 <= rsi <= 68) if bull else (32 <= rsi <= 55)
+        momentum_pts = (12 if macd_ok else 0) + (8 if rsi_ok else (3 if (35 <= rsi <= 75) else 0))
+        directional_strength = (pdi > mdi) if bull else (mdi > pdi)
+        adx_pts = min(15, adx / 30 * 15) if directional_strength else 0
+        directional_volume = volume_up if bull else volume_down
+        volume_pts = 15 if directional_volume else (6 if vol_ratio >= 0.9 and directional_strength else 0)
+        is_breakout = breakout_up if bull else breakout_down
+        is_pullback = pullback_up if bull else pullback_down
+        is_trend = trend_up if bull else trend_down
+        structure_pts = 15 if is_breakout else (11 if is_pullback else (5 if is_trend else 0))
+        distance_m20_pct = abs(price - m20) / price * 100 if price else 0
+        penalty = min(10, max(0, distance_m20_pct - 4) * 2)
+        if bull and rsi >= 75:
+            penalty += 8
+        elif (not bull) and rsi <= 25:
+            penalty += 8
+        risk_pts = 10 if 0.3 <= atr_pct <= 4.5 else (6 if atr_pct <= 7 else 1)
+        if atr_pct < 0.2:
+            risk_pts = 4
+        total = int(round(trend_pts + momentum_pts + adx_pts + volume_pts + structure_pts + risk_pts - penalty))
         return min(100, max(0, total))
 
     long_score, short_score = score_side(True), score_side(False)
@@ -745,6 +759,8 @@ def compute_opportunity_analysis(df, direction_mode="both_watch"):
         "rsi": rsi, "adx": adx, "volume_ratio": vol_ratio,
         "atr_pct": atr_pct, "rr": rmult, "macd": "Haussier" if macd_up else "Baissier",
         "breakout": "Oui" if (breakout_up if side == "LONG" else breakout_down) else "Non",
+        "volume_confirme": "Oui" if (volume_up if side == "LONG" else volume_down) else "Non",
+        "distance_moyenne20_pct": round(abs(price - m20) / price * 100, 2) if price else 0,
         "sma20": m20, "sma50": m50, "sma200": m200,
     }
 
@@ -1050,7 +1066,7 @@ with tab2:
         st.info("Mode directionnel : détection LONG et SHORT à étudier uniquement. Aucun ordre n'est envoyé automatiquement.")
         sort_order = st.selectbox(
             "Trier par :",
-            ["Ordre par défaut", "Score (Plus élevé au plus bas)", "Nom (A-Z)"],
+            ["Ordre par défaut", "Score (Plus élevé au plus bas)", "Meilleur compromis score / risque", "Nom (A-Z)"],
             key="sort_order_select"
         )
         launch_screener = st.form_submit_button(
@@ -1135,6 +1151,7 @@ with tab2:
                     "Ratio rendement/risque": round(opp["rr"], 2), "RSI": round(opp["rsi"], 1),
                     "ADX": round(opp["adx"], 1), "Volume relatif": round(opp["volume_ratio"], 2),
                     "ATR %": round(opp["atr_pct"], 2), "MACD": opp["macd"], "Cassure confirmée": opp["breakout"],
+                    "Volume confirme le sens": opp["volume_confirme"], "Écart à la MM20 (%)": opp["distance_moyenne20_pct"],
                 })
             else:
                 unavailable_assets.append(asset["symbol"])
@@ -1147,6 +1164,16 @@ with tab2:
         if sort_order == "Score (Plus élevé au plus bas)":
             screened_list.sort(key=lambda x: x["res"]["score"], reverse=True)
             excel_export_data.sort(key=lambda x: x["Score global (/100)"], reverse=True)
+        elif sort_order == "Meilleur compromis score / risque":
+            # Classement composite, sans écraser ni masquer le score technique original.
+            def _priority(item):
+                r = item["res"]
+                rr = float(r.get("rr", 0) or 0)
+                score = float(r.get("score", 0) or 0)
+                rr_factor = min(1.0, max(0.0, rr / 2.0))
+                return score * (0.65 + 0.35 * rr_factor)
+            screened_list.sort(key=_priority, reverse=True)
+            excel_export_data.sort(key=lambda x: float(x["Score global (/100)"]) * (0.65 + 0.35 * min(1.0, max(0.0, float(x.get("Ratio rendement/risque", 0) or 0) / 2.0))), reverse=True)
         elif sort_order == "Nom (A-Z)":
             screened_list.sort(key=lambda x: x["asset"]["name"])
             excel_export_data.sort(key=lambda x: x["Nom"])
@@ -1170,7 +1197,7 @@ with tab2:
                 )
             st.markdown("---")
 
-        for item in screened_list:
+        for rank_index, item in enumerate(screened_list, start=1):
             asset = item["asset"]
             res = item["res"]
             history_df_scr = item["history_df"]
@@ -1213,7 +1240,7 @@ with tab2:
                         
             with col_desc:
                 prefix = "🔥 " if is_strong_signal else ""
-                st.markdown(f"**{prefix}{asset['name']}**<br>`{asset['symbol']}`", unsafe_allow_html=True)
+                st.markdown(f"**#{rank_index} · {prefix}{asset['name']}**<br>`{asset['symbol']}`", unsafe_allow_html=True)
             
             with col_prices:
                 st.markdown(f"Réel: **{res['price']} €**<br>Entrée: `{res['entry']} €`", unsafe_allow_html=True)
@@ -1261,7 +1288,7 @@ with tab2:
                     col_info1.metric("RSI (14)", res["rsi_14"])
                     col_info2.metric("ADX", f"{res.get('adx', 0):.1f}")
                     col_info3.metric("Volume relatif", f"{res.get('volume_ratio', 1):.2f}x")
-                    st.caption(f"Scores directionnels : LONG {res.get('long_score', 0)}/100 · SHORT {res.get('short_score', 0)}/100 · MACD {res.get('macd', 'n/a')} · ATR {res.get('atr_pct', 0):.2f}%")
+                    st.caption(f"Scores directionnels : LONG {res.get('long_score', 0)}/100 · SHORT {res.get('short_score', 0)}/100 · MACD {res.get('macd', 'n/a')} · ATR {res.get('atr_pct', 0):.2f}% · Volume dans le sens : {res.get('volume_confirme', 'n/a')} · Écart MM20 : {res.get('distance_moyenne20_pct', 0):.2f}%")
                 
                     tv_s = asset["symbol"].replace("=X", "").replace("-USD", "USD").replace("=F", "")
                     st.markdown(f"🔗 **[Ouvrir sur TradingView]** (https://www.tradingview.com/chart/?symbol={urllib.parse.quote(tv_s)})", unsafe_allow_html=True)
