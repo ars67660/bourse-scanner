@@ -22,6 +22,34 @@ st.set_page_config(
 # Fichier de sauvegarde et de secours
 PORTFOLIO_FILE = "portefeuille_banques.json"
 BACKUP_FILE = "portefeuille_banques.bak"
+API_KEYS_FILE = "scanner_api_keys.json"  # Stockage local des clés API (fichier sensible)
+
+def load_saved_api_keys():
+    """Charge les clés API enregistrées localement, si le fichier existe."""
+    try:
+        with open(API_KEYS_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, dict) else {}
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+def save_api_keys(keys):
+    """Enregistre les clés API localement et restreint les permissions si possible."""
+    try:
+        cleaned = {str(k): str(v).strip() for k, v in keys.items() if str(v).strip()}
+        temp_path = API_KEYS_FILE + ".tmp"
+        with open(temp_path, "w", encoding="utf-8") as f:
+            json.dump(cleaned, f, indent=2, ensure_ascii=False)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(temp_path, API_KEYS_FILE)
+        try:
+            os.chmod(API_KEYS_FILE, 0o600)
+        except OSError:
+            pass
+        return True
+    except OSError:
+        return False
 
 def validate_app_data(data):
     """Valide et nettoie la structure globale (portefeuilles et favoris)."""
@@ -150,8 +178,16 @@ if "provider_config_applied" not in st.session_state:
     }
 for _provider, _enabled in _PROVIDER_DEFAULTS.items():
     st.session_state.setdefault(f"provider_ui_enabled_{_provider}", _enabled)
+if "saved_api_keys" not in st.session_state:
+    st.session_state.saved_api_keys = load_saved_api_keys()
 for _secret_name in _API_SECRET_NAMES.values():
-    st.session_state.setdefault(f"provider_api_input_{_secret_name}", "")
+    _initial_key = st.session_state.saved_api_keys.get(_secret_name, "")
+    if not _initial_key:
+        try:
+            _initial_key = st.secrets.get(_secret_name, "")
+        except Exception:
+            _initial_key = os.getenv(_secret_name, "")
+    st.session_state.setdefault(f"provider_api_input_{_secret_name}", _initial_key or "")
 st.session_state.setdefault("provider_ui_order", list(_PROVIDER_FALLBACKS))
 
 with st.sidebar.expander("🔌 Fournisseurs de cours & API", expanded=False):
@@ -164,8 +200,30 @@ with st.sidebar.expander("🔌 Fournisseurs de cours & API", expanded=False):
             f"Clé API — {_provider}",
             key=f"provider_api_input_{_secret_name}",
             type="password",
-            help=f"Utilisée uniquement pour cette session. Pour un stockage persistant, configurez {_secret_name} dans les Secrets de Streamlit Cloud."
+            help=f"La clé peut être sauvegardée localement avec le bouton ci-dessous. Variable/secret compatible : {_secret_name}."
         )
+    _save_col, _clear_col = st.columns(2)
+    with _save_col:
+        if st.button("💾 Sauvegarder les clés API", key="save_provider_api_keys", use_container_width=True):
+            _keys_to_save = {
+                name: st.session_state.get(f"provider_api_input_{name}", "").strip()
+                for name in _API_SECRET_NAMES.values()
+            }
+            if save_api_keys(_keys_to_save):
+                st.session_state.saved_api_keys = {k: v for k, v in _keys_to_save.items() if v}
+                st.success("Clés API sauvegardées sur cet ordinateur/serveur.")
+            else:
+                st.error("Impossible de sauvegarder les clés API. Vérifiez les droits d’écriture du dossier.")
+    with _clear_col:
+        if st.button("🗑️ Effacer les clés sauvegardées", key="clear_provider_api_keys", use_container_width=True):
+            if save_api_keys({}):
+                st.session_state.saved_api_keys = {}
+                for _secret_name in _API_SECRET_NAMES.values():
+                    st.session_state[f"provider_api_input_{_secret_name}"] = ""
+                st.success("Clés API locales effacées.")
+            else:
+                st.error("Impossible d’effacer le fichier des clés API.")
+    st.caption("Sécurité : les clés sont enregistrées dans un fichier local non chiffré. Ne partagez pas ce fichier et ne l’ajoutez pas à Git. Sur Streamlit Cloud, le disque peut être éphémère : utilisez plutôt les Secrets de Streamlit.")
     st.multiselect(
         "Ordre des fournisseurs de secours",
         options=_PROVIDER_FALLBACKS,
@@ -836,187 +894,220 @@ with tab2:
     st.header("Screener Global & Filtre temporel")
     st.info("💡 Sélectionnez l'horizon temporel de votre choix. Vous pouvez filtrer, trier et exporter vos résultats au format Excel.")
     
-    col_f1, col_f2, col_f3, col_f4 = st.columns(4)
-    with col_f1:
-        timeframe_label = st.selectbox("Horizon temporel :", ["1 heure", "4 heures", "1 jour", "1 mois", "3 mois", "6 mois", "1 an"], key="tf_select")
-    with col_f2:
-        filter_type = st.selectbox("Catégorie :", ["Tous"] + list(set(a["type"] for a in assets_db)), key="filter_screener")
-    with col_f3:
-        filter_score = st.selectbox("Score / Opportunité :", [
-            "Tous les scores", 
-            "🔥 Forts potentiels (Score ≥ 75)", 
-            "🟢 Achats / Hausses (Score ≥ 55)", 
-            "⚪ Neutres (26 - 54)", 
-            "🔴 Ventes / Fortes baisses (Score ≤ 25)"
-        ], key="filter_score_select")
-    with col_f4:
-        sort_order = st.selectbox("Trier par :", ["Ordre par défaut", "Score (Plus élevé au plus bas)", "Nom (A-Z)"], key="sort_order_select")
-
-    tf_mapping = {
-        "1 heure": ("5d", "1h"),
-        "4 heures": ("1mo", "1h"),
-        "1 jour": ("6mo", "1d"),
-        "1 mois": ("1y", "1d"),
-        "3 mois": ("2y", "1wk"),
-        "6 mois": ("5y", "1wk"),
-        "1 an": ("max", "1mo")
-    }
-    selected_period, selected_interval = tf_mapping[timeframe_label]
-
-    st.markdown("---")
-
-    screened_list = []
-    excel_export_data = []
-    unavailable_assets = []
-
-    for asset in assets_db:
-        if filter_type != "Tous" and asset["type"] != filter_type:
-            continue
-        
-        p, sma_200, sma_50, rsi, atr_val, history_df_scr = get_market_indicators(asset["symbol"], period=selected_period, interval=selected_interval)
-        if p is not None and np.isfinite(p) and p > 0:
-            res = compute_trading_setup(p, atr_val, {
-                "l": asset["liquidity"], "v": asset["volatility"], 
-                "t": asset["trend"], "r": asset["risk_reward"], "c": asset["catalyst"]
-            }, sma_200, sma_50, rsi)
-            
-            score_val = res["score"]
-            
-            if filter_score == "🔥 Forts potentiels (Score ≥ 75)" and score_val < 75:
-                continue
-            elif filter_score == "🟢 Achats / Hausses (Score ≥ 55)" and score_val < 55:
-                continue
-            elif filter_score == "⚪ Neutres (26 - 54)" and not (26 <= score_val <= 54):
-                continue
-            elif filter_score == "🔴 Ventes / Fortes baisses (Score ≤ 25)" and score_val > 25:
-                continue
-
-            screened_list.append({
-                "asset": asset,
-                "res": res,
-                "history_df": history_df_scr
-            })
-
-            excel_export_data.append({
-                "Nom": asset["name"],
-                "Ticker": asset["symbol"],
-                "Catégorie": asset["type"],
-                "Horizon": timeframe_label,
-                "Cours (devise de cotation)": res["price"],
-                "Entrée (devise de cotation)": res["entry"],
-                "Stop Loss (devise de cotation)": res["sl"],
-                "Take Profit CT (devise de cotation)": res["tp_ct"],
-                "Take Profit LT (devise de cotation)": res["tp_lt"],
-                "Signal": res["signal"],
-                "Score (/100)": res["score"],
-                "RSI (14)": res["rsi_14"],
-                "ATR (14)": res["atr"]
-            })
-        else:
-            unavailable_assets.append(asset["symbol"])
-
-    if unavailable_assets:
-        shown = ", ".join(unavailable_assets[:12])
-        suffix = f" et {len(unavailable_assets) - 12} autre(s)" if len(unavailable_assets) > 12 else ""
-        st.warning(f"Cours indisponible ou invalide pour {len(unavailable_assets)} actif(s) : {shown}{suffix}. Ces actifs ont été ignorés dans le screener.")
-
-    if sort_order == "Score (Plus élevé au plus bas)":
-        screened_list.sort(key=lambda x: x["res"]["score"], reverse=True)
-        excel_export_data.sort(key=lambda x: x["Score (/100)"], reverse=True)
-    elif sort_order == "Nom (A-Z)":
-        screened_list.sort(key=lambda x: x["asset"]["name"])
-        excel_export_data.sort(key=lambda x: x["Nom"])
-
-    if excel_export_data:
-        df_excel = pd.DataFrame(excel_export_data)
-        output = io.BytesIO()
-        with pd.ExcelWriter(output, engine='openpyxl') as writer:
-            df_excel.to_excel(writer, index=False, sheet_name='Screener Bourse')
-        excel_data = output.getvalue()
-
-        col_exp1, col_exp2 = st.columns([3, 1])
-        with col_exp2:
-            st.download_button(
-                label="📥 Exporter le Screener en Excel",
-                data=excel_data,
-                file_name=f"screener_bourse_{timeframe_label.replace(' ', '_')}_{datetime.now().strftime('%Y-%m-%d')}.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                key="btn_export_excel",
-                use_container_width=True
+    # Les paramètres sont regroupés dans un formulaire : aucune analyse ne démarre
+    # tant que l'utilisateur n'a pas cliqué sur « Lancer le screener ».
+    with st.form("screener_config_form"):
+        col_f1, col_f2, col_f3 = st.columns(3)
+        with col_f1:
+            timeframe_label = st.selectbox(
+                "Horizon temporel :",
+                ["1 heure", "4 heures", "1 jour", "1 mois", "3 mois", "6 mois", "1 an"],
+                key="tf_select"
             )
+        with col_f2:
+            filter_type = st.selectbox(
+                "Catégorie :",
+                ["Tous"] + sorted(set(a["type"] for a in assets_db)),
+                key="filter_screener"
+            )
+        with col_f3:
+            min_score = st.slider(
+                "Score minimum des actifs à rechercher :",
+                min_value=0, max_value=100, value=75, step=5,
+                help="Seuls les actifs ayant un score égal ou supérieur à ce seuil seront affichés.",
+                key="screener_min_score"
+            )
+        sort_order = st.selectbox(
+            "Trier par :",
+            ["Ordre par défaut", "Score (Plus élevé au plus bas)", "Nom (A-Z)"],
+            key="sort_order_select"
+        )
+        launch_screener = st.form_submit_button(
+            "🔎 Lancer le screener",
+            type="primary",
+            use_container_width=True
+        )
+
+    if launch_screener:
+        st.session_state.screener_config = {
+            "timeframe_label": timeframe_label,
+            "filter_type": filter_type,
+            "min_score": min_score,
+            "sort_order": sort_order,
+        }
+        st.session_state.screener_has_run = True
+
+    if not st.session_state.get("screener_has_run", False):
+        st.info("Choisissez votre horizon, la catégorie et le score minimum, puis cliquez sur « Lancer le screener ».")
+    else:
+        # Utilise les derniers paramètres soumis : modifier le formulaire ne relance
+        # pas l'analyse tant que le bouton n'a pas été pressé à nouveau.
+        _cfg = st.session_state.get("screener_config", {})
+        timeframe_label = _cfg.get("timeframe_label", timeframe_label)
+        filter_type = _cfg.get("filter_type", filter_type)
+        min_score = int(_cfg.get("min_score", min_score))
+        sort_order = _cfg.get("sort_order", sort_order)
+
+    if st.session_state.get("screener_has_run", False):
+        tf_mapping = {
+            "1 heure": ("5d", "1h"),
+            "4 heures": ("1mo", "1h"),
+            "1 jour": ("6mo", "1d"),
+            "1 mois": ("1y", "1d"),
+            "3 mois": ("2y", "1wk"),
+            "6 mois": ("5y", "1wk"),
+            "1 an": ("max", "1mo")
+        }
+        selected_period, selected_interval = tf_mapping[timeframe_label]
+
         st.markdown("---")
 
-    for item in screened_list:
-        asset = item["asset"]
-        res = item["res"]
-        history_df_scr = item["history_df"]
-        score_val = res["score"]
+        screened_list = []
+        excel_export_data = []
+        unavailable_assets = []
 
-        is_fav = asset["symbol"] in st.session_state.app_data["favoris"]
-        signal_type = res["signal"]
-        is_strong_signal = "FORT" in signal_type or score_val >= 75
+        for asset in assets_db:
+            if filter_type != "Tous" and asset["type"] != filter_type:
+                continue
         
-        col_fav, col_desc, col_prices, col_targets, col_state, col_chart_btn = st.columns([0.6, 2.2, 2.0, 2.8, 2.2, 0.8])
-        
-        with col_fav:
-            if is_fav:
-                if st.button("⭐", key=f"scr_rem_{asset['symbol']}", help="Retirer des favoris"):
-                    st.session_state.app_data["favoris"].remove(asset["symbol"])
-                    save_app_data(st.session_state.app_data)
-                    st.rerun()
+            p, sma_200, sma_50, rsi, atr_val, history_df_scr = get_market_indicators(asset["symbol"], period=selected_period, interval=selected_interval)
+            if p is not None and np.isfinite(p) and p > 0:
+                res = compute_trading_setup(p, atr_val, {
+                    "l": asset["liquidity"], "v": asset["volatility"], 
+                    "t": asset["trend"], "r": asset["risk_reward"], "c": asset["catalyst"]
+                }, sma_200, sma_50, rsi)
+            
+                score_val = res["score"]
+            
+                if score_val < min_score:
+                    continue
+
+                screened_list.append({
+                    "asset": asset,
+                    "res": res,
+                    "history_df": history_df_scr
+                })
+
+                excel_export_data.append({
+                    "Nom": asset["name"],
+                    "Ticker": asset["symbol"],
+                    "Catégorie": asset["type"],
+                    "Horizon": timeframe_label,
+                    "Cours (devise de cotation)": res["price"],
+                    "Entrée (devise de cotation)": res["entry"],
+                    "Stop Loss (devise de cotation)": res["sl"],
+                    "Take Profit CT (devise de cotation)": res["tp_ct"],
+                    "Take Profit LT (devise de cotation)": res["tp_lt"],
+                    "Signal": res["signal"],
+                    "Score (/100)": res["score"],
+                    "RSI (14)": res["rsi_14"],
+                    "ATR (14)": res["atr"]
+                })
             else:
-                if st.button("☆", key=f"scr_add_{asset['symbol']}", help="Ajouter aux favoris"):
-                    if asset["symbol"] not in st.session_state.app_data["favoris"]:
-                        st.session_state.app_data["favoris"].append(asset["symbol"])
+                unavailable_assets.append(asset["symbol"])
+
+        if unavailable_assets:
+            shown = ", ".join(unavailable_assets[:12])
+            suffix = f" et {len(unavailable_assets) - 12} autre(s)" if len(unavailable_assets) > 12 else ""
+            st.warning(f"Cours indisponible ou invalide pour {len(unavailable_assets)} actif(s) : {shown}{suffix}. Ces actifs ont été ignorés dans le screener.")
+
+        if sort_order == "Score (Plus élevé au plus bas)":
+            screened_list.sort(key=lambda x: x["res"]["score"], reverse=True)
+            excel_export_data.sort(key=lambda x: x["Score (/100)"], reverse=True)
+        elif sort_order == "Nom (A-Z)":
+            screened_list.sort(key=lambda x: x["asset"]["name"])
+            excel_export_data.sort(key=lambda x: x["Nom"])
+
+        if excel_export_data:
+            df_excel = pd.DataFrame(excel_export_data)
+            output = io.BytesIO()
+            with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                df_excel.to_excel(writer, index=False, sheet_name='Screener Bourse')
+            excel_data = output.getvalue()
+
+            col_exp1, col_exp2 = st.columns([3, 1])
+            with col_exp2:
+                st.download_button(
+                    label="📥 Exporter le Screener en Excel",
+                    data=excel_data,
+                    file_name=f"screener_bourse_{timeframe_label.replace(' ', '_')}_{datetime.now().strftime('%Y-%m-%d')}.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    key="btn_export_excel",
+                    use_container_width=True
+                )
+            st.markdown("---")
+
+        for item in screened_list:
+            asset = item["asset"]
+            res = item["res"]
+            history_df_scr = item["history_df"]
+            score_val = res["score"]
+
+            is_fav = asset["symbol"] in st.session_state.app_data["favoris"]
+            signal_type = res["signal"]
+            is_strong_signal = "FORT" in signal_type or score_val >= 75
+        
+            col_fav, col_desc, col_prices, col_targets, col_state, col_chart_btn = st.columns([0.6, 2.2, 2.0, 2.8, 2.2, 0.8])
+        
+            with col_fav:
+                if is_fav:
+                    if st.button("⭐", key=f"scr_rem_{asset['symbol']}", help="Retirer des favoris"):
+                        st.session_state.app_data["favoris"].remove(asset["symbol"])
                         save_app_data(st.session_state.app_data)
                         st.rerun()
-                        
-        with col_desc:
-            prefix = "🔥 " if is_strong_signal else ""
-            st.markdown(f"**{prefix}{asset['name']}**<br>`{asset['symbol']}`", unsafe_allow_html=True)
-            
-        with col_prices:
-            st.markdown(f"Réel: **{res['price']} €**<br>Entrée: `{res['entry']} €`", unsafe_allow_html=True)
-            
-        with col_targets:
-            st.markdown(f"SL: <span style='color:red;'>`{res['sl']} €`</span><br>TP CT: `{res['tp_ct']} €` | TP LT: `{res['tp_lt']} €`", unsafe_allow_html=True)
-            
-        with col_state:
-            if "ACHAT FORT" in signal_type:
-                sig_style = "background-color: #10b981; color: white; padding: 3px 8px; border-radius: 5px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
-            elif "VENTE FORTE" in signal_type:
-                sig_style = "background-color: #ef4444; color: white; padding: 3px 8px; border-radius: 5px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
-            else:
-                sig_style = "background-color: #f1f5f9; color: #334155; padding: 2px 6px; border-radius: 4px;"
-            
-            score_style = "color: #065f46; font-weight: bold;" if score_val >= 75 else ""
-            st.markdown(f"<span style='{sig_style}'>{signal_type}</span><br><span style='{score_style}'>Score: {score_val}/100</span>", unsafe_allow_html=True)
-
-        with col_chart_btn:
-            st.write("")
-            chart_key = f"show_chart_{asset['symbol']}"
-            if chart_key not in st.session_state:
-                st.session_state[chart_key] = False
-            
-            if st.button("📈", key=f"btn_chart_{asset['symbol']}", help="Voir le graphique et les paramètres"):
-                st.session_state[chart_key] = not st.session_state[chart_key]
-
-        if st.session_state.get(chart_key, False):
-            with st.expander(f"📊 Analyse Technique détaillée & Graphique ({timeframe_label}) : {asset['name']}", expanded=True):
-                col_info1, col_info2, col_info3 = st.columns(3)
-                col_info1.metric("RSI (14)", res["rsi_14"])
-                col_info2.metric("ATR (14)", res["atr"])
-                col_info3.metric("Moyennes Mobiles", f"SMA50: {res['sma_50']} | SMA200: {res['sma_200']}")
-                
-                tv_s = asset["symbol"].replace("=X", "").replace("-USD", "USD").replace("=F", "")
-                st.markdown(f"🔗 **[Ouvrir sur TradingView]** (https://www.tradingview.com/chart/?symbol={urllib.parse.quote(tv_s)})", unsafe_allow_html=True)
-                
-                if history_df_scr is not None:
-                    plot_asset_chart(asset["name"], history_df_scr, res)
                 else:
-                    st.warning("Historique indisponible.")
+                    if st.button("☆", key=f"scr_add_{asset['symbol']}", help="Ajouter aux favoris"):
+                        if asset["symbol"] not in st.session_state.app_data["favoris"]:
+                            st.session_state.app_data["favoris"].append(asset["symbol"])
+                            save_app_data(st.session_state.app_data)
+                            st.rerun()
+                        
+            with col_desc:
+                prefix = "🔥 " if is_strong_signal else ""
+                st.markdown(f"**{prefix}{asset['name']}**<br>`{asset['symbol']}`", unsafe_allow_html=True)
+            
+            with col_prices:
+                st.markdown(f"Réel: **{res['price']} €**<br>Entrée: `{res['entry']} €`", unsafe_allow_html=True)
+            
+            with col_targets:
+                st.markdown(f"SL: <span style='color:red;'>`{res['sl']} €`</span><br>TP CT: `{res['tp_ct']} €` | TP LT: `{res['tp_lt']} €`", unsafe_allow_html=True)
+            
+            with col_state:
+                if "ACHAT FORT" in signal_type:
+                    sig_style = "background-color: #10b981; color: white; padding: 3px 8px; border-radius: 5px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
+                elif "VENTE FORTE" in signal_type:
+                    sig_style = "background-color: #ef4444; color: white; padding: 3px 8px; border-radius: 5px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
+                else:
+                    sig_style = "background-color: #f1f5f9; color: #334155; padding: 2px 6px; border-radius: 4px;"
+            
+                score_style = "color: #065f46; font-weight: bold;" if score_val >= 75 else ""
+                st.markdown(f"<span style='{sig_style}'>{signal_type}</span><br><span style='{score_style}'>Score: {score_val}/100</span>", unsafe_allow_html=True)
 
-        st.divider()
+            with col_chart_btn:
+                st.write("")
+                chart_key = f"show_chart_{asset['symbol']}"
+                if chart_key not in st.session_state:
+                    st.session_state[chart_key] = False
+            
+                if st.button("📈", key=f"btn_chart_{asset['symbol']}", help="Voir le graphique et les paramètres"):
+                    st.session_state[chart_key] = not st.session_state[chart_key]
+
+            if st.session_state.get(chart_key, False):
+                with st.expander(f"📊 Analyse Technique détaillée & Graphique ({timeframe_label}) : {asset['name']}", expanded=True):
+                    col_info1, col_info2, col_info3 = st.columns(3)
+                    col_info1.metric("RSI (14)", res["rsi_14"])
+                    col_info2.metric("ATR (14)", res["atr"])
+                    col_info3.metric("Moyennes Mobiles", f"SMA50: {res['sma_50']} | SMA200: {res['sma_200']}")
+                
+                    tv_s = asset["symbol"].replace("=X", "").replace("-USD", "USD").replace("=F", "")
+                    st.markdown(f"🔗 **[Ouvrir sur TradingView]** (https://www.tradingview.com/chart/?symbol={urllib.parse.quote(tv_s)})", unsafe_allow_html=True)
+                
+                    if history_df_scr is not None:
+                        plot_asset_chart(asset["name"], history_df_scr, res)
+                    else:
+                        st.warning("Historique indisponible.")
+
+            st.divider()
 
 with tab3:
     st.header("⭐ Liste de vos Actifs Favoris")
