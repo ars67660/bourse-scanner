@@ -1316,7 +1316,7 @@ with tab2:
 
 with tab3:
     st.header("⭐ Liste de vos Actifs Favoris")
-    st.info("💡 Statuts colorés : ACHAT FORT (vert foncé), ACHAT (vert clair), NEUTRE (gris), VENTE (rouge clair), VENTE FORTE (rouge foncé). Classement indicatif selon le score, les moyennes mobiles et le RSI.")
+    st.info("💡 Les favoris utilisent le même moteur d'analyse, les mêmes cours mis en cache et le même horizon que le Screener (journalier par défaut). Les filtres de score/catégorie du Screener ne masquent pas vos favoris.")
 
     col_fav_refresh, col_fav_count = st.columns([1, 3])
     with col_fav_refresh:
@@ -1333,22 +1333,53 @@ with tab3:
     else:
         fav_assets_objs = [a for a in assets_db if a["symbol"] in favoris_list]
 
+        # Les favoris réutilisent exactement l'horizon et le moteur d'analyse du Screener.
+        # Si le Screener n'a pas encore été lancé, on utilise l'horizon journalier.
+        fav_cfg = st.session_state.get("screener_config", {})
+        fav_timeframe = fav_cfg.get("timeframe_label", "1 jour")
+        fav_tf_mapping = {
+            "15 minutes": ("5d", "15m"),
+            "1 heure": ("1mo", "1h"),
+            "4 heures (agrégé)": ("1mo", "1h"),
+            "1 jour": ("1y", "1d"),
+            "1 semaine": ("2y", "1wk"),
+            "1 mois": ("5y", "1mo"),
+        }
+        fav_period, fav_interval = fav_tf_mapping.get(fav_timeframe, ("1y", "1d"))
+
         for asset in fav_assets_objs:
-            p, sma_200, sma_50, rsi, atr_val, history_df_fav = get_market_indicators(asset["symbol"], period="1y", interval="1d")
-            if p is not None and np.isfinite(p) and p > 0:
-                res = compute_trading_setup(p, atr_val, {
-                    "l": asset["liquidity"], "v": asset["volatility"], 
-                    "t": asset["trend"], "r": asset["risk_reward"], "c": asset["catalyst"]
-                }, sma_200, sma_50, rsi)
-                
+            p, sma_200, sma_50, rsi, atr_val, history_df_fav = get_market_indicators(
+                asset["symbol"], period=fav_period, interval=fav_interval
+            )
+            if p is not None and np.isfinite(p) and p > 0 and history_df_fav is not None:
+                analysis_df_fav = history_df_fav
+                if fav_timeframe == "4 heures (agrégé)":
+                    analysis_df_fav = history_df_fav.resample("4h").agg({
+                        "Open": "first", "High": "max", "Low": "min", "Close": "last", "Volume": "sum"
+                    }).dropna(subset=["Close"])
+                opp_fav = compute_opportunity_analysis(analysis_df_fav, direction_mode="both_watch")
+                if opp_fav is None:
+                    st.warning(f"Analyse indisponible pour {asset['symbol']} avec l'horizon {fav_timeframe}.")
+                    continue
+                # Même structure de résultat, mêmes scores et mêmes niveaux que le Screener.
+                res = {
+                    "signal": opp_fav["signal"], "score": opp_fav["score"],
+                    "price": round(opp_fav["price"], 5), "entry": round(opp_fav["entry"], 5),
+                    "sl": round(opp_fav["sl"], 5), "tp_ct": round(opp_fav["tp_ct"], 5),
+                    "tp_lt": round(opp_fav["tp_lt"], 5), "rsi_14": round(opp_fav["rsi"], 1),
+                    "atr": round(opp_fav["price"] * opp_fav["atr_pct"] / 100, 5),
+                    "sma_50": round(opp_fav["sma50"], 5),
+                    "sma_200": round(opp_fav["sma200"], 5) if np.isfinite(opp_fav["sma200"]) else float("nan"),
+                    **opp_fav,
+                }
                 score_val = int(res["score"])
-                # Statut directionnel coloré pour la liste des favoris.
+                # Conserve exactement la règle de statut utilisée dans le Screener.
                 sma50_fav = res.get("sma_50", float("nan"))
                 sma200_fav = res.get("sma_200", float("nan"))
                 rsi_fav = res.get("rsi_14", 50)
                 prix_fav = res.get("price", p)
-                tendance_haussiere = (np.isfinite(sma50_fav) and np.isfinite(sma200_fav) and prix_fav > sma50_fav > sma200_fav)
-                tendance_baissiere = (np.isfinite(sma50_fav) and np.isfinite(sma200_fav) and prix_fav < sma50_fav < sma200_fav)
+                tendance_haussiere = np.isfinite(sma50_fav) and np.isfinite(sma200_fav) and prix_fav > sma50_fav > sma200_fav
+                tendance_baissiere = np.isfinite(sma50_fav) and np.isfinite(sma200_fav) and prix_fav < sma50_fav < sma200_fav
                 if score_val >= 75 and tendance_haussiere and rsi_fav < 75:
                     signal_type = "ACHAT FORT"
                 elif score_val >= 55 and np.isfinite(sma50_fav) and prix_fav > sma50_fav:
@@ -1420,8 +1451,8 @@ with tab3:
                         
                         st.markdown(f"🔗 **[Ouvrir sur TradingView]({tv_url})**", unsafe_allow_html=True)
                         
-                        if history_df_fav is not None:
-                            plot_asset_chart(asset["name"], history_df_fav, res)
+                        if analysis_df_fav is not None:
+                            plot_asset_chart(asset["name"], analysis_df_fav, res)
                         else:
                             st.warning("Historique indisponible.")
 
