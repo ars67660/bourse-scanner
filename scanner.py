@@ -1156,8 +1156,24 @@ with tab2:
             score_val = res["score"]
 
             is_fav = asset["symbol"] in st.session_state.app_data["favoris"]
-            signal_type = res["signal"]
-            is_strong_signal = score_val >= 80
+            # Statut directionnel coloré affiché directement dans le SCREENER.
+            prix = res.get("price", float("nan"))
+            sma50 = res.get("sma_50", float("nan"))
+            sma200 = res.get("sma_200", float("nan"))
+            rsi = res.get("rsi_14", 50)
+            haussier = np.isfinite(sma50) and np.isfinite(sma200) and prix > sma50 > sma200
+            baissier = np.isfinite(sma50) and np.isfinite(sma200) and prix < sma50 < sma200
+            if score_val >= 75 and haussier and rsi < 75:
+                signal_type = "ACHAT FORT"
+            elif score_val >= 55 and np.isfinite(sma50) and prix > sma50:
+                signal_type = "ACHAT"
+            elif baissier and score_val <= 35 and rsi < 45:
+                signal_type = "VENTE FORTE"
+            elif np.isfinite(sma50) and prix < sma50:
+                signal_type = "VENTE"
+            else:
+                signal_type = "NEUTRE"
+            is_strong_signal = signal_type in ("ACHAT FORT", "VENTE FORTE")
         
             col_fav, col_desc, col_prices, col_targets, col_state, col_chart_btn = st.columns([0.6, 2.2, 2.0, 2.8, 2.2, 0.8])
         
@@ -1185,15 +1201,21 @@ with tab2:
                 st.markdown(f"SL: <span style='color:red;'>`{res['sl']} €`</span><br>TP CT: `{res['tp_ct']} €` | TP LT: `{res['tp_lt']} €`", unsafe_allow_html=True)
             
             with col_state:
-                if "ACHAT FORT" in signal_type:
-                    sig_style = "background-color: #10b981; color: white; padding: 3px 8px; border-radius: 5px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
-                elif "VENTE FORTE" in signal_type:
-                    sig_style = "background-color: #ef4444; color: white; padding: 3px 8px; border-radius: 5px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
-                else:
-                    sig_style = "background-color: #f1f5f9; color: #334155; padding: 2px 6px; border-radius: 4px;"
-            
-                score_style = "color: #065f46; font-weight: bold;" if score_val >= 75 else ""
-                st.markdown(f"<span style='{sig_style}'>{signal_type}</span><br><span style='{score_style}'>Score: {score_val}/100</span>", unsafe_allow_html=True)
+                signal_styles = {
+                    "ACHAT FORT": "background-color:#047857;color:white;border:2px solid #34d399;",
+                    "ACHAT": "background-color:#d1fae5;color:#065f46;border:2px solid #6ee7b7;",
+                    "NEUTRE": "background-color:#e5e7eb;color:#374151;border:2px solid #9ca3af;",
+                    "VENTE": "background-color:#fee2e2;color:#991b1b;border:2px solid #fca5a5;",
+                    "VENTE FORTE": "background-color:#b91c1c;color:white;border:2px solid #f87171;",
+                }
+                sig_style = signal_styles[signal_type] + "display:inline-block;padding:5px 9px;border-radius:6px;font-weight:800;box-shadow:0 2px 5px rgba(0,0,0,.15);"
+                fond = "#ecfdf5" if signal_type in ("ACHAT", "ACHAT FORT") else ("#fef2f2" if signal_type in ("VENTE", "VENTE FORTE") else "#f9fafb")
+                bord = "#059669" if signal_type in ("ACHAT", "ACHAT FORT") else ("#dc2626" if signal_type in ("VENTE", "VENTE FORTE") else "#9ca3af")
+                st.markdown(
+                    f"<div style='padding:7px;background:{fond};border-left:5px solid {bord};border-radius:7px;'>"
+                    f"<span style='{sig_style}'>{signal_type}</span><br><b>Score : {score_val}/100</b></div>",
+                    unsafe_allow_html=True
+                )
                 st.caption(f"{res.get('setup', '')} · R/R {res.get('rr', 0):.1f} · ADX {res.get('adx', 0):.0f}")
 
             with col_chart_btn:
@@ -1227,7 +1249,7 @@ with tab2:
 
 with tab3:
     st.header("⭐ Liste de vos Actifs Favoris")
-    st.info("💡 Retrouvez vos favoris sous forme de liste avec accès direct au graphique technique (📈) et à TradingView (📊).")
+    st.info("💡 Statuts colorés : ACHAT FORT (vert foncé), ACHAT (vert clair), NEUTRE (gris), VENTE (rouge clair), VENTE FORTE (rouge foncé). Classement indicatif selon le score, les moyennes mobiles et le RSI.")
 
     col_fav_refresh, col_fav_count = st.columns([1, 3])
     with col_fav_refresh:
@@ -1252,9 +1274,25 @@ with tab3:
                     "t": asset["trend"], "r": asset["risk_reward"], "c": asset["catalyst"]
                 }, sma_200, sma_50, rsi)
                 
-                score_val = res["score"]
-                signal_type = res["signal"]
-                is_strong_signal = "FORT" in signal_type or score_val >= 75
+                score_val = int(res["score"])
+                # Statut directionnel coloré pour la liste des favoris.
+                sma50_fav = res.get("sma_50", float("nan"))
+                sma200_fav = res.get("sma_200", float("nan"))
+                rsi_fav = res.get("rsi_14", 50)
+                prix_fav = res.get("price", p)
+                tendance_haussiere = (np.isfinite(sma50_fav) and np.isfinite(sma200_fav) and prix_fav > sma50_fav > sma200_fav)
+                tendance_baissiere = (np.isfinite(sma50_fav) and np.isfinite(sma200_fav) and prix_fav < sma50_fav < sma200_fav)
+                if score_val >= 75 and tendance_haussiere and rsi_fav < 75:
+                    signal_type = "ACHAT FORT"
+                elif score_val >= 55 and np.isfinite(sma50_fav) and prix_fav > sma50_fav:
+                    signal_type = "ACHAT"
+                elif tendance_baissiere and score_val <= 35 and rsi_fav < 45:
+                    signal_type = "VENTE FORTE"
+                elif np.isfinite(sma50_fav) and prix_fav < sma50_fav:
+                    signal_type = "VENTE"
+                else:
+                    signal_type = "NEUTRE"
+                is_strong_signal = signal_type in ("ACHAT FORT", "VENTE FORTE")
                 
                 col_fav, col_desc, col_prices, col_targets, col_state, col_chart_btn, col_tv = st.columns([0.6, 2.2, 2.0, 2.8, 2.0, 0.8, 0.8])
                 
@@ -1275,15 +1313,21 @@ with tab3:
                     st.markdown(f"SL: <span style='color:red;'>`{res['sl']} €`</span><br>TP CT: `{res['tp_ct']} €` | TP LT: `{res['tp_lt']} €`", unsafe_allow_html=True)
                     
                 with col_state:
-                    if "ACHAT FORT" in signal_type:
-                        sig_style = "background-color: #10b981; color: white; padding: 3px 8px; border-radius: 5px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
-                    elif "VENTE FORTE" in signal_type:
-                        sig_style = "background-color: #ef4444; color: white; padding: 3px 8px; border-radius: 5px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"
-                    else:
-                        sig_style = "background-color: #f1f5f9; color: #334155; padding: 2px 6px; border-radius: 4px;"
-                    
-                    score_style = "color: #065f46; font-weight: bold;" if score_val >= 75 else ""
-                    st.markdown(f"<span style='{sig_style}'>{signal_type}</span><br><span style='{score_style}'>Score: {score_val}/100</span>", unsafe_allow_html=True)
+                    signal_styles = {
+                        "ACHAT FORT": "background-color:#047857;color:white;border:2px solid #34d399;",
+                        "ACHAT": "background-color:#d1fae5;color:#065f46;border:2px solid #6ee7b7;",
+                        "NEUTRE": "background-color:#e5e7eb;color:#374151;border:2px solid #9ca3af;",
+                        "VENTE": "background-color:#fee2e2;color:#991b1b;border:2px solid #fca5a5;",
+                        "VENTE FORTE": "background-color:#b91c1c;color:white;border:2px solid #f87171;"
+                    }
+                    sig_style = signal_styles[signal_type] + "display:inline-block;padding:5px 9px;border-radius:6px;font-weight:800;box-shadow:0 2px 5px rgba(0,0,0,.15);"
+                    fond = "#ecfdf5" if signal_type in ("ACHAT", "ACHAT FORT") else ("#fef2f2" if signal_type in ("VENTE", "VENTE FORTE") else "#f9fafb")
+                    bord = "#059669" if signal_type in ("ACHAT", "ACHAT FORT") else ("#dc2626" if signal_type in ("VENTE", "VENTE FORTE") else "#9ca3af")
+                    st.markdown(
+                        f"<div style='padding:7px;background:{fond};border-left:5px solid {bord};border-radius:7px;'>"
+                        f"<span style='{sig_style}'>{signal_type}</span><br><b>Score : {score_val}/100</b></div>",
+                        unsafe_allow_html=True
+                    )
 
                 with col_chart_btn:
                     st.write("")
