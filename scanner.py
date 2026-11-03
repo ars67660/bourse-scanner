@@ -305,8 +305,48 @@ for _secret_name in _API_SECRET_NAMES.values():
     st.session_state.setdefault(f"provider_api_input_{_secret_name}", _initial_key or "")
 st.session_state.setdefault("provider_ui_order", list(_PROVIDER_FALLBACKS))
 
+def restore_api_configuration():
+    """Restaure les clés déjà enregistrées et remet les paramètres fournisseurs par défaut."""
+    saved = load_saved_api_keys()
+    restored_keys = {}
+    for secret_name in _API_SECRET_NAMES.values():
+        value = str(saved.get(secret_name, "") or "").strip()
+        if not value:
+            try:
+                value = str(st.secrets.get(secret_name, "") or "").strip()
+            except Exception:
+                value = str(os.getenv(secret_name, "") or "").strip()
+        restored_keys[secret_name] = value
+        st.session_state[f"provider_api_input_{secret_name}"] = value
+
+    st.session_state.saved_api_keys = {k: v for k, v in saved.items() if v}
+    st.session_state.provider_ui_order = list(_PROVIDER_FALLBACKS)
+    st.session_state.provider_config_applied = {
+        "enabled": dict(_PROVIDER_DEFAULTS),
+        "order": list(_PROVIDER_FALLBACKS),
+    }
+    for provider, enabled in _PROVIDER_DEFAULTS.items():
+        st.session_state[f"provider_ui_enabled_{provider}"] = enabled
+    try:
+        st.cache_data.clear()
+    except Exception:
+        pass
+    st.session_state.api_restore_message = (
+        "Configuration API restaurée. Les clés proviennent du fichier enregistré, "
+        "puis des Secrets Streamlit ou des variables d’environnement. "
+        "Une clé perdue et absente de ces sources ne peut pas être recréée."
+    )
+    st.session_state.api_restore_key_count = sum(bool(v) for v in restored_keys.values())
+
+
 with st.sidebar.expander("🔌 Fournisseurs de cours & API", expanded=False):
     st.caption("Activez les sources et renseignez vos clés API. Yahoo Finance reste la source principale si activée.")
+    if st.button("♻️ Restaurer les clés et paramètres API", key="restore_api_configuration", use_container_width=True,
+                  help="Recharge les clés déjà sauvegardées ou présentes dans les Secrets Streamlit/l’environnement, et rétablit les fournisseurs par défaut."):
+        restore_api_configuration()
+        st.success(st.session_state.api_restore_message)
+        st.info(f"Clés retrouvées : {st.session_state.api_restore_key_count} sur {len(_API_SECRET_NAMES)}.")
+
     for _provider in _PROVIDER_DEFAULTS:
         st.checkbox(_provider, key=f"provider_ui_enabled_{_provider}")
     st.markdown("**Clés API (facultatives)**")
