@@ -23,6 +23,45 @@ st.set_page_config(
 PORTFOLIO_FILE = "portefeuille_banques.json"
 BACKUP_FILE = "portefeuille_banques.bak"
 API_KEYS_FILE = "scanner_api_keys.json"  # Stockage local des clés API (fichier sensible)
+VIRTUAL_PORTFOLIO_FILE = "portefeuille_virtuel.json"
+VIRTUAL_INITIAL_CAPITAL = 10000.0
+
+
+def load_virtual_portfolio():
+    """Charge le portefeuille de trading simulé, indépendant des portefeuilles bancaires."""
+    try:
+        with open(VIRTUAL_PORTFOLIO_FILE, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, dict) and isinstance(data.get("positions", []), list):
+            data.setdefault("initial_capital", VIRTUAL_INITIAL_CAPITAL)
+            data.setdefault("cash", VIRTUAL_INITIAL_CAPITAL)
+            data.setdefault("positions", [])
+            data.setdefault("closed_trades", [])
+            data.setdefault("last_cycle", None)
+            return data
+    except (OSError, json.JSONDecodeError):
+        pass
+    return {"initial_capital": VIRTUAL_INITIAL_CAPITAL, "cash": VIRTUAL_INITIAL_CAPITAL,
+            "positions": [], "closed_trades": [], "last_cycle": None}
+
+
+def save_virtual_portfolio(portfolio):
+    """Sauvegarde atomique du portefeuille virtuel."""
+    tmp = VIRTUAL_PORTFOLIO_FILE + ".tmp"
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(portfolio, f, indent=2, ensure_ascii=False)
+            f.flush()
+            os.fsync(f.fileno())
+        os.replace(tmp, VIRTUAL_PORTFOLIO_FILE)
+        return True
+    except OSError:
+        try:
+            if os.path.exists(tmp):
+                os.remove(tmp)
+        except OSError:
+            pass
+        return False
 
 def load_saved_api_keys():
     """Charge les clés API enregistrées localement, si le fichier existe."""
@@ -898,7 +937,8 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
     "⭐ Mes Favoris",
     "Banques & DCA", 
     "📊 Mesure & Performance", 
-    "💾 Sauvegarde & Restauration"
+    "💾 Sauvegarde & Restauration",
+    "🤖 Portefeuille virtuel"
 ])
 
 with tab1:
@@ -1642,3 +1682,218 @@ with tab6:
                 st.rerun()
         except Exception as e:
             st.error(f"❌ Le fichier importé est invalide ou corrompu : {e}")
+
+with tab7:
+    st.header("🤖 Portefeuille virtuel — trading automatique simulé")
+    st.warning("Simulation uniquement : aucun ordre réel n'est envoyé. Les cours peuvent être retardés selon le fournisseur. Les frais, le spread et le slippage ne sont pas modélisés.")
+
+    if "virtual_portfolio" not in st.session_state:
+        st.session_state.virtual_portfolio = load_virtual_portfolio()
+    vp = st.session_state.virtual_portfolio
+
+    # Horizon utilisé par le Screener; journalier par défaut.
+    vp_cfg = st.session_state.get("screener_config", {})
+    vp_timeframe = vp_cfg.get("timeframe_label", "1 jour")
+    vp_tf_mapping = {
+        "15 minutes": ("5d", "15m"),
+        "1 heure": ("1mo", "1h"),
+        "4 heures (agrégé)": ("1mo", "1h"),
+        "1 jour": ("1y", "1d"),
+        "1 semaine": ("2y", "1wk"),
+        "1 mois": ("5y", "1mo"),
+    }
+    vp_period, vp_interval = vp_tf_mapping.get(vp_timeframe, ("1y", "1d"))
+    vp_max_positions = st.slider("Nombre maximal de positions simultanées", 1, 15, 5, key="vp_max_positions")
+    vp_min_score = st.slider("Score minimum pour ouvrir une position", 50, 90, 65, 5, key="vp_min_score")
+    vp_risk_pct = st.slider("Risque théorique par position (% du capital)", 0.25, 2.0, 1.0, 0.25, key="vp_risk_pct")
+
+    def _vp_mark_to_market(position, current_price):
+        qty = float(position.get("qty", 0.0))
+        entry = float(position.get("entry", 0.0))
+        direction = position.get("side", "LONG")
+        pnl = (current_price - entry) * qty if direction == "LONG" else (entry - current_price) * qty
+        return float(position.get("capital", entry * qty)) + pnl
+
+    def _vp_close_position(position, exit_price, reason, portfolio):
+        entry = float(position.get("entry", 0.0))
+        qty = float(position.get("qty", 0.0))
+        side = position.get("side", "LONG")
+        pnl = (exit_price - entry) * qty if side == "LONG" else (entry - exit_price) * qty
+        capital = float(position.get("capital", entry * qty))
+        portfolio["cash"] = float(portfolio.get("cash", 0.0)) + capital + pnl
+        closed = dict(position)
+        closed.update({"exit": float(exit_price), "pnl_eur": float(pnl), "exit_reason": reason,
+                       "closed_at": datetime.now().isoformat(timespec="seconds")})
+        portfolio.setdefault("closed_trades", []).append(closed)
+
+    if st.button("▶️ Lancer un cycle : gérer les stops, objectifs et nouvelles opportunités", key="vp_run_cycle", type="primary", use_container_width=True):
+        # Une seule collecte par actif pendant ce cycle. Les positions ouvertes sont traitées d'abord.
+        market_cache = {}
+        assets_by_symbol = {a["symbol"]: a for a in assets_db}
+        for symbol in {p.get("symbol") for p in vp.get("positions", [])}:
+            if symbol and symbol in assets_by_symbol:
+                a = assets_by_symbol[symbol]
+                px, _, _, _, _, hist = get_market_indicators(symbol, period=vp_period, interval=vp_interval)
+                market_cache[symbol] = (a, px, hist)
+
+        remaining_positions = []
+        closed_count = 0
+        for pos in vp.get("positions", []):
+            symbol = pos.get("symbol")
+            cached = market_cache.get(symbol)
+            if cached is None:
+                remaining_positions.append(pos)
+                continue
+            _, px, hist = cached
+            if px is None or not np.isfinite(px) or px <= 0:
+                remaining_positions.append(pos)
+                continue
+            px = float(px)
+            side = pos.get("side", "LONG")
+            sl = float(pos.get("sl", 0.0))
+            tp = float(pos.get("tp", 0.0))
+            # Si SL et TP sont touchés dans la même bougie, hypothèse prudente : SL prioritaire.
+            candle = hist.iloc[-1] if hist is not None and not hist.empty else None
+            high = float(candle["High"]) if candle is not None and "High" in candle and pd.notna(candle["High"]) else px
+            low = float(candle["Low"]) if candle is not None and "Low" in candle and pd.notna(candle["Low"]) else px
+            reason = None
+            exit_price = px
+            if side == "LONG":
+                if low <= sl:
+                    reason, exit_price = "Stop-loss", sl
+                elif high >= tp:
+                    reason, exit_price = "Take-profit", tp
+            else:
+                if high >= sl:
+                    reason, exit_price = "Stop-loss", sl
+                elif low <= tp:
+                    reason, exit_price = "Take-profit", tp
+            if reason:
+                _vp_close_position(pos, float(exit_price), reason, vp)
+                closed_count += 1
+            else:
+                pos["last_price"] = px
+                remaining_positions.append(pos)
+        vp["positions"] = remaining_positions
+
+        # Cherche les meilleurs nouveaux signaux sur la base de l'horizon choisi.
+        candidates = []
+        for asset in assets_db:
+            if asset["symbol"] not in market_cache:
+                px, _, _, _, _, hist = get_market_indicators(asset["symbol"], period=vp_period, interval=vp_interval)
+                market_cache[asset["symbol"]] = (asset, px, hist)
+            _, px, hist = market_cache[asset["symbol"]]
+            if px is None or not np.isfinite(px) or px <= 0 or hist is None or hist.empty:
+                continue
+            analysis_df = hist
+            if vp_timeframe == "4 heures (agrégé)":
+                analysis_df = hist.resample("4h").agg({"Open": "first", "High": "max", "Low": "min", "Close": "last", "Volume": "sum"}).dropna(subset=["Close"])
+            opp = compute_opportunity_analysis(analysis_df, direction_mode="both_watch")
+            if not opp or opp["score"] < vp_min_score or opp["side"] not in ("LONG", "SHORT"):
+                continue
+            candidates.append({"asset": asset, "opp": opp})
+        candidates.sort(key=lambda item: (item["opp"]["score"] * (0.65 + 0.35 * min(1.0, max(0.0, float(item["opp"].get("rr", 0)) / 2.0)))), reverse=True)
+
+        existing = {p.get("symbol") for p in vp["positions"]}
+        opened_count = 0
+        equity_before = float(vp.get("cash", 0.0)) + sum(_vp_mark_to_market(p, float(p.get("last_price", p.get("entry", 0)))) for p in vp["positions"])
+        risk_budget = max(0.0, equity_before * float(vp_risk_pct) / 100.0)
+        for item in candidates:
+            if len(vp["positions"]) >= int(vp_max_positions):
+                break
+            asset, opp = item["asset"], item["opp"]
+            symbol = asset["symbol"]
+            if symbol in existing:
+                continue
+            entry = float(opp["price"])
+            sl = float(opp["sl"])
+            tp = float(opp["tp_ct"])
+            distance = abs(entry - sl)
+            if entry <= 0 or distance <= 0 or (opp["side"] == "LONG" and not (sl < entry < tp)) or (opp["side"] == "SHORT" and not (tp < entry < sl)):
+                continue
+            qty_by_risk = risk_budget / distance if risk_budget > 0 else 0.0
+            qty_by_cash = float(vp.get("cash", 0.0)) / entry if entry > 0 else 0.0
+            qty = min(qty_by_risk, qty_by_cash)
+            if not np.isfinite(qty) or qty <= 0:
+                continue
+            capital = qty * entry
+            vp["cash"] = float(vp.get("cash", 0.0)) - capital
+            vp["positions"].append({
+                "name": asset["name"], "symbol": symbol, "side": opp["side"], "score": int(opp["score"]),
+                "entry": entry, "last_price": entry, "sl": sl, "tp": tp,
+                "tp_long": float(opp["tp_lt"]), "qty": qty, "capital": capital,
+                "opened_at": datetime.now().isoformat(timespec="seconds"), "timeframe": vp_timeframe,
+            })
+            existing.add(symbol)
+            opened_count += 1
+            # Le budget de risque est partagé entre les entrées du cycle.
+            risk_budget = max(0.0, risk_budget - qty * distance)
+        vp["last_cycle"] = datetime.now().isoformat(timespec="seconds")
+        st.session_state.virtual_portfolio = vp
+        if save_virtual_portfolio(vp):
+            st.success(f"Cycle terminé : {closed_count} position(s) clôturée(s), {opened_count} nouvelle(s) position(s) ouverte(s).")
+        else:
+            st.error("Le cycle a été exécuté en mémoire, mais la sauvegarde locale a échoué.")
+        st.rerun()
+
+    # Recalcul de valorisation avec cours en cache (lecture seule, aucun ordre sur un simple rafraîchissement).
+    vp_positions_table = []
+    equity = float(vp.get("cash", 0.0))
+    unrealized = 0.0
+    for pos in vp.get("positions", []):
+        price = float(pos.get("last_price", pos.get("entry", 0.0)))
+        try:
+            live_price, _, _, _, _, _ = get_market_indicators(pos["symbol"], period=vp_period, interval=vp_interval)
+            if live_price is not None and np.isfinite(live_price) and live_price > 0:
+                price = float(live_price)
+        except Exception:
+            pass
+        pnl = (price - float(pos["entry"])) * float(pos["qty"]) if pos.get("side") == "LONG" else (float(pos["entry"]) - price) * float(pos["qty"])
+        capital = float(pos.get("capital", float(pos["entry"]) * float(pos["qty"])))
+        equity += capital + pnl
+        unrealized += pnl
+        vp_positions_table.append({
+            "Actif": pos.get("name", pos.get("symbol")), "Sens": pos.get("side"), "Score": pos.get("score"),
+            "Entrée (€ / unité)": round(float(pos["entry"]), 6), "Cours actuel": round(price, 6),
+            "Stop-loss": round(float(pos["sl"]), 6), "Take-profit court": round(float(pos["tp"]), 6),
+            "Quantité simulée": round(float(pos["qty"]), 6), "P&L latent (€)": round(pnl, 2),
+            "Ouverte le": pos.get("opened_at", ""),
+        })
+
+    realized = sum(float(t.get("pnl_eur", 0.0)) for t in vp.get("closed_trades", []))
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("Capital initial", f"{float(vp.get('initial_capital', VIRTUAL_INITIAL_CAPITAL)):,.2f} €")
+    m2.metric("Valeur estimée", f"{equity:,.2f} €", delta=f"{equity - float(vp.get('initial_capital', VIRTUAL_INITIAL_CAPITAL)):+,.2f} €")
+    m3.metric("P&L réalisé", f"{realized:+,.2f} €")
+    m4.metric("P&L latent", f"{unrealized:+,.2f} €")
+    st.caption(f"Horizon : {vp_timeframe} · Dernier cycle : {vp.get('last_cycle') or 'jamais lancé'} · Solde disponible : {float(vp.get('cash', 0.0)):,.2f} €")
+
+    st.subheader("Positions ouvertes")
+    if vp_positions_table:
+        st.dataframe(pd.DataFrame(vp_positions_table), use_container_width=True, hide_index=True)
+    else:
+        st.info("Aucune position ouverte. Lance un cycle pour rechercher les meilleures opportunités.")
+
+    st.subheader("Historique des clôtures")
+    if vp.get("closed_trades"):
+        closed_rows = [{"Actif": t.get("name", t.get("symbol")), "Sens": t.get("side"), "Score": t.get("score"),
+                        "Entrée": round(float(t.get("entry", 0)), 6), "Sortie": round(float(t.get("exit", 0)), 6),
+                        "Résultat (€)": round(float(t.get("pnl_eur", 0)), 2), "Motif": t.get("exit_reason"),
+                        "Ouverture": t.get("opened_at"), "Clôture": t.get("closed_at")} for t in reversed(vp["closed_trades"])]
+        st.dataframe(pd.DataFrame(closed_rows), use_container_width=True, hide_index=True)
+    else:
+        st.caption("Aucune transaction clôturée pour le moment.")
+
+    st.divider()
+    st.subheader("Réinitialiser le portefeuille virtuel")
+    st.write("Cette action supprime toutes les positions ouvertes et l'historique, puis remet le capital à 10 000 €. Le prochain cycle peut immédiatement ouvrir de nouvelles positions selon les signaux disponibles.")
+    confirm_reset = st.checkbox("Je confirme la suppression de toutes les positions et la remise à zéro", key="vp_confirm_reset")
+    if st.button("🧹 Vider tous les actifs et recommencer à 10 000 €", key="vp_reset_all", disabled=not confirm_reset, use_container_width=True):
+        vp = {"initial_capital": VIRTUAL_INITIAL_CAPITAL, "cash": VIRTUAL_INITIAL_CAPITAL,
+              "positions": [], "closed_trades": [], "last_cycle": None}
+        st.session_state.virtual_portfolio = vp
+        if save_virtual_portfolio(vp):
+            st.success("Portefeuille virtuel réinitialisé. Lance un cycle pour reprendre les positions.")
+        else:
+            st.error("Impossible de sauvegarder la réinitialisation.")
+        st.rerun()
