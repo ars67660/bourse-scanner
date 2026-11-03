@@ -1113,6 +1113,15 @@ with tab3:
     st.header("⭐ Liste de vos Actifs Favoris")
     st.info("💡 Retrouvez vos favoris sous forme de liste avec accès direct au graphique technique (📈) et à TradingView (📊).")
 
+    col_fav_refresh, col_fav_count = st.columns([1, 3])
+    with col_fav_refresh:
+        if st.button("🔄 Actualiser les favoris", key="btn_refresh_favoris", use_container_width=True):
+            # Vide le cache des données de marché pour forcer une nouvelle récupération des cours.
+            get_market_indicators.clear()
+            st.rerun()
+    with col_fav_count:
+        st.caption(f"{len(st.session_state.app_data['favoris'])} actif(s) dans vos favoris")
+
     favoris_list = st.session_state.app_data["favoris"]
     if not favoris_list:
         st.warning("Aucun actif dans vos favoris pour le moment. Vous pouvez en ajouter depuis le 'Screener Global' ou le 'Scanner & Indicateurs'.")
