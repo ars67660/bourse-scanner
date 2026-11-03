@@ -39,9 +39,9 @@ jobs:
           VP_MAX_POSITIONS: "50"
           VP_MIN_SCORE: "65"
           VP_RISK_PCT: "1.0"
-          VP_PERIOD: "1y"
-          VP_INTERVAL: "1d"
-          VP_TIMEFRAME_LABEL: "1 jour"
+          VP_PERIOD: "5d"
+          VP_INTERVAL: "15m"
+          VP_TIMEFRAME_LABEL: "15 minutes"
         run: python virtual_portfolio_worker.py
 
       - name: Enregistrer le portefeuille mis à jour
