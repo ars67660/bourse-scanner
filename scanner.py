@@ -749,6 +749,26 @@ def compute_opportunity_analysis(df, direction_mode="both_watch"):
     }
 
 
+def estimate_target_time(timeframe_label, target_multiple):
+    """Estimation théorique en bougies ATR, pas une prévision ni un compte à rebours."""
+    bars = max(1, int(round(float(target_multiple))))
+    units = {
+        "15 minutes": (15, "minute", "minutes"),
+        "1 heure": (1, "heure", "heures"),
+        "4 heures (agrégé)": (4, "heure", "heures"),
+        "1 jour": (1, "jour de bourse", "jours de bourse"),
+        "1 semaine": (1, "semaine", "semaines"),
+        "1 mois": (1, "mois", "mois"),
+    }
+    unit_count, singular, plural = units.get(timeframe_label, (1, "bougie", "bougies"))
+    amount = bars * unit_count
+    if timeframe_label == "15 minutes":
+        return f"~{amount} min"
+    if timeframe_label in ("1 heure", "4 heures (agrégé)"):
+        return f"~{amount} h"
+    return f"~{amount} {singular if amount == 1 else plural}"
+
+
 def plot_asset_chart(asset_name, df, levels):
     fig, ax = plt.subplots(figsize=(10, 4))
     ax.plot(df.index, df['Close'], label="Prix (Clôture)", color="blue", linewidth=2)
@@ -1110,7 +1130,8 @@ with tab2:
                     "Configuration": opp["setup"], "Score global (/100)": score_val,
                     "Score LONG": opp["long_score"], "Score SHORT": opp["short_score"],
                     "Entrée indicative": res["entry"], "Stop indicatif": res["sl"],
-                    "Objectif 1": res["tp_ct"], "Objectif 2": res["tp_lt"],
+                    "Objectif 1": res["tp_ct"], "Temps estimé objectif 1": estimate_target_time(timeframe_label, 2),
+                    "Objectif 2": res["tp_lt"], "Temps estimé objectif 2": estimate_target_time(timeframe_label, 3),
                     "Ratio rendement/risque": round(opp["rr"], 2), "RSI": round(opp["rsi"], 1),
                     "ADX": round(opp["adx"], 1), "Volume relatif": round(opp["volume_ratio"], 2),
                     "ATR %": round(opp["atr_pct"], 2), "MACD": opp["macd"], "Cassure confirmée": opp["breakout"],
@@ -1199,6 +1220,13 @@ with tab2:
             
             with col_targets:
                 st.markdown(f"SL: <span style='color:red;'>`{res['sl']} €`</span><br>TP CT: `{res['tp_ct']} €` | TP LT: `{res['tp_lt']} €`", unsafe_allow_html=True)
+                # Les objectifs sont définis à environ 2 ATR et 3 ATR dans l'analyse.
+                # La barre compare les délais théoriques estimés, elle ne mesure pas une progression réelle.
+                t_ct = estimate_target_time(timeframe_label, 2)
+                t_lt = estimate_target_time(timeframe_label, 3)
+                st.caption(f"⏱️ Temps estimé TP CT : {t_ct} · TP LT : {t_lt}")
+                st.progress(0.67, text="TP CT · estimation relative")
+                st.progress(1.0, text="TP LT · estimation relative")
             
             with col_state:
                 signal_styles = {
@@ -1245,7 +1273,7 @@ with tab2:
 
             st.divider()
 
-        st.caption("⚠️ Les scores sont des filtres heuristiques calculés sur l'historique disponible, pas des probabilités de gain. Les niveaux entrée/stop/objectifs sont indicatifs. Les signaux SHORT sont uniquement informatifs : aucune vente à découvert ni aucun ordre automatique n'est exécuté.")
+        st.caption("⚠️ Scores, niveaux et délais sont des estimations heuristiques basées sur l'historique et l'ATR, pas des probabilités ni des garanties. Les délais indiquent un ordre de grandeur en bougies si le prix évolue dans la direction visée; ils ne représentent pas une progression réelle. Les signaux SHORT sont informatifs : aucun ordre automatique n'est exécuté.")
 
 with tab3:
     st.header("⭐ Liste de vos Actifs Favoris")
