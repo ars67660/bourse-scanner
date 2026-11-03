@@ -1,7 +1,23 @@
 {
   "initial_capital": 10000,
-  "cash": 10000,
-  "positions": [],
+  "cash": 0.0,
+  "positions": [
+    {
+      "name": "TotalEnergies",
+      "symbol": "TTE.PA",
+      "side": "SHORT",
+      "score": 96,
+      "entry": 82.62999725341797,
+      "last_price": 82.62999725341797,
+      "sl": 83.33499581473214,
+      "tp": 81.68999917166573,
+      "tp_long": 81.22000013078961,
+      "qty": 121.02142481417489,
+      "capital": 10000.0,
+      "opened_at": "2026-11-03T23:38:16+00:00",
+      "timeframe": "15 minutes"
+    }
+  ],
   "closed_trades": [],
-  "last_cycle": null
+  "last_cycle": "2026-11-03T23:38:16+00:00"
 }
