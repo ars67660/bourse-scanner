@@ -2,12 +2,14 @@ import streamlit as st
 import pandas as pd
 import yfinance as yf
 import json
+import base64
 import os
 import numpy as np
 import matplotlib.pyplot as plt
 from datetime import datetime
 import urllib.parse
 import urllib.request
+import urllib.error
 import io
 import tempfile
 import shutil
@@ -27,40 +29,127 @@ VIRTUAL_PORTFOLIO_FILE = "portefeuille_virtuel.json"
 VIRTUAL_INITIAL_CAPITAL = 10000.0
 
 
+VIRTUAL_GITHUB_REPO = "ars67660/bourse-scanner"
+VIRTUAL_GITHUB_BRANCH = "main"
+VIRTUAL_GITHUB_PATH = "portefeuille_virtuel.json"
+
+
+def _virtual_github_token():
+    """Lit le jeton GitHub depuis les secrets Streamlit ou l'environnement."""
+    try:
+        token = st.secrets.get("GITHUB_TOKEN", "")
+    except Exception:
+        token = ""
+    return str(token or os.getenv("GITHUB_TOKEN", "")).strip()
+
+
+def _virtual_github_request(method="GET", payload=None):
+    token = _virtual_github_token()
+    if not token:
+        return None
+    url = f"https://api.github.com/repos/{VIRTUAL_GITHUB_REPO}/contents/{VIRTUAL_GITHUB_PATH}"
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {token}",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "bourse-scanner-virtual-portfolio",
+    }
+    data = json.dumps(payload).encode("utf-8") if payload is not None else None
+    request = urllib.request.Request(url, data=data, headers=headers, method=method)
+    try:
+        with urllib.request.urlopen(request, timeout=10) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        if exc.code == 404:
+            return None
+        raise
+
+
+def _normalize_virtual_portfolio(data):
+    if not isinstance(data, dict) or not isinstance(data.get("positions", []), list):
+        return None
+    data.setdefault("initial_capital", VIRTUAL_INITIAL_CAPITAL)
+    data.setdefault("cash", VIRTUAL_INITIAL_CAPITAL)
+    data.setdefault("positions", [])
+    data.setdefault("closed_trades", [])
+    data.setdefault("last_cycle", None)
+    return data
+
+
 def load_virtual_portfolio():
-    """Charge le portefeuille de trading simulé, indépendant des portefeuilles bancaires."""
+    """Charge d'abord le JSON partagé sur GitHub, puis le fichier local en secours."""
+    if _virtual_github_token():
+        try:
+            remote = _virtual_github_request("GET")
+            if remote and remote.get("content"):
+                raw = base64.b64decode(remote["content"]).decode("utf-8")
+                portfolio = _normalize_virtual_portfolio(json.loads(raw))
+                if portfolio is not None:
+                    return portfolio
+        except Exception as exc:
+            st.warning(f"Portefeuille GitHub inaccessible, lecture locale utilisée : {type(exc).__name__}")
     try:
         with open(VIRTUAL_PORTFOLIO_FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        if isinstance(data, dict) and isinstance(data.get("positions", []), list):
-            data.setdefault("initial_capital", VIRTUAL_INITIAL_CAPITAL)
-            data.setdefault("cash", VIRTUAL_INITIAL_CAPITAL)
-            data.setdefault("positions", [])
-            data.setdefault("closed_trades", [])
-            data.setdefault("last_cycle", None)
-            return data
+            portfolio = _normalize_virtual_portfolio(json.load(f))
+        if portfolio is not None:
+            # Première ouverture avec jeton : migre sans réinitialiser le JSON local existant.
+            if _virtual_github_token():
+                try:
+                    remote = _virtual_github_request("GET")
+                    if remote is None:
+                        _virtual_github_request("PUT", {
+                            "message": "Initialiser le portefeuille virtuel depuis les données locales",
+                            "content": base64.b64encode(json.dumps(portfolio, ensure_ascii=False, indent=2).encode("utf-8")).decode("ascii"),
+                            "branch": VIRTUAL_GITHUB_BRANCH,
+                        })
+                except Exception as exc:
+                    st.warning(f"Migration GitHub non terminée : {type(exc).__name__}. Le fichier local est conservé.")
+            return portfolio
     except (OSError, json.JSONDecodeError):
         pass
-    return {"initial_capital": VIRTUAL_INITIAL_CAPITAL, "cash": VIRTUAL_INITIAL_CAPITAL,
-            "positions": [], "closed_trades": [], "last_cycle": None}
+    portfolio = {"initial_capital": VIRTUAL_INITIAL_CAPITAL, "cash": VIRTUAL_INITIAL_CAPITAL,
+                 "positions": [], "closed_trades": [], "last_cycle": None}
+    # Si aucun JSON local n'existe, crée le portefeuille initial sur GitHub uniquement
+    # après configuration explicite du jeton dans les secrets Streamlit.
+    if _virtual_github_token():
+        try:
+            remote = _virtual_github_request("GET")
+            if remote is None:
+                _virtual_github_request("PUT", {
+                    "message": "Initialiser le portefeuille virtuel simulé",
+                    "content": base64.b64encode(json.dumps(portfolio, ensure_ascii=False, indent=2).encode("utf-8")).decode("ascii"),
+                    "branch": VIRTUAL_GITHUB_BRANCH,
+                })
+        except Exception as exc:
+            st.warning(f"Initialisation GitHub non terminée : {type(exc).__name__}.")
+    return portfolio
 
 
 def save_virtual_portfolio(portfolio):
-    """Sauvegarde atomique du portefeuille virtuel."""
-    tmp = VIRTUAL_PORTFOLIO_FILE + ".tmp"
+    """Sauvegarde le JSON partagé sur GitHub (si GITHUB_TOKEN est configuré), avec secours local."""
     try:
+        serialized = json.dumps(portfolio, indent=2, ensure_ascii=False)
+        token = _virtual_github_token()
+        if token:
+            current = _virtual_github_request("GET")
+            payload = {
+                "message": "Mettre à jour le portefeuille virtuel simulé",
+                "content": base64.b64encode(serialized.encode("utf-8")).decode("ascii"),
+                "branch": VIRTUAL_GITHUB_BRANCH,
+            }
+            if current and current.get("sha"):
+                payload["sha"] = current["sha"]
+            _virtual_github_request("PUT", payload)
+            return True
+        tmp = VIRTUAL_PORTFOLIO_FILE + ".tmp"
         with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(portfolio, f, indent=2, ensure_ascii=False)
+            f.write(serialized)
             f.flush()
             os.fsync(f.fileno())
         os.replace(tmp, VIRTUAL_PORTFOLIO_FILE)
         return True
-    except OSError:
-        try:
-            if os.path.exists(tmp):
-                os.remove(tmp)
-        except OSError:
-            pass
+    except Exception as exc:
+        st.error(f"Échec de sauvegarde du portefeuille virtuel : {type(exc).__name__}")
         return False
 
 def load_saved_api_keys():
@@ -1690,6 +1779,8 @@ with tab7:
     if "virtual_portfolio" not in st.session_state:
         st.session_state.virtual_portfolio = load_virtual_portfolio()
     vp = st.session_state.virtual_portfolio
+    if not _virtual_github_token():
+        st.warning("Pour partager le portefeuille avec le cycle automatique GitHub Actions, ajoute le secret GITHUB_TOKEN (droits Contents: read/write) dans les secrets Streamlit. Sans ce secret, les sauvegardes restent locales.")
 
     # Horizon utilisé par le Screener; journalier par défaut.
     vp_cfg = st.session_state.get("screener_config", {})
@@ -1703,7 +1794,7 @@ with tab7:
         "1 mois": ("5y", "1mo"),
     }
     vp_period, vp_interval = vp_tf_mapping.get(vp_timeframe, ("1y", "1d"))
-    vp_max_positions = st.slider("Nombre maximal de positions simultanées", 1, 15, 5, key="vp_max_positions")
+    vp_max_positions = st.slider("Nombre maximal de positions simultanées", 1, 50, 50, key="vp_max_positions")
     vp_min_score = st.slider("Score minimum pour ouvrir une position", 50, 90, 65, 5, key="vp_min_score")
     vp_risk_pct = st.slider("Risque théorique par position (% du capital)", 0.25, 2.0, 1.0, 0.25, key="vp_risk_pct")
 
