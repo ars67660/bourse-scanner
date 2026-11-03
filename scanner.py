@@ -91,11 +91,37 @@ def load_virtual_portfolio():
         with open(VIRTUAL_PORTFOLIO_FILE, "r", encoding="utf-8") as f:
             portfolio = _normalize_virtual_portfolio(json.load(f))
         if portfolio is not None:
+            # Première ouverture avec jeton : migre sans réinitialiser le JSON local existant.
+            if _virtual_github_token():
+                try:
+                    remote = _virtual_github_request("GET")
+                    if remote is None:
+                        _virtual_github_request("PUT", {
+                            "message": "Initialiser le portefeuille virtuel depuis les données locales",
+                            "content": base64.b64encode(json.dumps(portfolio, ensure_ascii=False, indent=2).encode("utf-8")).decode("ascii"),
+                            "branch": VIRTUAL_GITHUB_BRANCH,
+                        })
+                except Exception as exc:
+                    st.warning(f"Migration GitHub non terminée : {type(exc).__name__}. Le fichier local est conservé.")
             return portfolio
     except (OSError, json.JSONDecodeError):
         pass
-    return {"initial_capital": VIRTUAL_INITIAL_CAPITAL, "cash": VIRTUAL_INITIAL_CAPITAL,
-            "positions": [], "closed_trades": [], "last_cycle": None}
+    portfolio = {"initial_capital": VIRTUAL_INITIAL_CAPITAL, "cash": VIRTUAL_INITIAL_CAPITAL,
+                 "positions": [], "closed_trades": [], "last_cycle": None}
+    # Si aucun JSON local n'existe, crée le portefeuille initial sur GitHub uniquement
+    # après configuration explicite du jeton dans les secrets Streamlit.
+    if _virtual_github_token():
+        try:
+            remote = _virtual_github_request("GET")
+            if remote is None:
+                _virtual_github_request("PUT", {
+                    "message": "Initialiser le portefeuille virtuel simulé",
+                    "content": base64.b64encode(json.dumps(portfolio, ensure_ascii=False, indent=2).encode("utf-8")).decode("ascii"),
+                    "branch": VIRTUAL_GITHUB_BRANCH,
+                })
+        except Exception as exc:
+            st.warning(f"Initialisation GitHub non terminée : {type(exc).__name__}.")
+    return portfolio
 
 
 def save_virtual_portfolio(portfolio):
