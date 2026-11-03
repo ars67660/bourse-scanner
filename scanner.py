@@ -931,7 +931,7 @@ except Exception:
 st.markdown("---")
 
 # Onglets
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
     "Scanner & Indicateurs", 
     "Screener Global", 
     "⭐ Mes Favoris",
