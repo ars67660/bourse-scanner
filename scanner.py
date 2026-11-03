@@ -77,7 +77,7 @@ def _normalize_virtual_portfolio(data):
 
 
 def load_virtual_portfolio():
-    """Charge d'abord le JSON partagé sur GitHub, puis le fichier local en secours."""
+    """Charge le portefeuille partagé depuis GitHub, sans exiger de jeton pour la lecture."""
     if _virtual_github_token():
         try:
             remote = _virtual_github_request("GET")
@@ -87,46 +87,33 @@ def load_virtual_portfolio():
                 if portfolio is not None:
                     return portfolio
         except Exception as exc:
-            st.warning(f"Portefeuille GitHub inaccessible, lecture locale utilisée : {type(exc).__name__}")
+            st.warning(f"Lecture GitHub authentifiée indisponible : {type(exc).__name__}")
+
+    # Le dépôt est public : la lecture de la sauvegarde ne nécessite aucun jeton.
+    try:
+        url = "https://raw.githubusercontent.com/ars67660/bourse-scanner/main/portefeuille_virtuel.json"
+        request = urllib.request.Request(url, headers={"Cache-Control": "no-cache", "User-Agent": "bourse-scanner"})
+        with urllib.request.urlopen(request, timeout=8) as response:
+            portfolio = _normalize_virtual_portfolio(json.loads(response.read().decode("utf-8")))
+        if portfolio is not None:
+            return portfolio
+    except Exception:
+        pass
+
     try:
         with open(VIRTUAL_PORTFOLIO_FILE, "r", encoding="utf-8") as f:
             portfolio = _normalize_virtual_portfolio(json.load(f))
         if portfolio is not None:
-            # Première ouverture avec jeton : migre sans réinitialiser le JSON local existant.
-            if _virtual_github_token():
-                try:
-                    remote = _virtual_github_request("GET")
-                    if remote is None:
-                        _virtual_github_request("PUT", {
-                            "message": "Initialiser le portefeuille virtuel depuis les données locales",
-                            "content": base64.b64encode(json.dumps(portfolio, ensure_ascii=False, indent=2).encode("utf-8")).decode("ascii"),
-                            "branch": VIRTUAL_GITHUB_BRANCH,
-                        })
-                except Exception as exc:
-                    st.warning(f"Migration GitHub non terminée : {type(exc).__name__}. Le fichier local est conservé.")
             return portfolio
     except (OSError, json.JSONDecodeError):
         pass
-    portfolio = {"initial_capital": VIRTUAL_INITIAL_CAPITAL, "cash": VIRTUAL_INITIAL_CAPITAL,
-                 "positions": [], "closed_trades": [], "last_cycle": None}
-    # Si aucun JSON local n'existe, crée le portefeuille initial sur GitHub uniquement
-    # après configuration explicite du jeton dans les secrets Streamlit.
-    if _virtual_github_token():
-        try:
-            remote = _virtual_github_request("GET")
-            if remote is None:
-                _virtual_github_request("PUT", {
-                    "message": "Initialiser le portefeuille virtuel simulé",
-                    "content": base64.b64encode(json.dumps(portfolio, ensure_ascii=False, indent=2).encode("utf-8")).decode("ascii"),
-                    "branch": VIRTUAL_GITHUB_BRANCH,
-                })
-        except Exception as exc:
-            st.warning(f"Initialisation GitHub non terminée : {type(exc).__name__}.")
-    return portfolio
+
+    return {"initial_capital": VIRTUAL_INITIAL_CAPITAL, "cash": VIRTUAL_INITIAL_CAPITAL,
+            "positions": [], "closed_trades": [], "last_cycle": None}
 
 
 def save_virtual_portfolio(portfolio):
-    """Sauvegarde le JSON partagé sur GitHub (si GITHUB_TOKEN est configuré), avec secours local."""
+    """Sauvegarde GitHub si un jeton est configuré; sinon secours local."""
     try:
         serialized = json.dumps(portfolio, indent=2, ensure_ascii=False)
         token = _virtual_github_token()
@@ -1778,25 +1765,21 @@ with tab7:
 
     if "virtual_portfolio" not in st.session_state:
         st.session_state.virtual_portfolio = load_virtual_portfolio()
+    if st.button("🔄 Actualiser le portefeuille sauvegardé", key="vp_refresh_portfolio", use_container_width=True):
+        st.session_state.virtual_portfolio = load_virtual_portfolio()
+        st.rerun()
     vp = st.session_state.virtual_portfolio
+    st.info("Le portefeuille est sauvegardé automatiquement dans le dépôt. Le calcul se lance toutes les 15 minutes, même si cette page est fermée. Aucun ordre réel n'est envoyé.")
     if not _virtual_github_token():
-        st.warning("Pour partager le portefeuille avec le cycle automatique GitHub Actions, ajoute le secret GITHUB_TOKEN (droits Contents: read/write) dans les secrets Streamlit. Sans ce secret, les sauvegardes restent locales.")
+        st.caption("Mode simple : lecture en ligne sans configuration. Les cycles et sauvegardes sont gérés automatiquement; les commandes manuelles sont désactivées.")
 
-    # Horizon utilisé par le Screener; journalier par défaut.
-    vp_cfg = st.session_state.get("screener_config", {})
-    vp_timeframe = vp_cfg.get("timeframe_label", "1 jour")
-    vp_tf_mapping = {
-        "15 minutes": ("5d", "15m"),
-        "1 heure": ("1mo", "1h"),
-        "4 heures (agrégé)": ("1mo", "1h"),
-        "1 jour": ("1y", "1d"),
-        "1 semaine": ("2y", "1wk"),
-        "1 mois": ("5y", "1mo"),
-    }
-    vp_period, vp_interval = vp_tf_mapping.get(vp_timeframe, ("1y", "1d"))
-    vp_max_positions = st.slider("Nombre maximal de positions simultanées", 1, 50, 50, key="vp_max_positions")
-    vp_min_score = st.slider("Score minimum pour ouvrir une position", 50, 90, 65, 5, key="vp_min_score")
-    vp_risk_pct = st.slider("Risque théorique par position (% du capital)", 0.25, 2.0, 1.0, 0.25, key="vp_risk_pct")
+    # Paramètres communs au cycle automatique GitHub Actions.
+    vp_timeframe = "15 minutes"
+    vp_period, vp_interval = ("5d", "15m")
+    vp_max_positions = 50
+    vp_min_score = 65
+    vp_risk_pct = 1.0
+    st.caption("Réglages automatiques : 15 minutes · 50 positions maximum · score minimum 65 · risque théorique 1 % par position.")
 
     def _vp_mark_to_market(position, current_price):
         qty = float(position.get("qty", 0.0))
@@ -1817,7 +1800,7 @@ with tab7:
                        "closed_at": datetime.now().isoformat(timespec="seconds")})
         portfolio.setdefault("closed_trades", []).append(closed)
 
-    if st.button("▶️ Lancer un cycle : gérer les stops, objectifs et nouvelles opportunités", key="vp_run_cycle", type="primary", use_container_width=True):
+    if st.button("▶️ Lancer un cycle maintenant", key="vp_run_cycle", type="primary", use_container_width=True, disabled=not bool(_virtual_github_token())):
         # Une seule collecte par actif pendant ce cycle. Les positions ouvertes sont traitées d'abord.
         market_cache = {}
         assets_by_symbol = {a["symbol"]: a for a in assets_db}
@@ -1963,7 +1946,7 @@ with tab7:
     if vp_positions_table:
         st.dataframe(pd.DataFrame(vp_positions_table), use_container_width=True, hide_index=True)
     else:
-        st.info("Aucune position ouverte. Lance un cycle pour rechercher les meilleures opportunités.")
+        st.info("Aucune position ouverte pour le moment. Le prochain cycle automatique recherchera des opportunités.")
 
     st.subheader("Historique des clôtures")
     if vp.get("closed_trades"):
@@ -1979,7 +1962,7 @@ with tab7:
     st.subheader("Réinitialiser le portefeuille virtuel")
     st.write("Cette action supprime toutes les positions ouvertes et l'historique, puis remet le capital à 10 000 €. Le prochain cycle peut immédiatement ouvrir de nouvelles positions selon les signaux disponibles.")
     confirm_reset = st.checkbox("Je confirme la suppression de toutes les positions et la remise à zéro", key="vp_confirm_reset")
-    if st.button("🧹 Vider tous les actifs et recommencer à 10 000 €", key="vp_reset_all", disabled=not confirm_reset, use_container_width=True):
+    if st.button("🧹 Vider tous les actifs et recommencer à 10 000 €", key="vp_reset_all", disabled=(not confirm_reset or not bool(_virtual_github_token())), use_container_width=True):
         vp = {"initial_capital": VIRTUAL_INITIAL_CAPITAL, "cash": VIRTUAL_INITIAL_CAPITAL,
               "positions": [], "closed_trades": [], "last_cycle": None}
         st.session_state.virtual_portfolio = vp
