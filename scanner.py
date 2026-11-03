@@ -639,6 +639,116 @@ def compute_trading_setup(current_price, atr, scores, sma_200, sma_50, rsi_14):
         "atr": round(atr, decimals)
     }
 
+def compute_opportunity_analysis(df, direction_mode="both_watch"):
+    """Score technique directionnel sur 100; signal d'étude, jamais ordre automatique."""
+    if df is None or not isinstance(df, pd.DataFrame) or len(df) < 35 or "Close" not in df:
+        return None
+    data = df.copy()
+    close = pd.to_numeric(data["Close"], errors="coerce")
+    high = pd.to_numeric(data.get("High", close), errors="coerce")
+    low = pd.to_numeric(data.get("Low", close), errors="coerce")
+    volume = pd.to_numeric(data.get("Volume", pd.Series(index=data.index, dtype=float)), errors="coerce")
+    valid = close.notna() & (close > 0)
+    close, high, low, volume = close[valid], high[valid], low[valid], volume[valid]
+    if len(close) < 35:
+        return None
+
+    price = float(close.iloc[-1])
+    sma20, sma50, sma200 = close.rolling(20).mean(), close.rolling(50).mean(), close.rolling(200).mean()
+    ema12, ema26 = close.ewm(span=12, adjust=False).mean(), close.ewm(span=26, adjust=False).mean()
+    macd = ema12 - ema26
+    macd_signal = macd.ewm(span=9, adjust=False).mean()
+    rsi_delta = close.diff()
+    avg_gain = rsi_delta.clip(lower=0).rolling(14).mean()
+    avg_loss = -rsi_delta.clip(upper=0).rolling(14).mean()
+    rs = avg_gain / avg_loss.replace(0, np.nan)
+    rsi_series = 100 - 100 / (1 + rs)
+    rsi = float(rsi_series.iloc[-1]) if pd.notna(rsi_series.iloc[-1]) else 50.0
+
+    prev_close = close.shift(1)
+    tr = pd.concat([(high-low).abs(), (high-prev_close).abs(), (low-prev_close).abs()], axis=1).max(axis=1)
+    atr_series = tr.rolling(14).mean()
+    atr = float(atr_series.iloc[-1]) if pd.notna(atr_series.iloc[-1]) else price * 0.015
+    atr_pct = atr / price * 100 if price else 0
+
+    up_move = high.diff()
+    down_move = -low.diff()
+    plus_dm = up_move.where((up_move > down_move) & (up_move > 0), 0.0)
+    minus_dm = down_move.where((down_move > up_move) & (down_move > 0), 0.0)
+    atr_smooth = tr.rolling(14).mean().replace(0, np.nan)
+    plus_di = 100 * plus_dm.rolling(14).mean() / atr_smooth
+    minus_di = 100 * minus_dm.rolling(14).mean() / atr_smooth
+    dx = 100 * (plus_di-minus_di).abs() / (plus_di+minus_di).replace(0, np.nan)
+    adx = float(dx.rolling(14).mean().iloc[-1]) if len(dx) >= 28 and pd.notna(dx.rolling(14).mean().iloc[-1]) else 0.0
+    pdi = float(plus_di.iloc[-1]) if pd.notna(plus_di.iloc[-1]) else 0.0
+    mdi = float(minus_di.iloc[-1]) if pd.notna(minus_di.iloc[-1]) else 0.0
+
+    avg_vol = volume.rolling(20).mean()
+    vol_ratio = float(volume.iloc[-1] / avg_vol.iloc[-1]) if len(volume) and pd.notna(avg_vol.iloc[-1]) and avg_vol.iloc[-1] > 0 else 1.0
+    prior_high = float(high.shift(1).rolling(20).max().iloc[-1]) if len(high) >= 21 else price
+    prior_low = float(low.shift(1).rolling(20).min().iloc[-1]) if len(low) >= 21 else price
+    m20 = float(sma20.iloc[-1]) if pd.notna(sma20.iloc[-1]) else price
+    m50 = float(sma50.iloc[-1]) if pd.notna(sma50.iloc[-1]) else price
+    m200 = float(sma200.iloc[-1]) if pd.notna(sma200.iloc[-1]) else float("nan")
+    macd_up = float(macd.iloc[-1]) > float(macd_signal.iloc[-1])
+    macd_down = float(macd.iloc[-1]) < float(macd_signal.iloc[-1])
+    breakout_up = price > prior_high
+    breakout_down = price < prior_low
+    pullback_up = price >= m50 and abs(price-m20) / price < 0.025 and rsi >= 42
+    pullback_down = price <= m50 and abs(price-m20) / price < 0.025 and rsi <= 58
+    trend_up = price > m50 and (not np.isfinite(m200) or m50 > m200)
+    trend_down = price < m50 and (not np.isfinite(m200) or m50 < m200)
+    strong_adx = adx >= 20
+    vol_confirm = vol_ratio >= 1.2
+
+    # Pondérations séparées: tendance 25, momentum 20, ADX 15, volume 15,
+    # structure/cassure 15, qualité du risque 10.
+    def score_side(bull):
+        trend = (int(price > m50) + int(m50 > m200 if np.isfinite(m200) else price > m50) + int(m20 > m50)) if bull else (int(price < m50) + int(m50 < m200 if np.isfinite(m200) else price < m50) + int(m20 < m50))
+        trend_pts = trend / 3 * 25
+        momentum_ok = (macd_up and 45 <= rsi <= 70) if bull else (macd_down and 30 <= rsi <= 55)
+        momentum_pts = (12 if (macd_up if bull else macd_down) else 0) + (8 if (45 <= rsi <= 70 if bull else 30 <= rsi <= 55) else 0)
+        adx_pts = min(15, adx / 35 * 15) if ((pdi >= mdi) if bull else (mdi >= pdi)) else 0
+        volume_pts = 15 if vol_confirm else (7 if vol_ratio >= 0.9 else 0)
+        structure_pts = 15 if (breakout_up if bull else breakout_down) else (11 if (pullback_up if bull else pullback_down) else (5 if (trend_up if bull else trend_down) else 0))
+        # Pénalise volatilité extrême et setups sans stop ATR exploitable.
+        risk_pts = 10 if 0.3 <= atr_pct <= 5 else (6 if atr_pct <= 8 else 1)
+        total = int(round(trend_pts + momentum_pts + adx_pts + volume_pts + structure_pts + risk_pts))
+        return min(100, max(0, total))
+
+    long_score, short_score = score_side(True), score_side(False)
+    if long_score >= short_score:
+        side, score = "LONG", long_score
+        setup = "Cassure haussière" if breakout_up else ("Repli en tendance haussière" if pullback_up else "Tendance haussière")
+        entry, stop, target1, target2 = price, price - 1.5*atr, price + 2*atr, price + 3*atr
+        rmult = (target1-entry) / max(entry-stop, 1e-12)
+    else:
+        side, score = "SHORT", short_score
+        setup = "Cassure baissière" if breakout_down else ("Repli en tendance baissière" if pullback_down else "Tendance baissière")
+        entry, stop, target1, target2 = price, price + 1.5*atr, price - 2*atr, price - 3*atr
+        rmult = (entry-target1) / max(stop-entry, 1e-12)
+
+    if score >= 80:
+        quality = "Configuration forte à étudier"
+    elif score >= 65:
+        quality = "Opportunité à surveiller"
+    elif score >= 50:
+        quality = "Configuration en formation"
+    else:
+        quality = "Signal faible"
+    # Les positions short sont seulement signalées: aucune exécution n'est possible.
+    signal = f"{side} — {quality}" if score >= 50 else "NEUTRE — pas de configuration claire"
+    return {
+        "score": score, "long_score": long_score, "short_score": short_score,
+        "side": side, "signal": signal, "setup": setup, "price": price,
+        "entry": entry, "sl": stop, "tp_ct": target1, "tp_lt": target2,
+        "rsi": rsi, "adx": adx, "volume_ratio": vol_ratio,
+        "atr_pct": atr_pct, "rr": rmult, "macd": "Haussier" if macd_up else "Baissier",
+        "breakout": "Oui" if (breakout_up if side == "LONG" else breakout_down) else "Non",
+        "sma20": m20, "sma50": m50, "sma200": m200,
+    }
+
+
 def plot_asset_chart(asset_name, df, levels):
     fig, ax = plt.subplots(figsize=(10, 4))
     ax.plot(df.index, df['Close'], label="Prix (Clôture)", color="blue", linewidth=2)
@@ -666,7 +776,7 @@ with st.expander("📖 GUIDE D'UTILISATION & EXPLICATION DES PARAMÈTRES D'ENTR�
     st.markdown("""
     ### 1. Comment utiliser le programme ?
     * **Scanner & Indicateurs (Onglet 1) :** Permet d'analyser en profondeur un actif sélectionné, de paramétrer ses notes qualitatives, de visualiser ses niveaux techniques et d'enregistrer vos ordres d'achat (ou plans DCA) dans votre banque.
-    * **Screener Global (Onglet 2) :** Analyse simultanément tous les actifs de la base de données selon l'horizon temporel choisi (1h, 1 jour, 1 mois, etc.). Vous pouvez filtrer par catégorie ou score, voir les graphiques détaillés et **exporter vos résultats en Excel**.
+    * **Screener Global (Onglet 2) :** Analyse les configurations LONG et SHORT sur plusieurs horizons, sans exécuter d’ordre automatiquement. Vous pouvez filtrer par catégorie ou score, voir les graphiques détaillés et **exporter vos résultats en Excel**.
     * **Mes Favoris (Onglet 3) :** Retrouvez rapidement vos actifs suivis en favoris avec un accès direct à leurs graphiques et liens TradingView.
     * **Banques & DCA (Onglet 4) :** Créez vos comptes ou portefeuilles virtuels, suivez la quantité d'unités détenues, le capital investi et supprimez des lignes si besoin.
     * **Mesure & Performance (Onglet 5) :** Évaluez en temps réel la plus ou moins-value globale de vos portefeuilles et votre **taux de réussite (win rate)**.
@@ -901,7 +1011,7 @@ with tab2:
         with col_f1:
             timeframe_label = st.selectbox(
                 "Horizon temporel :",
-                ["1 heure", "4 heures", "1 jour", "1 mois", "3 mois", "6 mois", "1 an"],
+                ["15 minutes", "1 heure", "4 heures (agrégé)", "1 jour", "1 semaine", "1 mois"],
                 key="tf_select"
             )
         with col_f2:
@@ -913,10 +1023,11 @@ with tab2:
         with col_f3:
             min_score = st.slider(
                 "Score minimum des actifs à rechercher :",
-                min_value=0, max_value=100, value=75, step=5,
-                help="Seuls les actifs ayant un score égal ou supérieur à ce seuil seront affichés.",
+                min_value=0, max_value=100, value=65, step=5,
+                help="Seuls les actifs ayant un score égal ou supérieur à ce seuil seront affichés. 65 = opportunité à surveiller; 80 = configuration forte à étudier.",
                 key="screener_min_score"
             )
+        st.info("Mode directionnel : détection LONG et SHORT à étudier uniquement. Aucun ordre n'est envoyé automatiquement.")
         sort_order = st.selectbox(
             "Trier par :",
             ["Ordre par défaut", "Score (Plus élevé au plus bas)", "Nom (A-Z)"],
@@ -950,13 +1061,12 @@ with tab2:
 
     if st.session_state.get("screener_has_run", False):
         tf_mapping = {
-            "1 heure": ("5d", "1h"),
-            "4 heures": ("1mo", "1h"),
-            "1 jour": ("6mo", "1d"),
-            "1 mois": ("1y", "1d"),
-            "3 mois": ("2y", "1wk"),
-            "6 mois": ("5y", "1wk"),
-            "1 an": ("max", "1mo")
+            "15 minutes": ("5d", "15m"),
+            "1 heure": ("1mo", "1h"),
+            "4 heures (agrégé)": ("1mo", "1h"),
+            "1 jour": ("1y", "1d"),
+            "1 semaine": ("2y", "1wk"),
+            "1 mois": ("5y", "1mo"),
         }
         selected_period, selected_interval = tf_mapping[timeframe_label]
 
@@ -971,37 +1081,39 @@ with tab2:
                 continue
         
             p, sma_200, sma_50, rsi, atr_val, history_df_scr = get_market_indicators(asset["symbol"], period=selected_period, interval=selected_interval)
-            if p is not None and np.isfinite(p) and p > 0:
-                res = compute_trading_setup(p, atr_val, {
-                    "l": asset["liquidity"], "v": asset["volatility"], 
-                    "t": asset["trend"], "r": asset["risk_reward"], "c": asset["catalyst"]
-                }, sma_200, sma_50, rsi)
-            
-                score_val = res["score"]
-            
+            if p is not None and np.isfinite(p) and p > 0 and history_df_scr is not None:
+                # Le 4h est réellement agrégé depuis les bougies 1h, sans les mélanger.
+                analysis_df = history_df_scr
+                if timeframe_label == "4 heures (agrégé)":
+                    analysis_df = history_df_scr.resample("4h").agg({
+                        "Open": "first", "High": "max", "Low": "min", "Close": "last", "Volume": "sum"
+                    }).dropna(subset=["Close"])
+                opp = compute_opportunity_analysis(analysis_df, direction_mode="both_watch")
+                if opp is None:
+                    unavailable_assets.append(asset["symbol"])
+                    continue
+                score_val = opp["score"]
                 if score_val < min_score:
                     continue
-
-                screened_list.append({
-                    "asset": asset,
-                    "res": res,
-                    "history_df": history_df_scr
-                })
-
+                res = {
+                    "signal": opp["signal"], "score": score_val, "price": round(opp["price"], 5),
+                    "entry": round(opp["entry"], 5), "sl": round(opp["sl"], 5),
+                    "tp_ct": round(opp["tp_ct"], 5), "tp_lt": round(opp["tp_lt"], 5),
+                    "rsi_14": round(opp["rsi"], 1), "atr": round(opp["price"]*opp["atr_pct"]/100, 5),
+                    "sma_50": round(opp["sma50"], 5), "sma_200": round(opp["sma200"], 5) if np.isfinite(opp["sma200"]) else float("nan"),
+                    **opp
+                }
+                screened_list.append({"asset": asset, "res": res, "history_df": analysis_df})
                 excel_export_data.append({
-                    "Nom": asset["name"],
-                    "Ticker": asset["symbol"],
-                    "Catégorie": asset["type"],
-                    "Horizon": timeframe_label,
-                    "Cours (devise de cotation)": res["price"],
-                    "Entrée (devise de cotation)": res["entry"],
-                    "Stop Loss (devise de cotation)": res["sl"],
-                    "Take Profit CT (devise de cotation)": res["tp_ct"],
-                    "Take Profit LT (devise de cotation)": res["tp_lt"],
-                    "Signal": res["signal"],
-                    "Score (/100)": res["score"],
-                    "RSI (14)": res["rsi_14"],
-                    "ATR (14)": res["atr"]
+                    "Nom": asset["name"], "Ticker": asset["symbol"], "Catégorie": asset["type"],
+                    "Horizon": timeframe_label, "Cours": res["price"], "Biais détecté": opp["side"],
+                    "Configuration": opp["setup"], "Score global (/100)": score_val,
+                    "Score LONG": opp["long_score"], "Score SHORT": opp["short_score"],
+                    "Entrée indicative": res["entry"], "Stop indicatif": res["sl"],
+                    "Objectif 1": res["tp_ct"], "Objectif 2": res["tp_lt"],
+                    "Ratio rendement/risque": round(opp["rr"], 2), "RSI": round(opp["rsi"], 1),
+                    "ADX": round(opp["adx"], 1), "Volume relatif": round(opp["volume_ratio"], 2),
+                    "ATR %": round(opp["atr_pct"], 2), "MACD": opp["macd"], "Cassure confirmée": opp["breakout"],
                 })
             else:
                 unavailable_assets.append(asset["symbol"])
@@ -1013,7 +1125,7 @@ with tab2:
 
         if sort_order == "Score (Plus élevé au plus bas)":
             screened_list.sort(key=lambda x: x["res"]["score"], reverse=True)
-            excel_export_data.sort(key=lambda x: x["Score (/100)"], reverse=True)
+            excel_export_data.sort(key=lambda x: x["Score global (/100)"], reverse=True)
         elif sort_order == "Nom (A-Z)":
             screened_list.sort(key=lambda x: x["asset"]["name"])
             excel_export_data.sort(key=lambda x: x["Nom"])
@@ -1045,7 +1157,7 @@ with tab2:
 
             is_fav = asset["symbol"] in st.session_state.app_data["favoris"]
             signal_type = res["signal"]
-            is_strong_signal = "FORT" in signal_type or score_val >= 75
+            is_strong_signal = score_val >= 80
         
             col_fav, col_desc, col_prices, col_targets, col_state, col_chart_btn = st.columns([0.6, 2.2, 2.0, 2.8, 2.2, 0.8])
         
@@ -1082,6 +1194,7 @@ with tab2:
             
                 score_style = "color: #065f46; font-weight: bold;" if score_val >= 75 else ""
                 st.markdown(f"<span style='{sig_style}'>{signal_type}</span><br><span style='{score_style}'>Score: {score_val}/100</span>", unsafe_allow_html=True)
+                st.caption(f"{res.get('setup', '')} · R/R {res.get('rr', 0):.1f} · ADX {res.get('adx', 0):.0f}")
 
             with col_chart_btn:
                 st.write("")
@@ -1096,8 +1209,9 @@ with tab2:
                 with st.expander(f"📊 Analyse Technique détaillée & Graphique ({timeframe_label}) : {asset['name']}", expanded=True):
                     col_info1, col_info2, col_info3 = st.columns(3)
                     col_info1.metric("RSI (14)", res["rsi_14"])
-                    col_info2.metric("ATR (14)", res["atr"])
-                    col_info3.metric("Moyennes Mobiles", f"SMA50: {res['sma_50']} | SMA200: {res['sma_200']}")
+                    col_info2.metric("ADX", f"{res.get('adx', 0):.1f}")
+                    col_info3.metric("Volume relatif", f"{res.get('volume_ratio', 1):.2f}x")
+                    st.caption(f"Scores directionnels : LONG {res.get('long_score', 0)}/100 · SHORT {res.get('short_score', 0)}/100 · MACD {res.get('macd', 'n/a')} · ATR {res.get('atr_pct', 0):.2f}%")
                 
                     tv_s = asset["symbol"].replace("=X", "").replace("-USD", "USD").replace("=F", "")
                     st.markdown(f"🔗 **[Ouvrir sur TradingView]** (https://www.tradingview.com/chart/?symbol={urllib.parse.quote(tv_s)})", unsafe_allow_html=True)
@@ -1108,6 +1222,8 @@ with tab2:
                         st.warning("Historique indisponible.")
 
             st.divider()
+
+        st.caption("⚠️ Les scores sont des filtres heuristiques calculés sur l'historique disponible, pas des probabilités de gain. Les niveaux entrée/stop/objectifs sont indicatifs. Les signaux SHORT sont uniquement informatifs : aucune vente à découvert ni aucun ordre automatique n'est exécuté.")
 
 with tab3:
     st.header("⭐ Liste de vos Actifs Favoris")
