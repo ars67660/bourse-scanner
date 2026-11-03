@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 import urllib.parse
 import urllib.request
+import urllib.error
 import io
 import tempfile
 import shutil
