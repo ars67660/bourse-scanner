@@ -731,13 +731,25 @@ def compute_opportunity_analysis(df, direction_mode="both_watch"):
         return min(100, max(0, total))
 
     long_score, short_score = score_side(True), score_side(False)
-    if long_score >= short_score:
-        side, score = "LONG", long_score
+
+    # Le mode demandé doit réellement piloter le biais et les niveaux retournés.
+    # both_watch compare les deux côtés; long/short forcent le scénario correspondant.
+    mode = str(direction_mode or "both_watch").strip().lower().replace("-", "_").replace(" ", "_")
+    mode_aliases = {
+        "both": "both_watch", "both_watch": "both_watch", "watch_both": "both_watch",
+        "long": "long", "long_only": "long", "achat": "long",
+        "short": "short", "short_only": "short", "vente": "short",
+    }
+    mode = mode_aliases.get(mode, "both_watch")
+    side = "LONG" if mode == "long" else "SHORT" if mode == "short" else ("LONG" if long_score >= short_score else "SHORT")
+
+    if side == "LONG":
+        score = long_score
         setup = "Cassure haussière" if breakout_up else ("Repli en tendance haussière" if pullback_up else "Tendance haussière")
         entry, stop, target1, target2 = price, price - 1.5*atr, price + 2*atr, price + 3*atr
         rmult = (target1-entry) / max(entry-stop, 1e-12)
     else:
-        side, score = "SHORT", short_score
+        score = short_score
         setup = "Cassure baissière" if breakout_down else ("Repli en tendance baissière" if pullback_down else "Tendance baissière")
         entry, stop, target1, target2 = price, price + 1.5*atr, price - 2*atr, price - 3*atr
         rmult = (entry-target1) / max(stop-entry, 1e-12)
@@ -754,7 +766,7 @@ def compute_opportunity_analysis(df, direction_mode="both_watch"):
     signal = f"{side} — {quality}" if score >= 50 else "NEUTRE — pas de configuration claire"
     return {
         "score": score, "long_score": long_score, "short_score": short_score,
-        "side": side, "signal": signal, "setup": setup, "price": price,
+        "direction_mode": mode, "side": side, "signal": signal, "setup": setup, "price": price,
         "entry": entry, "sl": stop, "tp_ct": target1, "tp_lt": target2,
         "rsi": rsi, "adx": adx, "volume_ratio": vol_ratio,
         "atr_pct": atr_pct, "rr": rmult, "macd": "Haussier" if macd_up else "Baissier",
