@@ -1903,14 +1903,15 @@ with tab7:
             if vp_timeframe == "4 heures (agrégé)":
                 analysis_df = hist.resample("4h").agg({"Open": "first", "High": "max", "Low": "min", "Close": "last", "Volume": "sum"}).dropna(subset=["Close"])
             opp = compute_opportunity_analysis(analysis_df, direction_mode="both_watch")
-            if not opp or opp["score"] < vp_min_score or opp["side"] not in ("LONG", "SHORT"):
+            if not opp or opp["score"] < max(int(vp_min_score), 75) or opp["side"] not in ("LONG", "SHORT"):
                 continue
             candidates.append({"asset": asset, "opp": opp})
         candidates.sort(key=lambda item: (item["opp"]["score"] * (0.65 + 0.35 * min(1.0, max(0.0, float(item["opp"].get("rr", 0)) / 2.0)))), reverse=True)
 
         equity_before = float(vp.get("cash", 0.0)) + sum(_vp_mark_to_market(p, float(p.get("last_price", p.get("entry", 0)))) for p in vp["positions"])
         # Réduit progressivement les anciennes positions ayant engagé tout le capital.
-        max_allocation_pct = 10.0
+        max_allocation_pct = 8.0
+        max_total_exposure_pct = 70.0
         allocation_cap = max(0.0, float(vp.get("initial_capital", VIRTUAL_INITIAL_CAPITAL)) * max_allocation_pct / 100.0)
         for pos in vp["positions"]:
             old_capital = float(pos.get("capital", float(pos.get("entry", 0)) * float(pos.get("qty", 0))))
@@ -1919,11 +1920,12 @@ with tab7:
                 pos["qty"] = float(pos.get("qty", 0)) * scale
                 pos["capital"] = allocation_cap
                 vp["cash"] = float(vp.get("cash", 0.0)) + (old_capital - allocation_cap)
-        risk_per_position = max(0.0, equity_before * float(vp_risk_pct) / 100.0)
+        risk_per_position = max(0.0, equity_before * min(float(vp_risk_pct), 0.5) / 100.0)
+        max_total_exposure = max(0.0, equity_before * max_total_exposure_pct / 100.0)
         existing = {p.get("symbol") for p in vp["positions"]}
         opened_count = 0
         for item in candidates:
-            if len(vp["positions"]) >= int(vp_max_positions):
+            if len(vp["positions"]) >= min(int(vp_max_positions), 12):
                 break
             asset, opp = item["asset"], item["opp"]
             symbol = asset["symbol"]
@@ -1936,7 +1938,9 @@ with tab7:
             if entry <= 0 or distance <= 0 or (opp["side"] == "LONG" and not (sl < entry < tp)) or (opp["side"] == "SHORT" and not (tp < entry < sl)):
                 continue
             qty_by_risk = risk_per_position / distance if risk_per_position > 0 else 0.0
-            allocation_limit = min(float(vp.get("cash", 0.0)), max(0.0, equity_before * max_allocation_pct / 100.0))
+            current_exposure = sum(max(0.0, float(p.get("capital", float(p.get("entry", 0)) * float(p.get("qty", 0))))) for p in vp["positions"])
+            remaining_exposure = max(0.0, max_total_exposure - current_exposure)
+            allocation_limit = min(float(vp.get("cash", 0.0)), max(0.0, equity_before * max_allocation_pct / 100.0), remaining_exposure)
             qty_by_cash = allocation_limit / entry if entry > 0 else 0.0
             qty = min(qty_by_risk, qty_by_cash)
             if not np.isfinite(qty) or qty <= 0:
