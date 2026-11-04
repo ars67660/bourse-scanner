@@ -36,12 +36,14 @@ jobs:
 
       - name: Exécuter un cycle simulé
         env:
-          VP_MAX_POSITIONS: "50"
-          VP_MIN_SCORE: "65"
-          VP_RISK_PCT: "1.0"
+          VP_MAX_POSITIONS: "12"
+          VP_MIN_SCORE: "75"
+          VP_RISK_PCT: "0.5"
           VP_PERIOD: "5d"
           VP_INTERVAL: "15m"
           VP_TIMEFRAME_LABEL: "15 minutes"
+          VP_MAX_ALLOCATION_PCT: "8.0"
+          VP_MAX_EXPOSURE_PCT: "70.0"
         run: python virtual_portfolio_worker.py
 
       - name: Enregistrer le portefeuille mis à jour
