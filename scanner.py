@@ -2087,7 +2087,7 @@ with tab7:
         equity += capital + pnl
         unrealized += pnl
         vp_positions_table.append({
-            "Actif": pos.get("name", pos.get("symbol")), "Sens": pos.get("side"), "Score": pos.get("score"),
+            "Actif": pos.get("name", pos.get("symbol")), "Opération": ("Achat" if pos.get("side", "LONG") == "LONG" else "Vente"), "Score": pos.get("score"),
             "Entrée (€ / unité)": round(float(pos["entry"]), 6), "Cours actuel": round(price, 6),
             "Stop-loss": round(float(pos["sl"]), 6), "Take-profit court": round(float(pos["tp"]), 6),
             "Quantité simulée": round(float(pos["qty"]), 6), "P&L latent (€)": round(pnl, 2),
