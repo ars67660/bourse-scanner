@@ -217,6 +217,7 @@ def main():
         qty_by_risk = risk_per_position / distance if risk_per_position > 0 else 0
         allocation_limit = min(float(portfolio.get("cash", 0)), max(0.0, equity * MAX_ALLOCATION_PCT / 100.0))
         qty_by_cash = allocation_limit / entry
+        qty = min(qty_by_risk, qty_by_cash)
         if not np.isfinite(qty) or qty <= 0:
             continue
         capital = qty * entry
