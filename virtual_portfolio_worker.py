@@ -17,7 +17,8 @@ PORTFOLIO_PATH = "portefeuille_virtuel.json"
 MAX_POSITIONS = min(50, max(1, int(os.getenv("VP_MAX_POSITIONS", "50"))))
 MIN_SCORE = min(100, max(0, int(os.getenv("VP_MIN_SCORE", "65"))))
 RISK_PCT = max(0.05, min(5.0, float(os.getenv("VP_RISK_PCT", "1.0"))))
-MAX_ALLOCATION_PCT = max(1.0, min(100.0, float(os.getenv("VP_MAX_ALLOCATION_PCT", "10.0"))))
+MAX_ALLOCATION_PCT = max(1.0, min(100.0, float(os.getenv("VP_MAX_ALLOCATION_PCT", "8.0"))))
+MAX_EXPOSURE_PCT = max(10.0, min(100.0, float(os.getenv("VP_MAX_EXPOSURE_PCT", "70.0"))))
 PERIOD = os.getenv("VP_PERIOD", "1y")
 INTERVAL = os.getenv("VP_INTERVAL", "1d")
 TIMEFRAME_LABEL = os.getenv("VP_TIMEFRAME_LABEL", "1 jour")
@@ -194,6 +195,7 @@ def main():
             print(f"[INFO] Taille réduite pour {position.get('symbol')}: allocation limitée à {MAX_ALLOCATION_PCT:.0f} % du capital initial.")
     risk_per_position = max(0.0, equity * RISK_PCT / 100.0)
     opened_count = 0
+    max_total_exposure = max(0.0, equity * MAX_EXPOSURE_PCT / 100.0)
     for item in candidates:
         if len(portfolio["positions"]) >= MAX_POSITIONS:
             break
@@ -215,7 +217,9 @@ def main():
             continue
         # Taille plafonnée par le risque ET par l'exposition maximale par position.
         qty_by_risk = risk_per_position / distance if risk_per_position > 0 else 0
-        allocation_limit = min(float(portfolio.get("cash", 0)), max(0.0, equity * MAX_ALLOCATION_PCT / 100.0))
+        current_exposure = sum(max(0.0, float(p.get("capital", float(p.get("entry", 0)) * float(p.get("qty", 0))))) for p in portfolio["positions"])
+        remaining_exposure = max(0.0, max_total_exposure - current_exposure)
+        allocation_limit = min(float(portfolio.get("cash", 0)), max(0.0, equity * MAX_ALLOCATION_PCT / 100.0), remaining_exposure)
         qty_by_cash = allocation_limit / entry
         qty = min(qty_by_risk, qty_by_cash)
         if not np.isfinite(qty) or qty <= 0:
