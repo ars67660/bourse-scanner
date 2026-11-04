@@ -1963,6 +1963,113 @@ with tab7:
             st.error("Le cycle a été exécuté en mémoire, mais la sauvegarde locale a échoué.")
         st.rerun()
 
+    # Opérations manuelles sur le portefeuille virtuel (aucun ordre réel).
+    st.divider()
+    st.subheader("🛒 Acheter ou vendre manuellement")
+    st.caption("Ces opérations modifient uniquement le portefeuille virtuel partagé. Elles ne transmettent aucun ordre à un courtier.")
+    if not _virtual_github_token():
+        st.warning("Les opérations manuelles nécessitent le jeton GitHub configuré dans les secrets Streamlit pour sauvegarder le portefeuille partagé.")
+
+    buy_col, sell_col = st.columns(2)
+    with buy_col:
+        st.markdown("#### Acheter une position")
+        asset_choices = list(assets_db)
+        if asset_choices:
+            asset_labels = {f"{a.get('name', a['symbol'])} ({a['symbol']})": a for a in asset_choices}
+            with st.form("vp_manual_buy_form"):
+                buy_label = st.selectbox("Actif à acheter", list(asset_labels.keys()), key="vp_manual_buy_asset")
+                buy_qty = st.number_input("Quantité à acheter", min_value=0.000001, value=1.0, step=1.0, format="%.6f", key="vp_manual_buy_qty")
+                buy_submit = st.form_submit_button("🟢 Confirmer l'achat simulé", use_container_width=True, disabled=not bool(_virtual_github_token()))
+            if buy_submit:
+                asset = asset_labels[buy_label]
+                symbol = asset["symbol"]
+                try:
+                    current_price, _, _, _, _, _ = get_market_indicators(symbol, period=vp_period, interval=vp_interval)
+                    if current_price is None or not np.isfinite(current_price) or float(current_price) <= 0:
+                        st.error(f"Impossible de récupérer un cours valide pour {symbol}.")
+                    else:
+                        current_price = float(current_price)
+                        cost = current_price * float(buy_qty)
+                        if cost > float(vp.get("cash", 0.0)):
+                            st.error(f"Solde insuffisant : achat de {cost:,.2f} € pour {float(vp.get('cash', 0.0)):,.2f} € disponibles.")
+                        else:
+                            now = datetime.now().isoformat(timespec="seconds")
+                            vp["cash"] = float(vp.get("cash", 0.0)) - cost
+                            vp.setdefault("positions", []).append({
+                                "name": asset.get("name", symbol), "symbol": symbol, "side": "LONG", "score": 0,
+                                "entry": current_price, "last_price": current_price,
+                                "sl": current_price * 0.92, "tp": current_price * 1.16,
+                                "tp_long": current_price * 1.16, "qty": float(buy_qty), "capital": cost,
+                                "opened_at": now, "timeframe": "Manuel", "source": "manual",
+                            })
+                            st.session_state.virtual_portfolio = vp
+                            if save_virtual_portfolio(vp):
+                                st.success(f"Achat simulé enregistré : {buy_qty:g} × {symbol} à {current_price:,.4f} €.")
+                            else:
+                                st.error("L'achat a été calculé, mais la sauvegarde GitHub a échoué.")
+                            st.rerun()
+                except Exception as exc:
+                    st.error(f"Impossible d'enregistrer l'achat simulé : {type(exc).__name__}.")
+        else:
+            st.info("Aucun actif disponible dans la liste du scanner.")
+
+    with sell_col:
+        st.markdown("#### Vendre une position ouverte")
+        open_positions = list(enumerate(vp.get("positions", [])))
+        if open_positions:
+            def _vp_position_label(index):
+                position = vp["positions"][index]
+                return f"{position.get('name', position.get('symbol', 'Actif'))} ({position.get('symbol', '')}) · {position.get('side', 'LONG')} · quantité {float(position.get('qty', 0.0)):g}"
+            with st.form("vp_manual_sell_form"):
+                sell_index = st.selectbox("Position à vendre", [i for i, _ in open_positions], format_func=_vp_position_label, key="vp_manual_sell_position")
+                sell_position = vp["positions"][sell_index]
+                sell_available = max(0.000001, float(sell_position.get("qty", 0.0)))
+                sell_qty = st.number_input("Quantité à vendre", min_value=0.000001, max_value=sell_available, value=sell_available, step=min(1.0, sell_available), format="%.6f", key=f"vp_manual_sell_qty_{sell_index}")
+                sell_submit = st.form_submit_button("🔴 Confirmer la vente simulée", use_container_width=True, disabled=not bool(_virtual_github_token()))
+            if sell_submit:
+                position = vp["positions"][sell_index]
+                available_qty = float(position.get("qty", 0.0))
+                quantity = float(sell_qty)
+                try:
+                    current_price, _, _, _, _, _ = get_market_indicators(position["symbol"], period=vp_period, interval=vp_interval)
+                    if current_price is None or not np.isfinite(current_price) or float(current_price) <= 0:
+                        st.error(f"Impossible de récupérer un cours valide pour {position['symbol']}.")
+                    elif quantity <= 0 or quantity > available_qty + 1e-9:
+                        st.error("La quantité à vendre est invalide.")
+                    else:
+                        current_price = float(current_price)
+                        quantity = min(quantity, available_qty)
+                        entry = float(position.get("entry", 0.0))
+                        side = position.get("side", "LONG")
+                        pnl = (current_price - entry) * quantity if side == "LONG" else (entry - current_price) * quantity
+                        capital_before = float(position.get("capital", entry * available_qty))
+                        capital_released = capital_before * quantity / available_qty if available_qty > 0 else 0.0
+                        vp["cash"] = float(vp.get("cash", 0.0)) + capital_released + pnl
+                        closed_trade = dict(position)
+                        closed_trade.update({
+                            "qty": quantity, "capital": capital_released, "exit": current_price,
+                            "pnl_eur": float(pnl), "exit_reason": "Vente manuelle simulée",
+                            "closed_at": datetime.now().isoformat(timespec="seconds"),
+                        })
+                        vp.setdefault("closed_trades", []).append(closed_trade)
+                        remaining_qty = available_qty - quantity
+                        if remaining_qty <= max(1e-9, available_qty * 1e-9):
+                            vp["positions"].pop(sell_index)
+                        else:
+                            position["qty"] = remaining_qty
+                            position["capital"] = max(0.0, capital_before - capital_released)
+                            position["last_price"] = current_price
+                        st.session_state.virtual_portfolio = vp
+                        if save_virtual_portfolio(vp):
+                            st.success(f"Vente simulée enregistrée : {quantity:g} × {position.get('symbol', '')} à {current_price:,.4f} € · résultat {pnl:+,.2f} €.")
+                        else:
+                            st.error("La vente a été calculée, mais la sauvegarde GitHub a échoué.")
+                        st.rerun()
+                except Exception as exc:
+                    st.error(f"Impossible d'enregistrer la vente simulée : {type(exc).__name__}.")
+        else:
+            st.info("Aucune position ouverte à vendre.")
+
     # Recalcul de valorisation avec cours en cache (lecture seule, aucun ordre sur un simple rafraîchissement).
     vp_positions_table = []
     equity = float(vp.get("cash", 0.0))
