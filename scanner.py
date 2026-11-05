@@ -142,6 +142,63 @@ def save_virtual_portfolio(portfolio):
 
 WATCHLIST_GITHUB_PATH = "watchlist.json"
 
+AUTO_SIGNAL_GITHUB_PATH = "signaux_automatiques.json"
+
+
+def load_auto_signal_lists():
+    """Charge les listes automatiques 15 min / 1 h depuis GitHub public."""
+    try:
+        url = f"https://raw.githubusercontent.com/{VIRTUAL_GITHUB_REPO}/{VIRTUAL_GITHUB_BRANCH}/{AUTO_SIGNAL_GITHUB_PATH}"
+        request = urllib.request.Request(url, headers={"Cache-Control": "no-cache", "User-Agent": "bourse-scanner"})
+        with urllib.request.urlopen(request, timeout=8) as response:
+            data = json.loads(response.read().decode("utf-8"))
+        if isinstance(data, dict):
+            return {
+                "15m": data.get("15m", []) if isinstance(data.get("15m", []), list) else [],
+                "1h": data.get("1h", []) if isinstance(data.get("1h", []), list) else [],
+            }
+    except Exception:
+        pass
+    return {"15m": [], "1h": []}
+
+
+def save_auto_signal_lists(lists_data):
+    """Sauvegarde les listes automatiques sur GitHub seulement si un jeton est disponible."""
+    token = _virtual_github_token()
+    if not token:
+        return False
+    url = f"https://api.github.com/repos/{VIRTUAL_GITHUB_REPO}/contents/{AUTO_SIGNAL_GITHUB_PATH}"
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "Authorization": f"Bearer {token}",
+        "X-GitHub-Api-Version": "2022-11-28",
+        "User-Agent": "bourse-scanner-auto-signals",
+    }
+    try:
+        current = None
+        get_request = urllib.request.Request(url, headers=headers, method="GET")
+        try:
+            with urllib.request.urlopen(get_request, timeout=10) as response:
+                current = json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            if exc.code != 404:
+                raise
+        payload = {
+            "message": "Mettre à jour les listes automatiques 15 min et 1 h",
+            "content": base64.b64encode(json.dumps(lists_data, ensure_ascii=False, indent=2).encode("utf-8")).decode("ascii"),
+            "branch": VIRTUAL_GITHUB_BRANCH,
+        }
+        if current and current.get("sha"):
+            payload["sha"] = current["sha"]
+        put_request = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"), headers=headers, method="PUT")
+        with urllib.request.urlopen(put_request, timeout=15) as response:
+            return 200 <= response.status < 300
+    except Exception as exc:
+        st.session_state["auto_signal_save_error"] = type(exc).__name__
+        return False
+
+
+
 
 def load_watchlist_github():
     """Charge la Watchlist depuis GitHub; lecture publique possible sans jeton."""
@@ -1595,6 +1652,124 @@ with tab8:
             st.success("✅ Watchlist sauvegardée sur GitHub. " + _watchlist_status[1])
         else:
             st.error("❌ Watchlist non sauvegardée sur GitHub. " + _watchlist_status[1])
+
+    # Listes automatiques indépendantes : balayage de tout l'univers du scanner.
+    st.divider()
+    st.subheader("🤖 Listes automatiques — seuil 80/100")
+    st.caption("Les actifs sont ajoutés à partir de 80/100 et retirés dès qu'une nouvelle analyse exploitable repasse sous 80. Les listes sont indépendantes de votre Watchlist manuelle.")
+    if "auto_signal_lists" not in st.session_state:
+        st.session_state.auto_signal_lists = load_auto_signal_lists()
+    st.session_state.auto_signal_lists.setdefault("15m", [])
+    st.session_state.auto_signal_lists.setdefault("1h", [])
+
+    auto_scan_enabled = st.toggle(
+        "⏱️ Activer le scanner automatique (15 min et 1 heure)",
+        value=True,
+        key="auto_signal_scan_enabled"
+    )
+    auto_scan_now = st.button("🔄 Lancer les deux analyses maintenant", key="auto_signal_scan_now", use_container_width=True)
+
+    if auto_scan_enabled:
+        auto_refresh_tick = st_autorefresh(
+            interval=15 * 60 * 1000,
+            limit=None,
+            key="auto_signal_scan_timer_15m"
+        )
+        st.caption("Le scanner vérifie les actifs toutes les 15 minutes ; l'analyse 1 heure est relancée toutes les heures. L'application doit rester ouverte.")
+    else:
+        auto_refresh_tick = 0
+
+    def _run_auto_signal_scan(label, period, interval, list_key):
+        old_rows = st.session_state.auto_signal_lists.get(list_key, [])
+        old_by_symbol = {str(row.get("Ticker")): row for row in old_rows if isinstance(row, dict) and row.get("Ticker")}
+        new_by_symbol = {}
+        unavailable_symbols = []
+        scan_progress = st.progress(0, text=f"Analyse automatique {label}...")
+        for scan_index, asset in enumerate(assets_db):
+            symbol = asset["symbol"]
+            try:
+                price, _, _, _, _, history = get_market_indicators(symbol, period=period, interval=interval)
+                if price is None or history is None or history.empty:
+                    unavailable_symbols.append(symbol)
+                else:
+                    opportunity = compute_opportunity_analysis(history, direction_mode="both_watch")
+                    if opportunity is None:
+                        unavailable_symbols.append(symbol)
+                    elif int(opportunity.get("score", 0)) >= 80:
+                        new_by_symbol[symbol] = {
+                            "Actif": asset["name"], "Ticker": symbol, "Cours": round(float(price), 6),
+                            "Opération": "ACHAT" if opportunity.get("side") == "LONG" else "VENTE",
+                            "Score": int(opportunity["score"]), "Signal": opportunity.get("signal", ""),
+                            "RSI": round(float(opportunity.get("rsi", 0)), 1),
+                            "Ratio R/R": round(float(opportunity.get("rr", 0)), 2),
+                            "Entrée": round(float(opportunity.get("entry", price)), 6),
+                            "Stop-loss": round(float(opportunity.get("sl", price)), 6),
+                            "Objectif CT": round(float(opportunity.get("tp_ct", price)), 6),
+                            "Mis à jour": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        }
+                # Un actif avec des données exploitables et un score inférieur à 80
+                # n'est volontairement pas recopié : il sort donc de la liste.
+            except Exception:
+                unavailable_symbols.append(symbol)
+            scan_progress.progress((scan_index + 1) / max(1, len(assets_db)), text=f"{label} : {scan_index + 1}/{len(assets_db)} actifs")
+        scan_progress.empty()
+
+        # Une panne de données n'est pas assimilée à un score faible : on conserve
+        # temporairement l'ancienne ligne jusqu'à la prochaine analyse exploitable.
+        for symbol in unavailable_symbols:
+            if symbol in old_by_symbol and symbol not in new_by_symbol:
+                new_by_symbol[symbol] = old_by_symbol[symbol]
+
+        updated_rows = sorted(new_by_symbol.values(), key=lambda row: int(row.get("Score", 0)), reverse=True)
+        previous_members = set(old_by_symbol)
+        updated_members = set(new_by_symbol)
+        st.session_state.auto_signal_lists[list_key] = updated_rows
+        st.session_state[f"auto_signal_last_run_{list_key}"] = datetime.now().isoformat(timespec="seconds")
+        return previous_members != updated_members, len(unavailable_symbols)
+
+    if auto_scan_enabled:
+        now_auto = datetime.now()
+        last_15m = st.session_state.get("auto_signal_last_run_15m")
+        last_1h = st.session_state.get("auto_signal_last_run_1h")
+        due_15m = not last_15m or (now_auto - datetime.fromisoformat(last_15m)).total_seconds() >= 15 * 60
+        due_1h = not last_1h or (now_auto - datetime.fromisoformat(last_1h)).total_seconds() >= 60 * 60
+    else:
+        due_15m = due_1h = False
+
+    if auto_scan_now or (auto_scan_enabled and (auto_refresh_tick > 0 or due_15m)):
+        if auto_refresh_tick > 0 or auto_scan_now:
+            get_market_indicators.clear()
+        changed_15m, unavailable_15m = _run_auto_signal_scan("15 minutes", "5d", "15m", "15m")
+        changed_1h = False
+        unavailable_1h = 0
+        if auto_scan_now or due_1h:
+            changed_1h, unavailable_1h = _run_auto_signal_scan("1 heure", "1mo", "1h", "1h")
+        if changed_15m or changed_1h:
+            if save_auto_signal_lists(st.session_state.auto_signal_lists):
+                st.success("Listes automatiques mises à jour et enregistrées sur GitHub.")
+            elif _virtual_github_token():
+                st.warning("Les listes ont été actualisées dans l'application, mais leur sauvegarde GitHub a échoué.")
+        if unavailable_15m or unavailable_1h:
+            st.caption(f"Données momentanément indisponibles : {unavailable_15m} en 15 min, {unavailable_1h} en 1 h. Les anciennes entrées concernées sont conservées.")
+
+    auto_list_tabs = st.tabs(["📋 Liste 15 minutes", "📋 Liste 1 heure"])
+    for auto_tab, list_key, timeframe_title in zip(auto_list_tabs, ("15m", "1h"), ("15 minutes", "1 heure")):
+        with auto_tab:
+            auto_rows = st.session_state.auto_signal_lists.get(list_key, [])
+            st.caption(f"{len(auto_rows)} actif(s) avec un score ≥ 80/100 · Dernière analyse : {st.session_state.get('auto_signal_last_run_' + list_key, 'en attente')}")
+            if auto_rows:
+                auto_df = pd.DataFrame(auto_rows)
+                def _auto_highlight(row):
+                    styles = pd.Series("", index=row.index)
+                    if int(row.get("Score", 0)) >= 80:
+                        bg = "#dcfce7" if str(row.get("Opération", "")).upper() == "ACHAT" else "#fee2e2"
+                        fg = "#166534" if str(row.get("Opération", "")).upper() == "ACHAT" else "#991b1b"
+                        styles["Opération"] = f"background-color: {bg}; color: {fg}; font-weight: bold;"
+                        styles["Score"] = f"background-color: {bg}; color: {fg}; font-weight: bold;"
+                    return styles
+                st.dataframe(auto_df.style.apply(_auto_highlight, axis=1), use_container_width=True, hide_index=True)
+            else:
+                st.info(f"Aucun actif ne dépasse actuellement 80/100 sur l'horizon {timeframe_title}.")
 
     watchlist_symbols = st.session_state.app_data.setdefault("watchlist", [])
     asset_by_symbol = {a["symbol"]: a for a in assets_db}
