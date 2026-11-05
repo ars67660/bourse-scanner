@@ -1,18 +1,18 @@
 {
   "15m": [
     {
-      "Actif": "Orange",
-      "Ticker": "ORA.PA",
-      "Cours": 15.38,
-      "Opération": "ACHAT",
-      "Score": 91,
-      "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 71.8,
+      "Actif": "Meta Platforms (META)",
+      "Ticker": "META",
+      "Cours": 605.530029,
+      "Opération": "VENTE",
+      "Score": 81,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 32.1,
       "Ratio R/R": 1.33,
-      "Entrée": 15.38,
-      "Stop-loss": 15.323215,
-      "Objectif CT": 15.455714,
-      "Mis à jour": "2026-11-05 16:15:08"
+      "Entrée": 605.530029,
+      "Stop-loss": 616.603784,
+      "Objectif CT": 590.765023,
+      "Mis à jour": "2026-11-05 16:21:13"
     }
   ],
   "1h": [
