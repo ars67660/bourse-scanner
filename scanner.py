@@ -2124,7 +2124,7 @@ with tab7:
             "Ouverte le": pos.get("opened_at", ""),
         })
 
-    realized = sum(float(t.get("pnl_eur", 0.0)) for t in vp.get("closed_trades", []))
+    realized = sum(float(t.get("pnl_eur", 0.0)) for t in vp.get("closed_trades", []) if t.get("currency", _vp_quote_currency(t.get("symbol"))) == "EUR")
     m1, m2, m3, m4 = st.columns(4)
     m1.metric("Capital initial", f"{float(vp.get('initial_capital', VIRTUAL_INITIAL_CAPITAL)):,.2f} €")
     m2.metric("Valeur estimée", f"{equity:,.2f} €", delta=f"{equity - float(vp.get('initial_capital', VIRTUAL_INITIAL_CAPITAL)):+,.2f} €")
