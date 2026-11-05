@@ -182,6 +182,7 @@ def save_watchlist_github(symbols):
     """Enregistre la Watchlist dans le dépôt privé/public via le jeton GitHub."""
     token = _virtual_github_token()
     if not token:
+        st.session_state["watchlist_save_status"] = ("error", "Secret GITHUB_TOKEN absent ou vide dans Streamlit.")
         return False
     try:
         url = f"https://api.github.com/repos/{VIRTUAL_GITHUB_REPO}/contents/{WATCHLIST_GITHUB_PATH}"
@@ -214,9 +215,23 @@ def save_watchlist_github(symbols):
             url, data=json.dumps(payload).encode("utf-8"), headers=headers, method="PUT"
         )
         with urllib.request.urlopen(request, timeout=15) as response:
-            return 200 <= response.status < 300
+            ok = 200 <= response.status < 300
+            st.session_state["watchlist_save_status"] = (
+                "success" if ok else "error",
+                f"GitHub a répondu avec le code HTTP {response.status}."
+            )
+            return ok
+    except urllib.error.HTTPError as exc:
+        # Ne jamais afficher les en-têtes ni le jeton; seulement le code et le motif.
+        reason = str(getattr(exc, "reason", "") or "Erreur HTTP")
+        st.session_state["watchlist_save_status"] = (
+            "error", f"GitHub refuse l'enregistrement (HTTP {exc.code} : {reason[:180]}). Vérifiez Contents → Read and write et l'accès au dépôt."
+        )
+        return False
     except Exception as exc:
-        st.warning(f"Échec de la sauvegarde distante de la Watchlist : {type(exc).__name__}")
+        st.session_state["watchlist_save_status"] = (
+            "error", f"Échec de connexion à GitHub ({type(exc).__name__}). Vérifiez les Secrets Streamlit et réessayez."
+        )
         return False
 
 
@@ -1562,6 +1577,12 @@ with tab2:
 with tab8:
     st.header("📋 Ma Watchlist — Screener personnel")
     st.info("Créez votre propre liste d'actifs, indépendante des favoris, puis relancez l'analyse technique quand vous le souhaitez.")
+    _watchlist_status = st.session_state.pop("watchlist_save_status", None)
+    if _watchlist_status:
+        if _watchlist_status[0] == "success":
+            st.success("✅ Watchlist sauvegardée sur GitHub. " + _watchlist_status[1])
+        else:
+            st.error("❌ Watchlist non sauvegardée sur GitHub. " + _watchlist_status[1])
 
     watchlist_symbols = st.session_state.app_data.setdefault("watchlist", [])
     asset_by_symbol = {a["symbol"]: a for a in assets_db}
@@ -1579,11 +1600,8 @@ with tab8:
             if symbol not in watchlist_symbols:
                 watchlist_symbols.append(symbol)
         st.session_state.app_data["watchlist"] = watchlist_symbols
-        if save_app_data(st.session_state.app_data):
-            if save_watchlist_github(st.session_state.app_data["watchlist"]):
-                st.success(f"{len(chosen_assets)} actif(s) ajouté(s) et sauvegardé(s) durablement.")
-            else:
-                st.warning("Liste enregistrée localement, mais pas sur GitHub. Ajoutez un secret GITHUB_TOKEN dans Streamlit pour activer la sauvegarde persistante.")
+        save_app_data(st.session_state.app_data)
+        save_watchlist_github(st.session_state.app_data["watchlist"])
         st.rerun()
 
     watchlist_symbols = st.session_state.app_data.get("watchlist", [])
@@ -1623,8 +1641,7 @@ with tab8:
             if st.button("🗑️ Retirer l'actif sélectionné", disabled=not bool(remove_symbol), use_container_width=True):
                 st.session_state.app_data["watchlist"].remove(remove_symbol)
                 save_app_data(st.session_state.app_data)
-                if not save_watchlist_github(st.session_state.app_data["watchlist"]):
-                    st.warning("Modification enregistrée localement, mais pas sur GitHub. Vérifiez le secret GITHUB_TOKEN dans Streamlit.")
+                save_watchlist_github(st.session_state.app_data["watchlist"])
                 st.rerun()
         with refresh_col:
             if st.button("🔄 Actualiser maintenant", type="primary", use_container_width=True):
