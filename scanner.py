@@ -162,7 +162,7 @@ def load_watchlist_github():
             return list(dict.fromkeys(str(x) for x in symbols if isinstance(x, (str, int))))
         except urllib.error.HTTPError as exc:
             if exc.code == 404:
-                return []
+                return None
         except Exception as exc:
             st.warning(f"Lecture de la Watchlist GitHub indisponible : {type(exc).__name__}")
 
