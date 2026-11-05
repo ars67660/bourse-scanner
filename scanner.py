@@ -146,7 +146,7 @@ AUTO_SIGNAL_GITHUB_PATH = "signaux_automatiques.json"
 
 
 def load_auto_signal_lists():
-    """Charge les listes automatiques 15 min / 1 h depuis GitHub public."""
+    """Charge les listes automatiques 15 min / 1 h / 1 jour depuis GitHub public."""
     try:
         url = f"https://raw.githubusercontent.com/{VIRTUAL_GITHUB_REPO}/{VIRTUAL_GITHUB_BRANCH}/{AUTO_SIGNAL_GITHUB_PATH}"
         request = urllib.request.Request(url, headers={"Cache-Control": "no-cache", "User-Agent": "bourse-scanner"})
@@ -156,10 +156,11 @@ def load_auto_signal_lists():
             return {
                 "15m": data.get("15m", []) if isinstance(data.get("15m", []), list) else [],
                 "1h": data.get("1h", []) if isinstance(data.get("1h", []), list) else [],
+                "1d": data.get("1d", []) if isinstance(data.get("1d", []), list) else [],
             }
     except Exception:
         pass
-    return {"15m": [], "1h": []}
+    return {"15m": [], "1h": [], "1d": []}
 
 
 def save_auto_signal_lists(lists_data):
@@ -184,7 +185,7 @@ def save_auto_signal_lists(lists_data):
             if exc.code != 404:
                 raise
         payload = {
-            "message": "Mettre à jour les listes automatiques 15 min et 1 h",
+            "message": "Mettre à jour les listes automatiques 15 min, 1 h et 1 jour",
             "content": base64.b64encode(json.dumps(lists_data, ensure_ascii=False, indent=2).encode("utf-8")).decode("ascii"),
             "branch": VIRTUAL_GITHUB_BRANCH,
         }
@@ -1668,7 +1669,7 @@ with tab8:
         value=True,
         key="auto_signal_scan_enabled"
     )
-    auto_scan_now = st.button("🔄 Lancer les deux analyses maintenant", key="auto_signal_scan_now", use_container_width=True)
+    auto_scan_now = st.button("🔄 Lancer les trois analyses maintenant", key="auto_signal_scan_now", use_container_width=True)
 
     if auto_scan_enabled:
         auto_refresh_tick = st_autorefresh(
