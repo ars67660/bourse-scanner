@@ -1,6 +1,7 @@
 {
   "symbols": [
     "EURUSD=X",
-    "^STOXX50E"
+    "^STOXX50E",
+    "ORA.PA"
   ]
 }
