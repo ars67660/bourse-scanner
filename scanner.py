@@ -1599,7 +1599,20 @@ with tab8:
             progress.empty()
             if rows:
                 df_watch = pd.DataFrame(rows).sort_values("Score retenu /100", ascending=False)
-                st.dataframe(df_watch, use_container_width=True, hide_index=True)
+
+                # Mettre en évidence les signaux forts (score strictement supérieur à 75)
+                def highlight_strong_signal(row):
+                    styles = pd.Series("", index=row.index)
+                    score = float(row.get("Score retenu /100", 0) or 0)
+                    operation = str(row.get("Opération", "")).upper()
+                    if score > 75:
+                        color = "#166534" if operation == "ACHAT" else "#991b1b"
+                        background = "#dcfce7" if operation == "ACHAT" else "#fee2e2"
+                        styles["Opération"] = f"background-color: {background}; color: {color}; font-weight: bold;"
+                        styles["Score retenu /100"] = f"background-color: {background}; color: {color}; font-weight: bold;"
+                    return styles
+
+                st.dataframe(df_watch.style.apply(highlight_strong_signal, axis=1), use_container_width=True, hide_index=True)
                 output_watch = io.BytesIO()
                 with pd.ExcelWriter(output_watch, engine="openpyxl") as writer:
                     df_watch.to_excel(writer, index=False, sheet_name="Ma Watchlist")
