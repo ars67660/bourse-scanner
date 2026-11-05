@@ -1839,6 +1839,8 @@ with tab7:
     st.caption("Réglages automatiques : 15 minutes · 50 positions maximum · score minimum 65 · risque théorique 1 % par position.")
 
     def _vp_mark_to_market(position, current_price):
+        if not _vp_is_eur_position(position):
+            return 0.0
         qty = float(position.get("qty", 0.0))
         entry = float(position.get("entry", 0.0))
         direction = position.get("side", "LONG")
@@ -2107,15 +2109,18 @@ with tab7:
                 price = float(live_price)
         except Exception:
             pass
-        pnl = (price - float(pos["entry"])) * float(pos["qty"]) if pos.get("side") == "LONG" else (float(pos["entry"]) - price) * float(pos["qty"])
+        currency = pos.get("currency", _vp_quote_currency(pos.get("symbol")))
+        is_eur = currency == "EUR"
+        pnl = ((price - float(pos["entry"])) * float(pos["qty"]) if pos.get("side") == "LONG" else (float(pos["entry"]) - price) * float(pos["qty"])) if is_eur else 0.0
         capital = float(pos.get("capital", float(pos["entry"]) * float(pos["qty"])))
-        equity += capital + pnl
-        unrealized += pnl
+        if is_eur:
+            equity += capital + pnl
+            unrealized += pnl
         vp_positions_table.append({
-            "Actif": pos.get("name", pos.get("symbol")), "Opération": ("Achat" if pos.get("side", "LONG") == "LONG" else "Vente"), "Score": pos.get("score"),
-            "Entrée (€ / unité)": round(float(pos["entry"]), 6), "Cours actuel": round(price, 6),
+            "Actif": pos.get("name", pos.get("symbol")), "Opération": ("Achat" if pos.get("side", "LONG") == "LONG" else "Vente"), "Devise": currency, "Score": pos.get("score"),
+            "Entrée (devise de cotation)": round(float(pos["entry"]), 6), "Cours actuel": round(price, 6),
             "Stop-loss": round(float(pos["sl"]), 6), "Take-profit court": round(float(pos["tp"]), 6),
-            "Quantité simulée": round(float(pos["qty"]), 6), "P&L latent (€)": round(pnl, 2),
+            "Quantité simulée": round(float(pos["qty"]), 6), "P&L latent (€)": round(pnl, 2) if is_eur else "Non valorisé",
             "Ouverte le": pos.get("opened_at", ""),
         })
 
