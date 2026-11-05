@@ -4,3 +4,4 @@ yfinance
 numpy
 matplotlib
 openpyxl
+streamlit-autorefresh
