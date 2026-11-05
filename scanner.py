@@ -1661,9 +1661,10 @@ with tab8:
         st.session_state.auto_signal_lists = load_auto_signal_lists()
     st.session_state.auto_signal_lists.setdefault("15m", [])
     st.session_state.auto_signal_lists.setdefault("1h", [])
+    st.session_state.auto_signal_lists.setdefault("1d", [])
 
     auto_scan_enabled = st.toggle(
-        "⏱️ Activer le scanner automatique (15 min et 1 heure)",
+        "⏱️ Activer le scanner automatique (15 min, 1 heure et 1 jour)",
         value=True,
         key="auto_signal_scan_enabled"
     )
@@ -1675,7 +1676,7 @@ with tab8:
             limit=None,
             key="auto_signal_scan_timer_15m"
         )
-        st.caption("Le scanner vérifie les actifs toutes les 15 minutes ; l'analyse 1 heure est relancée toutes les heures. L'application doit rester ouverte.")
+        st.caption("Analyses automatiques : 15 minutes, 1 heure et 1 jour. L'application doit rester ouverte.")
     else:
         auto_refresh_tick = 0
 
@@ -1731,10 +1732,12 @@ with tab8:
         now_auto = datetime.now()
         last_15m = st.session_state.get("auto_signal_last_run_15m")
         last_1h = st.session_state.get("auto_signal_last_run_1h")
+        last_1d = st.session_state.get("auto_signal_last_run_1d")
         due_15m = not last_15m or (now_auto - datetime.fromisoformat(last_15m)).total_seconds() >= 15 * 60
         due_1h = not last_1h or (now_auto - datetime.fromisoformat(last_1h)).total_seconds() >= 60 * 60
+        due_1d = not last_1d or (now_auto - datetime.fromisoformat(last_1d)).total_seconds() >= 24 * 60 * 60
     else:
-        due_15m = due_1h = False
+        due_15m = due_1h = due_1d = False
 
     if auto_scan_now or (auto_scan_enabled and (auto_refresh_tick > 0 or due_15m)):
         if auto_refresh_tick > 0 or auto_scan_now:
@@ -1742,18 +1745,22 @@ with tab8:
         changed_15m, unavailable_15m = _run_auto_signal_scan("15 minutes", "5d", "15m", "15m")
         changed_1h = False
         unavailable_1h = 0
+        changed_1d = False
+        unavailable_1d = 0
         if auto_scan_now or due_1h:
             changed_1h, unavailable_1h = _run_auto_signal_scan("1 heure", "1mo", "1h", "1h")
-        if changed_15m or changed_1h:
+        if auto_scan_now or due_1d:
+            changed_1d, unavailable_1d = _run_auto_signal_scan("1 jour", "2y", "1d", "1d")
+        if changed_15m or changed_1h or changed_1d:
             if save_auto_signal_lists(st.session_state.auto_signal_lists):
                 st.success("Listes automatiques mises à jour et enregistrées sur GitHub.")
             elif _virtual_github_token():
                 st.warning("Les listes ont été actualisées dans l'application, mais leur sauvegarde GitHub a échoué.")
-        if unavailable_15m or unavailable_1h:
-            st.caption(f"Données momentanément indisponibles : {unavailable_15m} en 15 min, {unavailable_1h} en 1 h. Les anciennes entrées concernées sont conservées.")
+        if unavailable_15m or unavailable_1h or unavailable_1d:
+            st.caption(f"Données momentanément indisponibles : {unavailable_15m} en 15 min, {unavailable_1h} en 1 h, {unavailable_1d} en 1 jour. Les anciennes entrées concernées sont conservées.")
 
-    auto_list_tabs = st.tabs(["📋 Liste 15 minutes", "📋 Liste 1 heure"])
-    for auto_tab, list_key, timeframe_title in zip(auto_list_tabs, ("15m", "1h"), ("15 minutes", "1 heure")):
+    auto_list_tabs = st.tabs(["📋 Liste 15 minutes", "📋 Liste 1 heure", "📋 Liste 1 jour"])
+    for auto_tab, list_key, timeframe_title in zip(auto_list_tabs, ("15m", "1h", "1d"), ("15 minutes", "1 heure", "1 jour")):
         with auto_tab:
             auto_rows = st.session_state.auto_signal_lists.get(list_key, [])
             st.caption(f"{len(auto_rows)} actif(s) avec un score > 80/100 · Dernière analyse : {st.session_state.get('auto_signal_last_run_' + list_key, 'en attente')}")
