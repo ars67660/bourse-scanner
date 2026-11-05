@@ -12,21 +12,49 @@
       "Entrée": 416.5,
       "Stop-loss": 419.189293,
       "Objectif CT": 412.914276,
-      "Mis à jour": "2026-11-05 20:42:29"
+      "Mis à jour": "2026-11-05 21:12:31"
     },
     {
       "Actif": "S&P 500",
       "Ticker": "^GSPC",
-      "Cours": 7367.839844,
+      "Cours": 7356.72998,
       "Opération": "VENTE",
       "Score": 84,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 34.5,
+      "RSI": 35.4,
       "Ratio R/R": 1.33,
-      "Entrée": 7367.839844,
-      "Stop-loss": 7412.347028,
-      "Objectif CT": 7308.496931,
-      "Mis à jour": "2026-11-05 20:42:30"
+      "Entrée": 7356.72998,
+      "Stop-loss": 7402.31393,
+      "Objectif CT": 7295.951381,
+      "Mis à jour": "2026-11-05 21:12:31"
+    },
+    {
+      "Actif": "Nasdaq 100",
+      "Ticker": "^NDX",
+      "Cours": 26647.855469,
+      "Opération": "VENTE",
+      "Score": 84,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 36.7,
+      "Ratio R/R": 1.33,
+      "Entrée": 26647.855469,
+      "Stop-loss": 26867.704032,
+      "Objectif CT": 26354.724051,
+      "Mis à jour": "2026-11-05 21:12:31"
+    },
+    {
+      "Actif": "Dow Jones",
+      "Ticker": "^DJI",
+      "Cours": 51524.128906,
+      "Opération": "VENTE",
+      "Score": 84,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 33.4,
+      "Ratio R/R": 1.33,
+      "Entrée": 51524.128906,
+      "Stop-loss": 51792.320452,
+      "Objectif CT": 51166.540179,
+      "Mis à jour": "2026-11-05 21:12:31"
     },
     {
       "Actif": "Orange",
@@ -40,10 +68,52 @@
       "Entrée": 15.33,
       "Stop-loss": 15.268929,
       "Objectif CT": 15.411428,
-      "Mis à jour": "2026-11-05 20:42:29"
+      "Mis à jour": "2026-11-05 21:12:31"
+    },
+    {
+      "Actif": "Microsoft (MSFT)",
+      "Ticker": "MSFT",
+      "Cours": 535.659973,
+      "Opération": "VENTE",
+      "Score": 81,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 36.8,
+      "Ratio R/R": 1.33,
+      "Entrée": 535.659973,
+      "Stop-loss": 539.909191,
+      "Objectif CT": 529.99435,
+      "Mis à jour": "2026-11-05 21:12:30"
     }
   ],
   "1h": [
+    {
+      "Actif": "S&P 500",
+      "Ticker": "^GSPC",
+      "Cours": 7356.72998,
+      "Opération": "VENTE",
+      "Score": 92,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 30.2,
+      "Ratio R/R": 1.33,
+      "Entrée": 7356.72998,
+      "Stop-loss": 7454.412197,
+      "Objectif CT": 7226.487026,
+      "Mis à jour": "2026-11-05 21:12:34"
+    },
+    {
+      "Actif": "Dow Jones",
+      "Ticker": "^DJI",
+      "Cours": 51524.128906,
+      "Opération": "VENTE",
+      "Score": 88,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 46.5,
+      "Ratio R/R": 1.33,
+      "Entrée": 51524.128906,
+      "Stop-loss": 52150.700753,
+      "Objectif CT": 50688.699777,
+      "Mis à jour": "2026-11-05 21:12:35"
+    },
     {
       "Actif": "Airbus",
       "Ticker": "AIR.PA",
@@ -56,7 +126,7 @@
       "Entrée": 198.399994,
       "Stop-loss": 195.527489,
       "Objectif CT": 202.23,
-      "Mis à jour": "2026-11-05 19:42:27"
+      "Mis à jour": "2026-11-05 21:12:33"
     },
     {
       "Actif": "BNP Paribas",
@@ -70,21 +140,21 @@
       "Entrée": 92.110001,
       "Stop-loss": 90.799645,
       "Objectif CT": 93.857142,
-      "Mis à jour": "2026-11-05 19:42:28"
+      "Mis à jour": "2026-11-05 21:12:34"
     },
     {
-      "Actif": "S&P 500",
-      "Ticker": "^GSPC",
-      "Cours": 7403.75,
+      "Actif": "Nasdaq 100",
+      "Ticker": "^NDX",
+      "Cours": 26647.855469,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 34.7,
+      "RSI": 25.8,
       "Ratio R/R": 1.33,
-      "Entrée": 7403.75,
-      "Stop-loss": 7496.018258,
-      "Objectif CT": 7280.725656,
-      "Mis à jour": "2026-11-05 19:42:28"
+      "Entrée": 26647.855469,
+      "Stop-loss": 27189.618931,
+      "Objectif CT": 25925.504185,
+      "Mis à jour": "2026-11-05 21:12:35"
     }
   ],
   "1d": []
