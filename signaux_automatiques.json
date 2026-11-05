@@ -1,18 +1,46 @@
 {
   "15m": [
     {
+      "Actif": "LVMH",
+      "Ticker": "MC.PA",
+      "Cours": 416.299988,
+      "Opération": "VENTE",
+      "Score": 95,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 42.3,
+      "Ratio R/R": 1.33,
+      "Entrée": 416.299988,
+      "Stop-loss": 418.989281,
+      "Objectif CT": 412.714264,
+      "Mis à jour": "2026-11-05 16:45:08"
+    },
+    {
+      "Actif": "Orange",
+      "Ticker": "ORA.PA",
+      "Cours": 15.325,
+      "Opération": "ACHAT",
+      "Score": 83,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 61.8,
+      "Ratio R/R": 1.33,
+      "Entrée": 15.325,
+      "Stop-loss": 15.263928,
+      "Objectif CT": 15.406428,
+      "Mis à jour": "2026-11-05 16:45:08"
+    },
+    {
       "Actif": "Meta Platforms (META)",
       "Ticker": "META",
-      "Cours": 605.530029,
+      "Cours": 605.590027,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 32.1,
+      "RSI": 32.6,
       "Ratio R/R": 1.33,
-      "Entrée": 605.530029,
-      "Stop-loss": 616.603784,
-      "Objectif CT": 590.765023,
-      "Mis à jour": "2026-11-05 16:21:13"
+      "Entrée": 605.590027,
+      "Stop-loss": 617.459813,
+      "Objectif CT": 589.763646,
+      "Mis à jour": "2026-11-05 16:45:07"
     }
   ],
   "1h": [
