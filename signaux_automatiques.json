@@ -1,74 +1,18 @@
 {
   "15m": [
     {
-      "Actif": "Cuivre (Copper)",
-      "Ticker": "HG=F",
-      "Cours": 6.289,
-      "Opération": "VENTE",
-      "Score": 92,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 25.8,
-      "Ratio R/R": 1.33,
-      "Entrée": 6.289,
-      "Stop-loss": 6.327571,
-      "Objectif CT": 6.237572,
-      "Mis à jour": "2026-11-05 16:06:25"
-    },
-    {
-      "Actif": "Argent (Silver)",
-      "Ticker": "SI=F",
-      "Cours": 51.900002,
-      "Opération": "VENTE",
-      "Score": 91,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 36.9,
-      "Ratio R/R": 1.33,
-      "Entrée": 51.900002,
-      "Stop-loss": 52.449108,
-      "Objectif CT": 51.167859,
-      "Mis à jour": "2026-11-05 16:06:25"
-    },
-    {
-      "Actif": "Or (XAU)",
-      "Ticker": "GC=F",
-      "Cours": 4099.5,
-      "Opération": "VENTE",
-      "Score": 84,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 31.9,
-      "Ratio R/R": 1.33,
-      "Entrée": 4099.5,
-      "Stop-loss": 4122.224906,
-      "Objectif CT": 4069.200126,
-      "Mis à jour": "2026-11-05 16:06:25"
-    },
-    {
       "Actif": "Orange",
       "Ticker": "ORA.PA",
-      "Cours": 15.34,
+      "Cours": 15.38,
       "Opération": "ACHAT",
-      "Score": 83,
+      "Score": 91,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 67.2,
+      "RSI": 71.8,
       "Ratio R/R": 1.33,
-      "Entrée": 15.34,
-      "Stop-loss": 15.285357,
-      "Objectif CT": 15.412857,
-      "Mis à jour": "2026-11-05 16:06:24"
-    },
-    {
-      "Actif": "LVMH",
-      "Ticker": "MC.PA",
-      "Cours": 415.100006,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 45.1,
-      "Ratio R/R": 1.33,
-      "Entrée": 415.100006,
-      "Stop-loss": 417.435729,
-      "Objectif CT": 411.985709,
-      "Mis à jour": "2026-11-05 16:06:24"
+      "Entrée": 15.38,
+      "Stop-loss": 15.323215,
+      "Objectif CT": 15.455714,
+      "Mis à jour": "2026-11-05 16:15:08"
     }
   ],
   "1h": [
