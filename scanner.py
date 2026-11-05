@@ -193,6 +193,7 @@ def save_watchlist_github(symbols):
             "User-Agent": "bourse-scanner-watchlist",
         }
         current = None
+        stage = "lecture du fichier watchlist.json"
         get_request = urllib.request.Request(url, headers=headers, method="GET")
         try:
             with urllib.request.urlopen(get_request, timeout=10) as response:
@@ -211,6 +212,7 @@ def save_watchlist_github(symbols):
         }
         if current and current.get("sha"):
             payload["sha"] = current["sha"]
+        stage = "écriture du fichier watchlist.json"
         request = urllib.request.Request(
             url, data=json.dumps(payload).encode("utf-8"), headers=headers, method="PUT"
         )
@@ -222,10 +224,20 @@ def save_watchlist_github(symbols):
             )
             return ok
     except urllib.error.HTTPError as exc:
-        # Ne jamais afficher les en-têtes ni le jeton; seulement le code et le motif.
+        # Le corps JSON de GitHub précise souvent la cause (droits, SSO, règles du dépôt).
+        # Ne jamais afficher les en-têtes ni le jeton.
+        try:
+            body = exc.read().decode("utf-8", errors="replace")
+            detail_data = json.loads(body) if body else {}
+            detail = str(detail_data.get("message") or body or "")
+        except Exception:
+            detail = ""
+        detail = " ".join(detail.split())[:300]
         reason = str(getattr(exc, "reason", "") or "Erreur HTTP")
+        phase = locals().get("stage", "connexion à l'API GitHub")
+        extra = f" Détail GitHub : {detail}" if detail else ""
         st.session_state["watchlist_save_status"] = (
-            "error", f"GitHub refuse l'enregistrement (HTTP {exc.code} : {reason[:180]}). Vérifiez Contents → Read and write et l'accès au dépôt."
+            "error", f"GitHub refuse {phase} (HTTP {exc.code} : {reason[:100]}).{extra} Vérifiez le jeton, le dépôt sélectionné et Contents → Read and write."
         )
         return False
     except Exception as exc:
