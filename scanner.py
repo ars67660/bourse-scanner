@@ -1517,11 +1517,13 @@ with tab8:
                 disabled=not auto_refresh_enabled
             )
         if auto_refresh_enabled:
-            st_autorefresh(
+            auto_refresh_count = st_autorefresh(
                 interval=int(auto_refresh_minutes) * 60 * 1000,
                 limit=None,
                 key="watchlist_auto_refresh_timer"
             )
+            if auto_refresh_count and auto_refresh_count > 0:
+                get_market_indicators.clear()
             st.caption("L'actualisation automatique fonctionne tant que l'application reste ouverte dans votre navigateur.")
 
         remove_col, refresh_col = st.columns(2)
