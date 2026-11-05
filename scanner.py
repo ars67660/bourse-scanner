@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_autorefresh import st_autorefresh
 import pandas as pd
 import yfinance as yf
 import json
@@ -1501,7 +1502,28 @@ with tab8:
 
     watchlist_symbols = st.session_state.app_data.get("watchlist", [])
     st.caption(f"{len(watchlist_symbols)} actif(s) dans votre liste personnelle.")
+
     if watchlist_symbols:
+        auto_col1, auto_col2 = st.columns([1, 2])
+        with auto_col1:
+            auto_refresh_enabled = st.toggle("🔁 Actualisation automatique", value=False, key="watchlist_auto_refresh")
+        with auto_col2:
+            auto_refresh_minutes = st.selectbox(
+                "Fréquence d'actualisation",
+                options=[5, 10, 15, 30, 60],
+                index=2,
+                format_func=lambda minutes: f"Toutes les {minutes} minutes",
+                key="watchlist_auto_refresh_minutes",
+                disabled=not auto_refresh_enabled
+            )
+        if auto_refresh_enabled:
+            st_autorefresh(
+                interval=int(auto_refresh_minutes) * 60 * 1000,
+                limit=None,
+                key="watchlist_auto_refresh_timer"
+            )
+            st.caption("L'actualisation automatique fonctionne tant que l'application reste ouverte dans votre navigateur.")
+
         remove_col, refresh_col = st.columns(2)
         with remove_col:
             remove_symbol = st.selectbox(
@@ -1515,8 +1537,9 @@ with tab8:
                 save_app_data(st.session_state.app_data)
                 st.rerun()
         with refresh_col:
-            if st.button("🔄 Actualiser ma Watchlist", type="primary", use_container_width=True):
+            if st.button("🔄 Actualiser maintenant", type="primary", use_container_width=True):
                 get_market_indicators.clear()
+                st.session_state.watchlist_force_refresh = True
                 st.rerun()
 
         with st.form("watchlist_analysis_form"):
