@@ -1695,7 +1695,7 @@ with tab8:
                     opportunity = compute_opportunity_analysis(history, direction_mode="both_watch")
                     if opportunity is None:
                         unavailable_symbols.append(symbol)
-                    elif int(opportunity.get("score", 0)) >= 80:
+                    elif int(opportunity.get("score", 0)) > 80:
                         new_by_symbol[symbol] = {
                             "Actif": asset["name"], "Ticker": symbol, "Cours": round(float(price), 6),
                             "Opération": "ACHAT" if opportunity.get("side") == "LONG" else "VENTE",
@@ -1756,12 +1756,12 @@ with tab8:
     for auto_tab, list_key, timeframe_title in zip(auto_list_tabs, ("15m", "1h"), ("15 minutes", "1 heure")):
         with auto_tab:
             auto_rows = st.session_state.auto_signal_lists.get(list_key, [])
-            st.caption(f"{len(auto_rows)} actif(s) avec un score ≥ 80/100 · Dernière analyse : {st.session_state.get('auto_signal_last_run_' + list_key, 'en attente')}")
+            st.caption(f"{len(auto_rows)} actif(s) avec un score > 80/100 · Dernière analyse : {st.session_state.get('auto_signal_last_run_' + list_key, 'en attente')}")
             if auto_rows:
                 auto_df = pd.DataFrame(auto_rows)
                 def _auto_highlight(row):
                     styles = pd.Series("", index=row.index)
-                    if int(row.get("Score", 0)) >= 80:
+                    if int(row.get("Score", 0)) > 80:
                         bg = "#dcfce7" if str(row.get("Opération", "")).upper() == "ACHAT" else "#fee2e2"
                         fg = "#166534" if str(row.get("Opération", "")).upper() == "ACHAT" else "#991b1b"
                         styles["Opération"] = f"background-color: {bg}; color: {fg}; font-weight: bold;"
