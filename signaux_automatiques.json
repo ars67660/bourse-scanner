@@ -12,7 +12,7 @@
       "Entrée": 416.5,
       "Stop-loss": 419.189293,
       "Objectif CT": 412.914276,
-      "Mis à jour": "2026-11-05 22:12:35"
+      "Mis à jour": "2026-11-05 22:42:38"
     },
     {
       "Actif": "S&P 500",
@@ -26,7 +26,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7402.31393,
       "Objectif CT": 7295.951381,
-      "Mis à jour": "2026-11-05 22:12:36"
+      "Mis à jour": "2026-11-05 22:42:38"
     },
     {
       "Actif": "Nasdaq 100",
@@ -40,7 +40,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 26867.704032,
       "Objectif CT": 26354.724051,
-      "Mis à jour": "2026-11-05 22:12:36"
+      "Mis à jour": "2026-11-05 22:42:38"
     },
     {
       "Actif": "Dow Jones",
@@ -54,7 +54,21 @@
       "Entrée": 51524.128906,
       "Stop-loss": 51792.320452,
       "Objectif CT": 51166.540179,
-      "Mis à jour": "2026-11-05 22:12:36"
+      "Mis à jour": "2026-11-05 22:42:38"
+    },
+    {
+      "Actif": "Ethereum (ETH)",
+      "Ticker": "ETH-USD",
+      "Cours": 2231.370117,
+      "Opération": "VENTE",
+      "Score": 84,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 35.0,
+      "Ratio R/R": 1.33,
+      "Entrée": 2231.370117,
+      "Stop-loss": 2249.753645,
+      "Objectif CT": 2206.858747,
+      "Mis à jour": "2026-11-05 22:42:38"
     },
     {
       "Actif": "Orange",
@@ -68,21 +82,35 @@
       "Entrée": 15.33,
       "Stop-loss": 15.268929,
       "Objectif CT": 15.411428,
-      "Mis à jour": "2026-11-05 22:12:35"
+      "Mis à jour": "2026-11-05 22:42:38"
     },
     {
       "Actif": "GBP/USD",
       "Ticker": "GBPUSD=X",
-      "Cours": 1.345334,
+      "Cours": 1.344827,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 36.2,
+      "RSI": 33.5,
       "Ratio R/R": 1.33,
-      "Entrée": 1.345334,
-      "Stop-loss": 1.346135,
-      "Objectif CT": 1.344266,
-      "Mis à jour": "2026-11-05 22:12:34"
+      "Entrée": 1.344827,
+      "Stop-loss": 1.345628,
+      "Objectif CT": 1.343759,
+      "Mis à jour": "2026-11-05 22:42:37"
+    },
+    {
+      "Actif": "EUR/CHF",
+      "Ticker": "EURCHF=X",
+      "Cours": 0.91502,
+      "Opération": "VENTE",
+      "Score": 81,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 38.5,
+      "Ratio R/R": 1.33,
+      "Entrée": 0.91502,
+      "Stop-loss": 0.916331,
+      "Objectif CT": 0.913271,
+      "Mis à jour": "2026-11-05 22:42:37"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -96,7 +124,7 @@
       "Entrée": 535.659973,
       "Stop-loss": 539.909191,
       "Objectif CT": 529.99435,
-      "Mis à jour": "2026-11-05 22:12:35"
+      "Mis à jour": "2026-11-05 22:42:37"
     },
     {
       "Actif": "Cuivre (Copper)",
@@ -110,7 +138,7 @@
       "Entrée": 6.213,
       "Stop-loss": 6.244607,
       "Objectif CT": 6.170857,
-      "Mis à jour": "2026-11-05 22:12:36"
+      "Mis à jour": "2026-11-05 22:42:39"
     }
   ],
   "1h": [
@@ -126,7 +154,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7454.412197,
       "Objectif CT": 7226.487026,
-      "Mis à jour": "2026-11-05 21:12:34"
+      "Mis à jour": "2026-11-05 22:42:41"
     },
     {
       "Actif": "Dow Jones",
@@ -140,7 +168,7 @@
       "Entrée": 51524.128906,
       "Stop-loss": 52150.700753,
       "Objectif CT": 50688.699777,
-      "Mis à jour": "2026-11-05 21:12:35"
+      "Mis à jour": "2026-11-05 22:42:42"
     },
     {
       "Actif": "Airbus",
@@ -154,7 +182,7 @@
       "Entrée": 198.399994,
       "Stop-loss": 195.527489,
       "Objectif CT": 202.23,
-      "Mis à jour": "2026-11-05 21:12:33"
+      "Mis à jour": "2026-11-05 22:42:40"
     },
     {
       "Actif": "BNP Paribas",
@@ -168,7 +196,7 @@
       "Entrée": 92.110001,
       "Stop-loss": 90.799645,
       "Objectif CT": 93.857142,
-      "Mis à jour": "2026-11-05 21:12:34"
+      "Mis à jour": "2026-11-05 22:42:41"
     },
     {
       "Actif": "Nasdaq 100",
@@ -182,7 +210,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 27189.618931,
       "Objectif CT": 25925.504185,
-      "Mis à jour": "2026-11-05 21:12:35"
+      "Mis à jour": "2026-11-05 22:42:41"
     }
   ],
   "1d": []
