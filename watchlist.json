@@ -3,6 +3,7 @@
     "EURUSD=X",
     "^STOXX50E",
     "ORA.PA",
-    "TTE.PA"
+    "TTE.PA",
+    "MC.PA"
   ]
 }
