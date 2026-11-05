@@ -1557,8 +1557,11 @@ with tab8:
                     if opportunity is not None and opportunity["score"] >= int(cfg.get("min_score", 0)):
                         rows.append({
                             "Actif": asset["name"], "Ticker": symbol, "Cours": round(float(price), 5),
+                            "Opération": "ACHAT" if opportunity.get("side") == "LONG" else "VENTE",
                             "Signal": opportunity["signal"], "Direction": opportunity.get("side", ""),
-                            "Score /100": opportunity["score"], "Entrée indicative": round(opportunity["entry"], 5),
+                            "Score Achat": opportunity.get("long_score", 0),
+                            "Score Vente": opportunity.get("short_score", 0),
+                            "Score retenu /100": opportunity["score"], "Entrée indicative": round(opportunity["entry"], 5),
                             "Stop-loss": round(opportunity["sl"], 5), "Objectif CT": round(opportunity["tp_ct"], 5),
                             "Objectif LT": round(opportunity["tp_lt"], 5), "RSI": round(opportunity["rsi"], 1),
                             "Ratio R/R": round(opportunity.get("rr", 0), 2)
@@ -1570,7 +1573,7 @@ with tab8:
                 progress.progress((index + 1) / max(1, len(watchlist_symbols)), text=f"Analyse : {index + 1}/{len(watchlist_symbols)}")
             progress.empty()
             if rows:
-                df_watch = pd.DataFrame(rows).sort_values("Score /100", ascending=False)
+                df_watch = pd.DataFrame(rows).sort_values("Score retenu /100", ascending=False)
                 st.dataframe(df_watch, use_container_width=True, hide_index=True)
                 output_watch = io.BytesIO()
                 with pd.ExcelWriter(output_watch, engine="openpyxl") as writer:
