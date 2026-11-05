@@ -1810,6 +1810,7 @@ with tab7:
         st.rerun()
     vp = st.session_state.virtual_portfolio
     st.info("Le portefeuille est sauvegardé automatiquement dans le dépôt. Le calcul se lance toutes les 15 minutes, même si cette page est fermée. Aucun ordre réel n'est envoyé.")
+    st.warning("Le portefeuille est en euros : seuls les actifs cotés en EUR sont désormais proposés à l'achat et aux nouveaux signaux automatiques. Les anciennes positions en devise étrangère ou inconnue sont conservées, mais leurs opérations automatiques et ventes manuelles sont suspendues faute de conversion FX fiable.")
     if not _virtual_github_token():
         st.caption("Mode simple : lecture en ligne sans configuration. Les cycles et sauvegardes sont gérés automatiquement; les commandes manuelles sont désactivées.")
 
@@ -1819,6 +1820,22 @@ with tab7:
     vp_max_positions = 50
     vp_min_score = 65
     vp_risk_pct = 1.0
+
+    # Le portefeuille est libellé en EUR : aucune conversion FX n'est actuellement intégrée.
+    def _vp_quote_currency(symbol):
+        symbol = str(symbol or "")
+        if symbol.endswith(".PA") or symbol in {"^FCHI", "^GDAXI", "^STOXX50E"}:
+            return "EUR"
+        if symbol.endswith("-USD") or symbol.endswith("=F"):
+            return "USD"
+        if symbol.endswith("=X"):
+            return symbol[-5:-2]
+        if symbol in {"AAPL", "NVDA", "TSLA", "MSFT", "AMZN", "GOOGL", "META", "NFLX", "AMD", "^GSPC", "^NDX", "^DJI"}:
+            return "USD"
+        return "UNKNOWN"
+
+    def _vp_is_eur_position(position):
+        return position.get("currency", _vp_quote_currency(position.get("symbol"))) == "EUR"
     st.caption("Réglages automatiques : 15 minutes · 50 positions maximum · score minimum 65 · risque théorique 1 % par position.")
 
     def _vp_mark_to_market(position, current_price):
@@ -1854,6 +1871,10 @@ with tab7:
         closed_count = 0
         for pos in vp.get("positions", []):
             symbol = pos.get("symbol")
+            # Conserver sans les modifier les anciennes positions non libellées en EUR.
+            if not _vp_is_eur_position(pos):
+                remaining_positions.append(pos)
+                continue
             cached = market_cache.get(symbol)
             if cached is None:
                 remaining_positions.append(pos)
@@ -1893,6 +1914,8 @@ with tab7:
         # Cherche les meilleurs nouveaux signaux sur la base de l'horizon choisi.
         candidates = []
         for asset in assets_db:
+            if _vp_quote_currency(asset["symbol"]) != "EUR":
+                continue
             if asset["symbol"] not in market_cache:
                 px, _, _, _, _, hist = get_market_indicators(asset["symbol"], period=vp_period, interval=vp_interval)
                 market_cache[asset["symbol"]] = (asset, px, hist)
@@ -1949,7 +1972,7 @@ with tab7:
             vp["cash"] = float(vp.get("cash", 0.0)) - capital
             vp["positions"].append({
                 "name": asset["name"], "symbol": symbol, "side": opp["side"], "score": int(opp["score"]),
-                "entry": entry, "last_price": entry, "sl": sl, "tp": tp,
+                "entry": entry, "last_price": entry, "currency": "EUR", "sl": sl, "tp": tp,
                 "tp_long": float(opp["tp_lt"]), "qty": qty, "capital": capital,
                 "opened_at": datetime.now().isoformat(timespec="seconds"), "timeframe": vp_timeframe,
             })
@@ -1973,7 +1996,7 @@ with tab7:
     buy_col, sell_col = st.columns(2)
     with buy_col:
         st.markdown("#### Acheter une position")
-        asset_choices = list(assets_db)
+        asset_choices = [a for a in assets_db if _vp_quote_currency(a["symbol"]) == "EUR"]
         if asset_choices:
             asset_labels = {f"{a.get('name', a['symbol'])} ({a['symbol']})": a for a in asset_choices}
             with st.form("vp_manual_buy_form"):
@@ -1997,7 +2020,7 @@ with tab7:
                             vp["cash"] = float(vp.get("cash", 0.0)) - cost
                             vp.setdefault("positions", []).append({
                                 "name": asset.get("name", symbol), "symbol": symbol, "side": "LONG", "score": 0,
-                                "entry": current_price, "last_price": current_price,
+                                "entry": current_price, "last_price": current_price, "currency": "EUR",
                                 "sl": current_price * 0.92, "tp": current_price * 1.16,
                                 "tp_long": current_price * 1.16, "qty": float(buy_qty), "capital": cost,
                                 "opened_at": now, "timeframe": "Manuel", "source": "manual",
@@ -2032,7 +2055,9 @@ with tab7:
                 quantity = float(sell_qty)
                 try:
                     current_price, _, _, _, _, _ = get_market_indicators(position["symbol"], period=vp_period, interval=vp_interval)
-                    if current_price is None or not np.isfinite(current_price) or float(current_price) <= 0:
+                    if not _vp_is_eur_position(position):
+                        st.error(f"Vente suspendue pour {position['symbol']} : devise de cotation non EUR ou inconnue. La position est conservée sans modification.")
+                    elif current_price is None or not np.isfinite(current_price) or float(current_price) <= 0:
                         st.error(f"Impossible de récupérer un cours valide pour {position['symbol']}.")
                     elif quantity <= 0 or quantity > available_qty + 1e-9:
                         st.error("La quantité à vendre est invalide.")
