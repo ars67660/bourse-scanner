@@ -1,6 +1,6 @@
 {
   "initial_capital": 10000.0,
-  "cash": 6000.0,
+  "cash": 4400.0,
   "positions": [
     {
       "name": "LVMH",
@@ -45,8 +45,8 @@
       "sl": 199.9407070704869,
       "tp": 196.34570966448103,
       "tp_long": 195.31856754847936,
-      "qty": 4.032258188563261,
-      "capital": 800.0000000000001,
+      "qty": 4.03225818856326,
+      "capital": 800.0,
       "opened_at": "2026-11-05T17:12:42",
       "timeframe": "15 minutes"
     },
@@ -81,8 +81,38 @@
       "capital": 800.0,
       "opened_at": "2026-11-05T17:12:42",
       "timeframe": "15 minutes"
+    },
+    {
+      "name": "Alphabet / Google (GOOGL)",
+      "symbol": "GOOGL",
+      "side": "SHORT",
+      "score": 77,
+      "entry": 284.8290100097656,
+      "last_price": 284.8290100097656,
+      "sl": 289.52802603585377,
+      "tp": 278.5636553083147,
+      "tp_long": 275.4309779575893,
+      "qty": 2.8087026668125246,
+      "capital": 800.0,
+      "opened_at": "2026-11-05T17:41:24+00:00",
+      "timeframe": "15 minutes"
+    },
+    {
+      "name": "Apple (AAPL)",
+      "symbol": "AAPL",
+      "side": "SHORT",
+      "score": 76,
+      "entry": 343.6300048828125,
+      "last_price": 343.6300048828125,
+      "sl": 347.35618482317244,
+      "tp": 338.6617649623326,
+      "tp_long": 336.1776450020926,
+      "qty": 2.328085407654732,
+      "capital": 800.0000000000001,
+      "opened_at": "2026-11-05T17:41:24+00:00",
+      "timeframe": "15 minutes"
     }
   ],
   "closed_trades": [],
-  "last_cycle": "2026-11-05T17:12:42"
+  "last_cycle": "2026-11-05T17:41:24+00:00"
 }
