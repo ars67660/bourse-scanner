@@ -140,6 +140,86 @@ def save_virtual_portfolio(portfolio):
         st.error(f"Échec de sauvegarde du portefeuille virtuel : {type(exc).__name__}")
         return False
 
+WATCHLIST_GITHUB_PATH = "watchlist.json"
+
+
+def load_watchlist_github():
+    """Charge la Watchlist depuis GitHub; lecture publique possible sans jeton."""
+    token = _virtual_github_token()
+    if token:
+        try:
+            url = f"https://api.github.com/repos/{VIRTUAL_GITHUB_REPO}/contents/{WATCHLIST_GITHUB_PATH}"
+            request = urllib.request.Request(url, headers={
+                "Accept": "application/vnd.github+json",
+                "Authorization": f"Bearer {token}",
+                "X-GitHub-Api-Version": "2022-11-28",
+                "User-Agent": "bourse-scanner-watchlist",
+                "Cache-Control": "no-cache",
+            })
+            with urllib.request.urlopen(request, timeout=10) as response:
+                remote = json.loads(response.read().decode("utf-8"))
+            symbols = json.loads(base64.b64decode(remote.get("content", "")).decode("utf-8")).get("symbols", [])
+            return list(dict.fromkeys(str(x) for x in symbols if isinstance(x, (str, int))))
+        except urllib.error.HTTPError as exc:
+            if exc.code == 404:
+                return []
+        except Exception as exc:
+            st.warning(f"Lecture de la Watchlist GitHub indisponible : {type(exc).__name__}")
+
+    # Lecture de secours publique si le fichier existe déjà.
+    try:
+        url = f"https://raw.githubusercontent.com/{VIRTUAL_GITHUB_REPO}/{VIRTUAL_GITHUB_BRANCH}/{WATCHLIST_GITHUB_PATH}"
+        request = urllib.request.Request(url, headers={"Cache-Control": "no-cache", "User-Agent": "bourse-scanner"})
+        with urllib.request.urlopen(request, timeout=8) as response:
+            data = json.loads(response.read().decode("utf-8"))
+        symbols = data.get("symbols", []) if isinstance(data, dict) else []
+        return list(dict.fromkeys(str(x) for x in symbols if isinstance(x, (str, int))))
+    except Exception:
+        return None
+
+
+def save_watchlist_github(symbols):
+    """Enregistre la Watchlist dans le dépôt privé/public via le jeton GitHub."""
+    token = _virtual_github_token()
+    if not token:
+        return False
+    try:
+        url = f"https://api.github.com/repos/{VIRTUAL_GITHUB_REPO}/contents/{WATCHLIST_GITHUB_PATH}"
+        headers = {
+            "Accept": "application/vnd.github+json",
+            "Authorization": f"Bearer {token}",
+            "X-GitHub-Api-Version": "2022-11-28",
+            "User-Agent": "bourse-scanner-watchlist",
+        }
+        current = None
+        get_request = urllib.request.Request(url, headers=headers, method="GET")
+        try:
+            with urllib.request.urlopen(get_request, timeout=10) as response:
+                current = json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            if exc.code != 404:
+                raise
+
+        payload = {
+            "message": "Sauvegarder la Watchlist",
+            "content": base64.b64encode(json.dumps(
+                {"symbols": list(dict.fromkeys(str(x) for x in symbols))},
+                ensure_ascii=False, indent=2
+            ).encode("utf-8")).decode("ascii"),
+            "branch": VIRTUAL_GITHUB_BRANCH,
+        }
+        if current and current.get("sha"):
+            payload["sha"] = current["sha"]
+        request = urllib.request.Request(
+            url, data=json.dumps(payload).encode("utf-8"), headers=headers, method="PUT"
+        )
+        with urllib.request.urlopen(request, timeout=15) as response:
+            return 200 <= response.status < 300
+    except Exception as exc:
+        st.warning(f"Échec de la sauvegarde distante de la Watchlist : {type(exc).__name__}")
+        return False
+
+
 def load_saved_api_keys():
     """Charge les clés API enregistrées localement, si le fichier existe."""
     try:
@@ -276,6 +356,9 @@ def save_app_data(app_data):
 
 if "app_data" not in st.session_state:
     st.session_state.app_data = load_app_data()
+    remote_watchlist = load_watchlist_github()
+    if remote_watchlist is not None:
+        st.session_state.app_data["watchlist"] = remote_watchlist
 
 # --- Menu de configuration des fournisseurs de données ---
 _PROVIDER_DEFAULTS = {
@@ -1497,7 +1580,10 @@ with tab8:
                 watchlist_symbols.append(symbol)
         st.session_state.app_data["watchlist"] = watchlist_symbols
         if save_app_data(st.session_state.app_data):
-            st.success(f"{len(chosen_assets)} actif(s) ajouté(s) à votre Watchlist.")
+            if save_watchlist_github(st.session_state.app_data["watchlist"]):
+                st.success(f"{len(chosen_assets)} actif(s) ajouté(s) et sauvegardé(s) durablement.")
+            else:
+                st.warning("Liste enregistrée localement, mais pas sur GitHub. Ajoutez un secret GITHUB_TOKEN dans Streamlit pour activer la sauvegarde persistante.")
         st.rerun()
 
     watchlist_symbols = st.session_state.app_data.get("watchlist", [])
@@ -1537,6 +1623,8 @@ with tab8:
             if st.button("🗑️ Retirer l'actif sélectionné", disabled=not bool(remove_symbol), use_container_width=True):
                 st.session_state.app_data["watchlist"].remove(remove_symbol)
                 save_app_data(st.session_state.app_data)
+                if not save_watchlist_github(st.session_state.app_data["watchlist"]):
+                    st.warning("Modification enregistrée localement, mais pas sur GitHub. Vérifiez le secret GITHUB_TOKEN dans Streamlit.")
                 st.rerun()
         with refresh_col:
             if st.button("🔄 Actualiser maintenant", type="primary", use_container_width=True):
