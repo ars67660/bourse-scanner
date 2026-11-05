@@ -1,5 +1,6 @@
 {
   "symbols": [
-    "EURUSD=X"
+    "EURUSD=X",
+    "^STOXX50E"
   ]
 }
