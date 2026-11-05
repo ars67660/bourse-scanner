@@ -12,7 +12,7 @@
       "Entrée": 416.5,
       "Stop-loss": 419.189293,
       "Objectif CT": 412.914276,
-      "Mis à jour": "2026-11-05 17:11:32"
+      "Mis à jour": "2026-11-05 17:28:15"
     },
     {
       "Actif": "Orange",
@@ -26,21 +26,7 @@
       "Entrée": 15.33,
       "Stop-loss": 15.268929,
       "Objectif CT": 15.411428,
-      "Mis à jour": "2026-11-05 17:11:33"
-    },
-    {
-      "Actif": "Meta Platforms (META)",
-      "Ticker": "META",
-      "Cours": 607.140015,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 32.4,
-      "Ratio R/R": 1.33,
-      "Entrée": 607.140015,
-      "Stop-loss": 619.557319,
-      "Objectif CT": 590.583609,
-      "Mis à jour": "2026-11-05 17:11:32"
+      "Mis à jour": "2026-11-05 17:28:15"
     }
   ],
   "1h": [
