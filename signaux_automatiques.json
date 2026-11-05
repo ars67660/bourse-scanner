@@ -12,7 +12,7 @@
       "Entrée": 416.5,
       "Stop-loss": 419.189293,
       "Objectif CT": 412.914276,
-      "Mis à jour": "2026-11-05 22:42:38"
+      "Mis à jour": "2026-11-05 23:12:38"
     },
     {
       "Actif": "S&P 500",
@@ -26,7 +26,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7402.31393,
       "Objectif CT": 7295.951381,
-      "Mis à jour": "2026-11-05 22:42:38"
+      "Mis à jour": "2026-11-05 23:12:38"
     },
     {
       "Actif": "Nasdaq 100",
@@ -40,7 +40,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 26867.704032,
       "Objectif CT": 26354.724051,
-      "Mis à jour": "2026-11-05 22:42:38"
+      "Mis à jour": "2026-11-05 23:12:38"
     },
     {
       "Actif": "Dow Jones",
@@ -54,21 +54,21 @@
       "Entrée": 51524.128906,
       "Stop-loss": 51792.320452,
       "Objectif CT": 51166.540179,
-      "Mis à jour": "2026-11-05 22:42:38"
+      "Mis à jour": "2026-11-05 23:12:38"
     },
     {
-      "Actif": "Ethereum (ETH)",
-      "Ticker": "ETH-USD",
-      "Cours": 2231.370117,
+      "Actif": "XRP",
+      "Ticker": "XRP-USD",
+      "Cours": 1.2024,
       "Opération": "VENTE",
       "Score": 84,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 35.0,
+      "RSI": 12.8,
       "Ratio R/R": 1.33,
-      "Entrée": 2231.370117,
-      "Stop-loss": 2249.753645,
-      "Objectif CT": 2206.858747,
-      "Mis à jour": "2026-11-05 22:42:38"
+      "Entrée": 1.2024,
+      "Stop-loss": 1.212654,
+      "Objectif CT": 1.188729,
+      "Mis à jour": "2026-11-05 23:12:39"
     },
     {
       "Actif": "Orange",
@@ -82,35 +82,21 @@
       "Entrée": 15.33,
       "Stop-loss": 15.268929,
       "Objectif CT": 15.411428,
-      "Mis à jour": "2026-11-05 22:42:38"
+      "Mis à jour": "2026-11-05 23:12:38"
     },
     {
-      "Actif": "GBP/USD",
-      "Ticker": "GBPUSD=X",
-      "Cours": 1.344827,
+      "Actif": "EUR/USD",
+      "Ticker": "EURUSD=X",
+      "Cours": 1.122334,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 33.5,
+      "RSI": 53.8,
       "Ratio R/R": 1.33,
-      "Entrée": 1.344827,
-      "Stop-loss": 1.345628,
-      "Objectif CT": 1.343759,
-      "Mis à jour": "2026-11-05 22:42:37"
-    },
-    {
-      "Actif": "EUR/CHF",
-      "Ticker": "EURCHF=X",
-      "Cours": 0.91502,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 38.5,
-      "Ratio R/R": 1.33,
-      "Entrée": 0.91502,
-      "Stop-loss": 0.916331,
-      "Objectif CT": 0.913271,
-      "Mis à jour": "2026-11-05 22:42:37"
+      "Entrée": 1.122334,
+      "Stop-loss": 1.122928,
+      "Objectif CT": 1.121543,
+      "Mis à jour": "2026-11-05 23:12:37"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -124,21 +110,7 @@
       "Entrée": 535.659973,
       "Stop-loss": 539.909191,
       "Objectif CT": 529.99435,
-      "Mis à jour": "2026-11-05 22:42:37"
-    },
-    {
-      "Actif": "Cuivre (Copper)",
-      "Ticker": "HG=F",
-      "Cours": 6.213,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 32.4,
-      "Ratio R/R": 1.33,
-      "Entrée": 6.213,
-      "Stop-loss": 6.244607,
-      "Objectif CT": 6.170857,
-      "Mis à jour": "2026-11-05 22:42:39"
+      "Mis à jour": "2026-11-05 23:12:37"
     }
   ],
   "1h": [
