@@ -169,12 +169,16 @@ def save_api_keys(keys):
 def validate_app_data(data):
     """Valide et nettoie la structure globale (portefeuilles et favoris)."""
     if not isinstance(data, dict):
-        return {"portfolios": {"Banque Principale": []}, "favoris": []}
+        return {"portfolios": {"Banque Principale": []}, "favoris": [], "watchlist": []}
     
     favoris = data.get("favoris", [])
     if not isinstance(favoris, list):
         favoris = []
     favoris = [str(s) for s in favoris if isinstance(s, (str, int))]
+    watchlist = data.get("watchlist", [])
+    if not isinstance(watchlist, list):
+        watchlist = []
+    watchlist = list(dict.fromkeys(str(s) for s in watchlist if isinstance(s, (str, int))))
 
     raw_portfolios = data.get("portfolios", data if "Banque Principale" in data or len(data) > 0 else {"Banque Principale": []})
     if not isinstance(raw_portfolios, dict):
@@ -182,7 +186,7 @@ def validate_app_data(data):
     
     cleaned_portfolios = {}
     for bank_name, items in raw_portfolios.items():
-        if bank_name == "favoris":
+        if bank_name in {"favoris", "watchlist"}:
             continue
         if not isinstance(bank_name, str) or not bank_name.strip():
             continue
@@ -205,7 +209,7 @@ def validate_app_data(data):
     if not cleaned_portfolios:
         cleaned_portfolios = {"Banque Principale": []}
 
-    return {"portfolios": cleaned_portfolios, "favoris": favoris}
+    return {"portfolios": cleaned_portfolios, "favoris": favoris, "watchlist": watchlist}
 
 def load_app_data():
     data = None
@@ -230,7 +234,7 @@ def load_app_data():
             pass
 
     if data is None:
-        data = {"portfolios": {"Banque Principale": []}, "favoris": []}
+        data = {"portfolios": {"Banque Principale": []}, "favoris": [], "watchlist": []}
 
     return validate_app_data(data)
 
@@ -1047,14 +1051,15 @@ except Exception:
 st.markdown("---")
 
 # Onglets
-tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7, tab8 = st.tabs([
     "Scanner & Indicateurs", 
     "Screener Global", 
     "⭐ Mes Favoris",
     "Banques & DCA", 
     "📊 Mesure & Performance", 
     "💾 Sauvegarde & Restauration",
-    "🤖 Portefeuille virtuel"
+    "🤖 Portefeuille virtuel",
+    "📋 Ma Watchlist"
 ])
 
 with tab1:
@@ -1469,6 +1474,114 @@ with tab2:
             st.divider()
 
         st.caption("⚠️ Scores, niveaux et délais sont des estimations heuristiques basées sur l'historique et l'ATR, pas des probabilités ni des garanties. Les délais indiquent un ordre de grandeur en bougies si le prix évolue dans la direction visée; ils ne représentent pas une progression réelle. Les signaux SHORT sont informatifs : aucun ordre automatique n'est exécuté.")
+
+with tab8:
+    st.header("📋 Ma Watchlist — Screener personnel")
+    st.info("Créez votre propre liste d'actifs, indépendante des favoris, puis relancez l'analyse technique quand vous le souhaitez.")
+
+    watchlist_symbols = st.session_state.app_data.setdefault("watchlist", [])
+    asset_by_symbol = {a["symbol"]: a for a in assets_db}
+    available_assets = [a for a in assets_db if a["symbol"] not in watchlist_symbols]
+    with st.form("watchlist_add_form"):
+        chosen_assets = st.multiselect(
+            "Sélectionner les actifs à ajouter à ma liste",
+            options=[a["symbol"] for a in available_assets],
+            format_func=lambda symbol: f"{asset_by_symbol[symbol]['name']} ({symbol})",
+            placeholder="Choisissez un ou plusieurs actifs..."
+        )
+        add_watchlist = st.form_submit_button("➕ Ajouter à ma liste", type="primary", use_container_width=True)
+    if add_watchlist and chosen_assets:
+        for symbol in chosen_assets:
+            if symbol not in watchlist_symbols:
+                watchlist_symbols.append(symbol)
+        st.session_state.app_data["watchlist"] = watchlist_symbols
+        if save_app_data(st.session_state.app_data):
+            st.success(f"{len(chosen_assets)} actif(s) ajouté(s) à votre Watchlist.")
+        st.rerun()
+
+    watchlist_symbols = st.session_state.app_data.get("watchlist", [])
+    st.caption(f"{len(watchlist_symbols)} actif(s) dans votre liste personnelle.")
+    if watchlist_symbols:
+        remove_col, refresh_col = st.columns(2)
+        with remove_col:
+            remove_symbol = st.selectbox(
+                "Retirer un actif de la liste",
+                options=[""] + watchlist_symbols,
+                format_func=lambda symbol: "Choisir un actif..." if not symbol else f"{asset_by_symbol.get(symbol, {}).get('name', symbol)} ({symbol})",
+                key="watchlist_remove_select"
+            )
+            if st.button("🗑️ Retirer l'actif sélectionné", disabled=not bool(remove_symbol), use_container_width=True):
+                st.session_state.app_data["watchlist"].remove(remove_symbol)
+                save_app_data(st.session_state.app_data)
+                st.rerun()
+        with refresh_col:
+            if st.button("🔄 Actualiser ma Watchlist", type="primary", use_container_width=True):
+                get_market_indicators.clear()
+                st.rerun()
+
+        with st.form("watchlist_analysis_form"):
+            wc1, wc2 = st.columns(2)
+            with wc1:
+                watch_tf = st.selectbox("Horizon d'analyse", ["15 minutes", "1 heure", "4 heures (agrégé)", "1 jour", "1 semaine", "1 mois"], index=3, key="watchlist_tf")
+            with wc2:
+                watch_min_score = st.slider("Score minimum", 0, 100, 0, 5, key="watchlist_score")
+            run_watchlist = st.form_submit_button("🔎 Analyser ma liste", use_container_width=True)
+        if run_watchlist:
+            st.session_state.watchlist_config = {"timeframe": watch_tf, "min_score": watch_min_score}
+            st.session_state.watchlist_has_run = True
+
+        if st.session_state.get("watchlist_has_run", False):
+            cfg = st.session_state.get("watchlist_config", {})
+            tf_map = {
+                "15 minutes": ("5d", "15m"), "1 heure": ("1mo", "1h"),
+                "4 heures (agrégé)": ("1mo", "1h"), "1 jour": ("1y", "1d"),
+                "1 semaine": ("2y", "1wk"), "1 mois": ("5y", "1mo")
+            }
+            period, interval = tf_map.get(cfg.get("timeframe", "1 jour"), ("1y", "1d"))
+            rows = []
+            unavailable = []
+            progress = st.progress(0, text="Analyse des actifs de votre liste...")
+            for index, symbol in enumerate(watchlist_symbols):
+                asset = asset_by_symbol.get(symbol)
+                if not asset:
+                    continue
+                try:
+                    price, _, _, _, _, history = get_market_indicators(symbol, period=period, interval=interval)
+                    if price is None or history is None or history.empty:
+                        unavailable.append(symbol)
+                        continue
+                    analysis = history
+                    if cfg.get("timeframe") == "4 heures (agrégé)":
+                        analysis = history.resample("4h").agg({"Open": "first", "High": "max", "Low": "min", "Close": "last", "Volume": "sum"}).dropna(subset=["Close"])
+                    opportunity = compute_opportunity_analysis(analysis, direction_mode="both_watch")
+                    if opportunity is not None and opportunity["score"] >= int(cfg.get("min_score", 0)):
+                        rows.append({
+                            "Actif": asset["name"], "Ticker": symbol, "Cours": round(float(price), 5),
+                            "Signal": opportunity["signal"], "Direction": opportunity.get("side", ""),
+                            "Score /100": opportunity["score"], "Entrée indicative": round(opportunity["entry"], 5),
+                            "Stop-loss": round(opportunity["sl"], 5), "Objectif CT": round(opportunity["tp_ct"], 5),
+                            "Objectif LT": round(opportunity["tp_lt"], 5), "RSI": round(opportunity["rsi"], 1),
+                            "Ratio R/R": round(opportunity.get("rr", 0), 2)
+                        })
+                    else:
+                        unavailable.append(symbol)
+                except Exception:
+                    unavailable.append(symbol)
+                progress.progress((index + 1) / max(1, len(watchlist_symbols)), text=f"Analyse : {index + 1}/{len(watchlist_symbols)}")
+            progress.empty()
+            if rows:
+                df_watch = pd.DataFrame(rows).sort_values("Score /100", ascending=False)
+                st.dataframe(df_watch, use_container_width=True, hide_index=True)
+                output_watch = io.BytesIO()
+                with pd.ExcelWriter(output_watch, engine="openpyxl") as writer:
+                    df_watch.to_excel(writer, index=False, sheet_name="Ma Watchlist")
+                st.download_button("📥 Exporter ma Watchlist en Excel", data=output_watch.getvalue(), file_name=f"ma_watchlist_{datetime.now().strftime('%Y-%m-%d')}.xlsx", mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            else:
+                st.warning("Aucun résultat ne correspond au score minimum ou les cours sont indisponibles.")
+            if unavailable:
+                st.caption("Actifs sans résultat exploitable : " + ", ".join(unavailable))
+    else:
+        st.warning("Votre Watchlist est vide. Sélectionnez des actifs ci-dessus pour commencer.")
 
 with tab3:
     st.header("⭐ Liste de vos Actifs Favoris")
