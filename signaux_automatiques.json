@@ -12,7 +12,7 @@
       "Entrée": 416.5,
       "Stop-loss": 419.189293,
       "Objectif CT": 412.914276,
-      "Mis à jour": "2026-11-06 05:12:58"
+      "Mis à jour": "2026-11-06 05:53:24"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -26,7 +26,7 @@
       "Entrée": 535.659973,
       "Stop-loss": 539.909191,
       "Objectif CT": 529.99435,
-      "Mis à jour": "2026-11-06 05:12:57"
+      "Mis à jour": "2026-11-06 05:53:23"
     },
     {
       "Actif": "Nvidia (NVDA)",
@@ -40,7 +40,7 @@
       "Entrée": 181.595001,
       "Stop-loss": 183.918016,
       "Objectif CT": 178.497648,
-      "Mis à jour": "2026-11-06 05:12:57"
+      "Mis à jour": "2026-11-06 05:53:22"
     },
     {
       "Actif": "S&P 500",
@@ -54,7 +54,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7402.31393,
       "Objectif CT": 7295.951381,
-      "Mis à jour": "2026-11-06 05:12:59"
+      "Mis à jour": "2026-11-06 05:53:25"
     },
     {
       "Actif": "Nasdaq 100",
@@ -68,7 +68,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 26867.704032,
       "Objectif CT": 26354.724051,
-      "Mis à jour": "2026-11-06 05:12:59"
+      "Mis à jour": "2026-11-06 05:53:26"
     },
     {
       "Actif": "Dow Jones",
@@ -82,21 +82,7 @@
       "Entrée": 51524.128906,
       "Stop-loss": 51792.320452,
       "Objectif CT": 51166.540179,
-      "Mis à jour": "2026-11-06 05:12:59"
-    },
-    {
-      "Actif": "XRP",
-      "Ticker": "XRP-USD",
-      "Cours": 1.1979,
-      "Opération": "VENTE",
-      "Score": 84,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 21.6,
-      "Ratio R/R": 1.33,
-      "Entrée": 1.1979,
-      "Stop-loss": 1.205957,
-      "Objectif CT": 1.187157,
-      "Mis à jour": "2026-11-06 05:12:59"
+      "Mis à jour": "2026-11-06 05:53:26"
     },
     {
       "Actif": "Orange",
@@ -110,7 +96,7 @@
       "Entrée": 15.33,
       "Stop-loss": 15.268929,
       "Objectif CT": 15.411428,
-      "Mis à jour": "2026-11-06 05:12:58"
+      "Mis à jour": "2026-11-06 05:53:25"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -124,7 +110,7 @@
       "Entrée": 282.600006,
       "Stop-loss": 284.971183,
       "Objectif CT": 279.438437,
-      "Mis à jour": "2026-11-06 05:12:57"
+      "Mis à jour": "2026-11-06 05:53:23"
     }
   ],
   "1h": [
@@ -140,7 +126,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7454.412197,
       "Objectif CT": 7226.487026,
-      "Mis à jour": "2026-11-06 04:43:00"
+      "Mis à jour": "2026-11-06 05:53:29"
     },
     {
       "Actif": "Dow Jones",
@@ -154,7 +140,21 @@
       "Entrée": 51524.128906,
       "Stop-loss": 52150.700753,
       "Objectif CT": 50688.699777,
-      "Mis à jour": "2026-11-06 04:43:00"
+      "Mis à jour": "2026-11-06 05:53:30"
+    },
+    {
+      "Actif": "Bitcoin (BTC)",
+      "Ticker": "BTC-USD",
+      "Cours": 75575.53125,
+      "Opération": "VENTE",
+      "Score": 88,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 45.2,
+      "Ratio R/R": 1.33,
+      "Entrée": 75575.53125,
+      "Stop-loss": 76429.60798,
+      "Objectif CT": 74436.762277,
+      "Mis à jour": "2026-11-06 05:53:30"
     },
     {
       "Actif": "Airbus",
@@ -168,7 +168,7 @@
       "Entrée": 198.399994,
       "Stop-loss": 195.527489,
       "Objectif CT": 202.23,
-      "Mis à jour": "2026-11-06 04:42:59"
+      "Mis à jour": "2026-11-06 05:53:29"
     },
     {
       "Actif": "BNP Paribas",
@@ -182,21 +182,21 @@
       "Entrée": 92.110001,
       "Stop-loss": 90.799645,
       "Objectif CT": 93.857142,
-      "Mis à jour": "2026-11-06 04:42:59"
+      "Mis à jour": "2026-11-06 05:53:29"
     },
     {
       "Actif": "EUR/CHF",
       "Ticker": "EURCHF=X",
-      "Cours": 0.91491,
+      "Cours": 0.9143,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 51.6,
+      "RSI": 48.8,
       "Ratio R/R": 1.33,
-      "Entrée": 0.91491,
-      "Stop-loss": 0.917065,
-      "Objectif CT": 0.912037,
-      "Mis à jour": "2026-11-06 04:42:58"
+      "Entrée": 0.9143,
+      "Stop-loss": 0.916385,
+      "Objectif CT": 0.91152,
+      "Mis à jour": "2026-11-06 05:53:27"
     },
     {
       "Actif": "Nasdaq 100",
@@ -210,51 +210,79 @@
       "Entrée": 26647.855469,
       "Stop-loss": 27189.618931,
       "Objectif CT": 25925.504185,
-      "Mis à jour": "2026-11-06 04:43:00"
+      "Mis à jour": "2026-11-06 05:53:30"
+    },
+    {
+      "Actif": "Solana (SOL)",
+      "Ticker": "SOL-USD",
+      "Cours": 89.260002,
+      "Opération": "VENTE",
+      "Score": 81,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 42.3,
+      "Ratio R/R": 1.33,
+      "Entrée": 89.260002,
+      "Stop-loss": 90.77929,
+      "Objectif CT": 87.234286,
+      "Mis à jour": "2026-11-06 05:53:30"
     }
   ],
   "1d": [
-    {
-      "Actif": "Argent (Silver)",
-      "Ticker": "SI=F",
-      "Cours": 51.869999,
-      "Opération": "VENTE",
-      "Score": 86,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 34.0,
-      "Ratio R/R": 1.33,
-      "Entrée": 51.869999,
-      "Stop-loss": 54.019822,
-      "Objectif CT": 49.003568,
-      "Mis à jour": "2026-11-06 03:12:59"
-    },
-    {
-      "Actif": "Cuivre (Copper)",
-      "Ticker": "HG=F",
-      "Cours": 6.255,
-      "Opération": "VENTE",
-      "Score": 85,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 37.7,
-      "Ratio R/R": 1.33,
-      "Entrée": 6.255,
-      "Stop-loss": 6.422304,
-      "Objectif CT": 6.031929,
-      "Mis à jour": "2026-11-06 03:12:59"
-    },
     {
       "Actif": "S&P 500",
       "Ticker": "^GSPC",
       "Cours": 7353.72998,
       "Opération": "VENTE",
-      "Score": 82,
+      "Score": 91,
       "Signal": "SHORT — Configuration forte à étudier",
       "RSI": 35.2,
       "Ratio R/R": 1.33,
       "Entrée": 7353.72998,
       "Stop-loss": 7511.143293,
       "Objectif CT": 7143.845564,
-      "Mis à jour": "2026-11-06 03:12:58"
+      "Mis à jour": "2026-11-06 05:53:33"
+    },
+    {
+      "Actif": "Bitcoin (BTC)",
+      "Ticker": "BTC-USD",
+      "Cours": 75575.53125,
+      "Opération": "VENTE",
+      "Score": 88,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 33.9,
+      "Ratio R/R": 1.33,
+      "Entrée": 75575.53125,
+      "Stop-loss": 78979.451451,
+      "Objectif CT": 71036.970982,
+      "Mis à jour": "2026-11-06 05:53:33"
+    },
+    {
+      "Actif": "Argent (Silver)",
+      "Ticker": "SI=F",
+      "Cours": 51.380001,
+      "Opération": "VENTE",
+      "Score": 86,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 33.3,
+      "Ratio R/R": 1.33,
+      "Entrée": 51.380001,
+      "Stop-loss": 53.645753,
+      "Objectif CT": 48.358999,
+      "Mis à jour": "2026-11-06 05:53:34"
+    },
+    {
+      "Actif": "Cuivre (Copper)",
+      "Ticker": "HG=F",
+      "Cours": 6.23,
+      "Opération": "VENTE",
+      "Score": 86,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 36.5,
+      "Ratio R/R": 1.33,
+      "Entrée": 6.23,
+      "Stop-loss": 6.395964,
+      "Objectif CT": 6.008714,
+      "Mis à jour": "2026-11-06 05:53:34"
     }
   ]
 }
