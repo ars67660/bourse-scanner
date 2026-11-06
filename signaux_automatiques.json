@@ -12,7 +12,7 @@
       "Entrée": 342.36499,
       "Stop-loss": 343.724594,
       "Objectif CT": 340.552185,
-      "Mis à jour": "2026-11-06 22:02:47"
+      "Mis à jour": "2026-11-06 23:02:51"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -26,7 +26,7 @@
       "Entrée": 284.730011,
       "Stop-loss": 286.110231,
       "Objectif CT": 282.889718,
-      "Mis à jour": "2026-11-06 22:02:48"
+      "Mis à jour": "2026-11-06 23:02:51"
     },
     {
       "Actif": "Airbus",
@@ -40,7 +40,7 @@
       "Entrée": 197.039993,
       "Stop-loss": 198.190708,
       "Objectif CT": 195.505707,
-      "Mis à jour": "2026-11-06 22:02:48"
+      "Mis à jour": "2026-11-06 23:02:52"
     },
     {
       "Actif": "AMD",
@@ -54,21 +54,7 @@
       "Entrée": 449.029999,
       "Stop-loss": 442.196356,
       "Objectif CT": 458.141523,
-      "Mis à jour": "2026-11-06 22:02:48"
-    },
-    {
-      "Actif": "Cardano (ADA)",
-      "Ticker": "ADA-USD",
-      "Cours": 0.18648,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 36.4,
-      "Ratio R/R": 1.33,
-      "Entrée": 0.18648,
-      "Stop-loss": 0.187452,
-      "Objectif CT": 0.185184,
-      "Mis à jour": "2026-11-06 22:02:50"
+      "Mis à jour": "2026-11-06 23:02:52"
     }
   ],
   "1h": [
