@@ -1,6 +1,20 @@
 {
   "15m": [
     {
+      "Actif": "Cuivre (Copper)",
+      "Ticker": "HG=F",
+      "Cours": 6.2885,
+      "Opération": "ACHAT",
+      "Score": 88,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 61.0,
+      "Ratio R/R": 1.33,
+      "Entrée": 6.2885,
+      "Stop-loss": 6.267982,
+      "Objectif CT": 6.315857,
+      "Mis à jour": "2026-11-06 13:30:24"
+    },
+    {
       "Actif": "Microsoft (MSFT)",
       "Ticker": "MSFT",
       "Cours": 535.659973,
@@ -12,21 +26,7 @@
       "Entrée": 535.659973,
       "Stop-loss": 539.909191,
       "Objectif CT": 529.99435,
-      "Mis à jour": "2026-11-06 13:29:42"
-    },
-    {
-      "Actif": "XRP",
-      "Ticker": "XRP-USD",
-      "Cours": 1.1876,
-      "Opération": "VENTE",
-      "Score": 87,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 36.5,
-      "Ratio R/R": 1.33,
-      "Entrée": 1.1876,
-      "Stop-loss": 1.194821,
-      "Objectif CT": 1.177971,
-      "Mis à jour": "2026-11-06 13:29:44"
+      "Mis à jour": "2026-11-06 13:30:22"
     },
     {
       "Actif": "Nvidia (NVDA)",
@@ -40,7 +40,7 @@
       "Entrée": 181.595001,
       "Stop-loss": 183.918016,
       "Objectif CT": 178.497648,
-      "Mis à jour": "2026-11-06 13:29:42"
+      "Mis à jour": "2026-11-06 13:30:21"
     },
     {
       "Actif": "S&P 500",
@@ -54,7 +54,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7402.31393,
       "Objectif CT": 7295.951381,
-      "Mis à jour": "2026-11-06 13:29:44"
+      "Mis à jour": "2026-11-06 13:30:23"
     },
     {
       "Actif": "Nasdaq 100",
@@ -68,7 +68,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 26867.704032,
       "Objectif CT": 26354.724051,
-      "Mis à jour": "2026-11-06 13:29:44"
+      "Mis à jour": "2026-11-06 13:30:23"
     },
     {
       "Actif": "Dow Jones",
@@ -82,7 +82,7 @@
       "Entrée": 51524.128906,
       "Stop-loss": 51792.320452,
       "Objectif CT": 51166.540179,
-      "Mis à jour": "2026-11-06 13:29:44"
+      "Mis à jour": "2026-11-06 13:30:24"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -96,7 +96,7 @@
       "Entrée": 282.600006,
       "Stop-loss": 284.971183,
       "Objectif CT": 279.438437,
-      "Mis à jour": "2026-11-06 13:29:42"
+      "Mis à jour": "2026-11-06 13:30:22"
     }
   ],
   "1h": [
