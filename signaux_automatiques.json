@@ -12,7 +12,21 @@
       "Entrée": 416.5,
       "Stop-loss": 419.189293,
       "Objectif CT": 412.914276,
-      "Mis à jour": "2026-11-06 06:38:24"
+      "Mis à jour": "2026-11-06 07:08:26"
+    },
+    {
+      "Actif": "XRP",
+      "Ticker": "XRP-USD",
+      "Cours": 1.1849,
+      "Opération": "VENTE",
+      "Score": 92,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 28.1,
+      "Ratio R/R": 1.33,
+      "Entrée": 1.1849,
+      "Stop-loss": 1.193964,
+      "Objectif CT": 1.172814,
+      "Mis à jour": "2026-11-06 07:08:28"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -26,7 +40,7 @@
       "Entrée": 535.659973,
       "Stop-loss": 539.909191,
       "Objectif CT": 529.99435,
-      "Mis à jour": "2026-11-06 06:38:24"
+      "Mis à jour": "2026-11-06 07:08:25"
     },
     {
       "Actif": "Nvidia (NVDA)",
@@ -40,7 +54,7 @@
       "Entrée": 181.595001,
       "Stop-loss": 183.918016,
       "Objectif CT": 178.497648,
-      "Mis à jour": "2026-11-06 06:38:24"
+      "Mis à jour": "2026-11-06 07:08:25"
     },
     {
       "Actif": "S&P 500",
@@ -54,7 +68,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7402.31393,
       "Objectif CT": 7295.951381,
-      "Mis à jour": "2026-11-06 06:38:25"
+      "Mis à jour": "2026-11-06 07:08:27"
     },
     {
       "Actif": "Nasdaq 100",
@@ -68,7 +82,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 26867.704032,
       "Objectif CT": 26354.724051,
-      "Mis à jour": "2026-11-06 06:38:25"
+      "Mis à jour": "2026-11-06 07:08:27"
     },
     {
       "Actif": "Dow Jones",
@@ -82,7 +96,7 @@
       "Entrée": 51524.128906,
       "Stop-loss": 51792.320452,
       "Objectif CT": 51166.540179,
-      "Mis à jour": "2026-11-06 06:38:26"
+      "Mis à jour": "2026-11-06 07:08:27"
     },
     {
       "Actif": "Orange",
@@ -96,21 +110,21 @@
       "Entrée": 15.33,
       "Stop-loss": 15.268929,
       "Objectif CT": 15.411428,
-      "Mis à jour": "2026-11-06 06:38:25"
+      "Mis à jour": "2026-11-06 07:08:27"
     },
     {
       "Actif": "EUR/CHF",
       "Ticker": "EURCHF=X",
-      "Cours": 0.91432,
+      "Cours": 0.91377,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 34.7,
+      "RSI": 32.9,
       "Ratio R/R": 1.33,
-      "Entrée": 0.91432,
-      "Stop-loss": 0.915501,
-      "Objectif CT": 0.912746,
-      "Mis à jour": "2026-11-06 06:38:23"
+      "Entrée": 0.91377,
+      "Stop-loss": 0.915003,
+      "Objectif CT": 0.912126,
+      "Mis à jour": "2026-11-06 07:08:25"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -124,35 +138,7 @@
       "Entrée": 282.600006,
       "Stop-loss": 284.971183,
       "Objectif CT": 279.438437,
-      "Mis à jour": "2026-11-06 06:38:24"
-    },
-    {
-      "Actif": "XRP",
-      "Ticker": "XRP-USD",
-      "Cours": 1.1971,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 33.3,
-      "Ratio R/R": 1.33,
-      "Entrée": 1.1971,
-      "Stop-loss": 1.206154,
-      "Objectif CT": 1.185029,
-      "Mis à jour": "2026-11-06 06:38:26"
-    },
-    {
-      "Actif": "Argent (Silver)",
-      "Ticker": "SI=F",
-      "Cours": 51.525002,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 41.4,
-      "Ratio R/R": 1.33,
-      "Entrée": 51.525002,
-      "Stop-loss": 52.014644,
-      "Objectif CT": 50.872144,
-      "Mis à jour": "2026-11-06 06:38:26"
+      "Mis à jour": "2026-11-06 07:08:26"
     }
   ],
   "1h": [
@@ -168,7 +154,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7454.412197,
       "Objectif CT": 7226.487026,
-      "Mis à jour": "2026-11-06 05:53:29"
+      "Mis à jour": "2026-11-06 07:08:31"
     },
     {
       "Actif": "Dow Jones",
@@ -182,21 +168,7 @@
       "Entrée": 51524.128906,
       "Stop-loss": 52150.700753,
       "Objectif CT": 50688.699777,
-      "Mis à jour": "2026-11-06 05:53:30"
-    },
-    {
-      "Actif": "Bitcoin (BTC)",
-      "Ticker": "BTC-USD",
-      "Cours": 75575.53125,
-      "Opération": "VENTE",
-      "Score": 88,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 45.2,
-      "Ratio R/R": 1.33,
-      "Entrée": 75575.53125,
-      "Stop-loss": 76429.60798,
-      "Objectif CT": 74436.762277,
-      "Mis à jour": "2026-11-06 05:53:30"
+      "Mis à jour": "2026-11-06 07:08:31"
     },
     {
       "Actif": "Airbus",
@@ -210,7 +182,7 @@
       "Entrée": 198.399994,
       "Stop-loss": 195.527489,
       "Objectif CT": 202.23,
-      "Mis à jour": "2026-11-06 05:53:29"
+      "Mis à jour": "2026-11-06 07:08:30"
     },
     {
       "Actif": "BNP Paribas",
@@ -224,21 +196,21 @@
       "Entrée": 92.110001,
       "Stop-loss": 90.799645,
       "Objectif CT": 93.857142,
-      "Mis à jour": "2026-11-06 05:53:29"
+      "Mis à jour": "2026-11-06 07:08:30"
     },
     {
       "Actif": "EUR/CHF",
       "Ticker": "EURCHF=X",
-      "Cours": 0.9143,
+      "Cours": 0.91377,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 48.8,
+      "RSI": 38.3,
       "Ratio R/R": 1.33,
-      "Entrée": 0.9143,
-      "Stop-loss": 0.916385,
-      "Objectif CT": 0.91152,
-      "Mis à jour": "2026-11-06 05:53:27"
+      "Entrée": 0.91377,
+      "Stop-loss": 0.915784,
+      "Objectif CT": 0.911084,
+      "Mis à jour": "2026-11-06 07:08:29"
     },
     {
       "Actif": "Nasdaq 100",
@@ -252,21 +224,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 27189.618931,
       "Objectif CT": 25925.504185,
-      "Mis à jour": "2026-11-06 05:53:30"
-    },
-    {
-      "Actif": "Solana (SOL)",
-      "Ticker": "SOL-USD",
-      "Cours": 89.260002,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 42.3,
-      "Ratio R/R": 1.33,
-      "Entrée": 89.260002,
-      "Stop-loss": 90.77929,
-      "Objectif CT": 87.234286,
-      "Mis à jour": "2026-11-06 05:53:30"
+      "Mis à jour": "2026-11-06 07:08:31"
     }
   ],
   "1d": [
