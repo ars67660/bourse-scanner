@@ -1,18 +1,32 @@
 {
   "15m": [
     {
-      "Actif": "Solana (SOL)",
-      "Ticker": "SOL-USD",
-      "Cours": 89.82,
+      "Actif": "Apple (AAPL)",
+      "Ticker": "AAPL",
+      "Cours": 342.36499,
       "Opération": "VENTE",
-      "Score": 87,
+      "Score": 88,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 37.5,
+      "RSI": 31.6,
       "Ratio R/R": 1.33,
-      "Entrée": 89.82,
-      "Stop-loss": 90.348214,
-      "Objectif CT": 89.115714,
-      "Mis à jour": "2026-11-06 20:32:44"
+      "Entrée": 342.36499,
+      "Stop-loss": 343.724594,
+      "Objectif CT": 340.552185,
+      "Mis à jour": "2026-11-06 21:02:44"
+    },
+    {
+      "Actif": "Alphabet / Google (GOOGL)",
+      "Ticker": "GOOGL",
+      "Cours": 284.730011,
+      "Opération": "VENTE",
+      "Score": 88,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 33.2,
+      "Ratio R/R": 1.33,
+      "Entrée": 284.730011,
+      "Stop-loss": 286.110231,
+      "Objectif CT": 282.889718,
+      "Mis à jour": "2026-11-06 21:02:44"
     },
     {
       "Actif": "Airbus",
@@ -26,7 +40,35 @@
       "Entrée": 197.039993,
       "Stop-loss": 198.190708,
       "Objectif CT": 195.505707,
-      "Mis à jour": "2026-11-06 20:32:43"
+      "Mis à jour": "2026-11-06 21:02:45"
+    },
+    {
+      "Actif": "AMD",
+      "Ticker": "AMD",
+      "Cours": 449.029999,
+      "Opération": "ACHAT",
+      "Score": 81,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 58.5,
+      "Ratio R/R": 1.33,
+      "Entrée": 449.029999,
+      "Stop-loss": 442.196356,
+      "Objectif CT": 458.141523,
+      "Mis à jour": "2026-11-06 21:02:44"
+    },
+    {
+      "Actif": "Solana (SOL)",
+      "Ticker": "SOL-USD",
+      "Cours": 89.800003,
+      "Opération": "VENTE",
+      "Score": 81,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 51.2,
+      "Ratio R/R": 1.33,
+      "Entrée": 89.800003,
+      "Stop-loss": 90.26929,
+      "Objectif CT": 89.174287,
+      "Mis à jour": "2026-11-06 21:02:46"
     }
   ],
   "1h": [
