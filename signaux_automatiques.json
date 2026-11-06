@@ -1,46 +1,46 @@
 {
   "15m": [
     {
-      "Actif": "Apple (AAPL)",
-      "Ticker": "AAPL",
-      "Cours": 341.975006,
+      "Actif": "Microsoft (MSFT)",
+      "Ticker": "MSFT",
+      "Cours": 533.039978,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 43.9,
+      "RSI": 39.5,
       "Ratio R/R": 1.33,
-      "Entrée": 341.975006,
-      "Stop-loss": 345.119319,
-      "Objectif CT": 337.782588,
-      "Mis à jour": "2026-11-06 15:02:20"
+      "Entrée": 533.039978,
+      "Stop-loss": 538.31849,
+      "Objectif CT": 526.001962,
+      "Mis à jour": "2026-11-06 15:32:23"
     },
     {
       "Actif": "Netflix (NFLX)",
       "Ticker": "NFLX",
-      "Cours": 64.089996,
+      "Cours": 63.880001,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 34.4,
+      "RSI": 33.3,
       "Ratio R/R": 1.33,
-      "Entrée": 64.089996,
-      "Stop-loss": 64.797749,
-      "Objectif CT": 63.146326,
-      "Mis à jour": "2026-11-06 15:02:21"
+      "Entrée": 63.880001,
+      "Stop-loss": 64.614539,
+      "Objectif CT": 62.900617,
+      "Mis à jour": "2026-11-06 15:32:23"
     },
     {
       "Actif": "XRP",
       "Ticker": "XRP-USD",
-      "Cours": 1.1797,
+      "Cours": 1.1818,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 34.9,
+      "RSI": 36.4,
       "Ratio R/R": 1.33,
-      "Entrée": 1.1797,
-      "Stop-loss": 1.190264,
-      "Objectif CT": 1.165614,
-      "Mis à jour": "2026-11-06 15:02:23"
+      "Entrée": 1.1818,
+      "Stop-loss": 1.193575,
+      "Objectif CT": 1.1661,
+      "Mis à jour": "2026-11-06 15:32:26"
     }
   ],
   "1h": [
