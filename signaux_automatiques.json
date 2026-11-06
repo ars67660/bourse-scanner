@@ -12,7 +12,7 @@
       "Entrée": 535.659973,
       "Stop-loss": 539.909191,
       "Objectif CT": 529.99435,
-      "Mis à jour": "2026-11-06 09:51:42"
+      "Mis à jour": "2026-11-06 10:21:41"
     },
     {
       "Actif": "Nvidia (NVDA)",
@@ -26,7 +26,7 @@
       "Entrée": 181.595001,
       "Stop-loss": 183.918016,
       "Objectif CT": 178.497648,
-      "Mis à jour": "2026-11-06 09:51:42"
+      "Mis à jour": "2026-11-06 10:21:41"
     },
     {
       "Actif": "S&P 500",
@@ -40,7 +40,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7402.31393,
       "Objectif CT": 7295.951381,
-      "Mis à jour": "2026-11-06 09:51:44"
+      "Mis à jour": "2026-11-06 10:21:43"
     },
     {
       "Actif": "Nasdaq 100",
@@ -54,7 +54,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 26867.704032,
       "Objectif CT": 26354.724051,
-      "Mis à jour": "2026-11-06 09:51:44"
+      "Mis à jour": "2026-11-06 10:21:43"
     },
     {
       "Actif": "Dow Jones",
@@ -68,7 +68,7 @@
       "Entrée": 51524.128906,
       "Stop-loss": 51792.320452,
       "Objectif CT": 51166.540179,
-      "Mis à jour": "2026-11-06 09:51:44"
+      "Mis à jour": "2026-11-06 10:21:43"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -82,35 +82,21 @@
       "Entrée": 282.600006,
       "Stop-loss": 284.971183,
       "Objectif CT": 279.438437,
-      "Mis à jour": "2026-11-06 09:51:42"
+      "Mis à jour": "2026-11-06 10:21:41"
     },
     {
       "Actif": "Airbus",
       "Ticker": "AIR.PA",
-      "Cours": 198.639999,
+      "Cours": 197.139999,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 35.4,
+      "RSI": 38.0,
       "Ratio R/R": 1.33,
-      "Entrée": 198.639999,
-      "Stop-loss": 200.486069,
-      "Objectif CT": 196.178574,
-      "Mis à jour": "2026-11-06 09:51:43"
-    },
-    {
-      "Actif": "Hermès",
-      "Ticker": "RMS.PA",
-      "Cours": 1359.5,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 32.8,
-      "Ratio R/R": 1.33,
-      "Entrée": 1359.5,
-      "Stop-loss": 1371.553571,
-      "Objectif CT": 1343.428571,
-      "Mis à jour": "2026-11-06 09:51:43"
+      "Entrée": 197.139999,
+      "Stop-loss": 198.824285,
+      "Objectif CT": 194.894285,
+      "Mis à jour": "2026-11-06 10:21:42"
     }
   ],
   "1h": [
