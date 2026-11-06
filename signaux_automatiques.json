@@ -12,7 +12,7 @@
       "Entrée": 535.659973,
       "Stop-loss": 539.909191,
       "Objectif CT": 529.99435,
-      "Mis à jour": "2026-11-06 10:21:41"
+      "Mis à jour": "2026-11-06 10:51:43"
     },
     {
       "Actif": "Nvidia (NVDA)",
@@ -26,7 +26,7 @@
       "Entrée": 181.595001,
       "Stop-loss": 183.918016,
       "Objectif CT": 178.497648,
-      "Mis à jour": "2026-11-06 10:21:41"
+      "Mis à jour": "2026-11-06 10:51:43"
     },
     {
       "Actif": "S&P 500",
@@ -40,7 +40,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7402.31393,
       "Objectif CT": 7295.951381,
-      "Mis à jour": "2026-11-06 10:21:43"
+      "Mis à jour": "2026-11-06 10:51:45"
     },
     {
       "Actif": "Nasdaq 100",
@@ -54,7 +54,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 26867.704032,
       "Objectif CT": 26354.724051,
-      "Mis à jour": "2026-11-06 10:21:43"
+      "Mis à jour": "2026-11-06 10:51:45"
     },
     {
       "Actif": "Dow Jones",
@@ -68,7 +68,7 @@
       "Entrée": 51524.128906,
       "Stop-loss": 51792.320452,
       "Objectif CT": 51166.540179,
-      "Mis à jour": "2026-11-06 10:21:43"
+      "Mis à jour": "2026-11-06 10:51:45"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -82,21 +82,21 @@
       "Entrée": 282.600006,
       "Stop-loss": 284.971183,
       "Objectif CT": 279.438437,
-      "Mis à jour": "2026-11-06 10:21:41"
+      "Mis à jour": "2026-11-06 10:51:43"
     },
     {
-      "Actif": "Airbus",
-      "Ticker": "AIR.PA",
-      "Cours": 197.139999,
+      "Actif": "BNP Paribas",
+      "Ticker": "BNP.PA",
+      "Cours": 91.849998,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 38.0,
+      "RSI": 46.3,
       "Ratio R/R": 1.33,
-      "Entrée": 197.139999,
-      "Stop-loss": 198.824285,
-      "Objectif CT": 194.894285,
-      "Mis à jour": "2026-11-06 10:21:42"
+      "Entrée": 91.849998,
+      "Stop-loss": 92.641246,
+      "Objectif CT": 90.795001,
+      "Mis à jour": "2026-11-06 10:51:44"
     }
   ],
   "1h": [
@@ -112,7 +112,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7454.412197,
       "Objectif CT": 7226.487026,
-      "Mis à jour": "2026-11-06 09:36:40"
+      "Mis à jour": "2026-11-06 10:51:47"
     },
     {
       "Actif": "Dow Jones",
@@ -126,21 +126,21 @@
       "Entrée": 51524.128906,
       "Stop-loss": 52150.700753,
       "Objectif CT": 50688.699777,
-      "Mis à jour": "2026-11-06 09:36:41"
+      "Mis à jour": "2026-11-06 10:51:48"
     },
     {
       "Actif": "Schneider Electric",
       "Ticker": "SU.PA",
-      "Cours": 228.399994,
+      "Cours": 227.5,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 35.8,
+      "RSI": 33.3,
       "Ratio R/R": 1.33,
-      "Entrée": 228.399994,
-      "Stop-loss": 232.964277,
-      "Objectif CT": 222.314283,
-      "Mis à jour": "2026-11-06 09:36:39"
+      "Entrée": 227.5,
+      "Stop-loss": 232.16607,
+      "Objectif CT": 221.278573,
+      "Mis à jour": "2026-11-06 10:51:47"
     },
     {
       "Actif": "Nasdaq 100",
@@ -154,7 +154,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 27189.618931,
       "Objectif CT": 25925.504185,
-      "Mis à jour": "2026-11-06 09:36:40"
+      "Mis à jour": "2026-11-06 10:51:47"
     }
   ],
   "1d": [
