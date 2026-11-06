@@ -1,18 +1,18 @@
 {
   "15m": [
     {
-      "Actif": "Netflix (NFLX)",
-      "Ticker": "NFLX",
-      "Cours": 64.254997,
+      "Actif": "Airbus",
+      "Ticker": "AIR.PA",
+      "Cours": 197.039993,
       "Opération": "VENTE",
-      "Score": 81,
+      "Score": 84,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 40.1,
+      "RSI": 53.9,
       "Ratio R/R": 1.33,
-      "Entrée": 64.254997,
-      "Stop-loss": 64.993832,
-      "Objectif CT": 63.269884,
-      "Mis à jour": "2026-11-06 16:02:25"
+      "Entrée": 197.039993,
+      "Stop-loss": 198.190708,
+      "Objectif CT": 195.505707,
+      "Mis à jour": "2026-11-06 17:02:30"
     }
   ],
   "1h": [
