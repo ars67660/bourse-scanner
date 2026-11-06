@@ -1,6 +1,20 @@
 {
   "15m": [
     {
+      "Actif": "Solana (SOL)",
+      "Ticker": "SOL-USD",
+      "Cours": 89.82,
+      "Opération": "VENTE",
+      "Score": 87,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 37.5,
+      "Ratio R/R": 1.33,
+      "Entrée": 89.82,
+      "Stop-loss": 90.348214,
+      "Objectif CT": 89.115714,
+      "Mis à jour": "2026-11-06 20:32:44"
+    },
+    {
       "Actif": "Airbus",
       "Ticker": "AIR.PA",
       "Cours": 197.039993,
@@ -12,10 +26,39 @@
       "Entrée": 197.039993,
       "Stop-loss": 198.190708,
       "Objectif CT": 195.505707,
-      "Mis à jour": "2026-11-06 20:02:41"
+      "Mis à jour": "2026-11-06 20:32:43"
     }
   ],
-  "1h": [],
+  "1h": [
+    {
+      "Actif": "Bitcoin (BTC)",
+      "Ticker": "BTC-USD",
+      "Cours": 75749.992188,
+      "Opération": "VENTE",
+      "Score": 84,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 53.6,
+      "Ratio R/R": 1.33,
+      "Entrée": 75749.992188,
+      "Stop-loss": 76474.386719,
+      "Objectif CT": 74784.132812,
+      "Mis à jour": "2026-11-06 20:32:48"
+    },
+    {
+      "Actif": "USD/JPY",
+      "Ticker": "USDJPY=X",
+      "Cours": 158.468994,
+      "Opération": "ACHAT",
+      "Score": 81,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 62.8,
+      "Ratio R/R": 1.33,
+      "Entrée": 158.468994,
+      "Stop-loss": 158.112743,
+      "Objectif CT": 158.943996,
+      "Mis à jour": "2026-11-06 20:32:46"
+    }
+  ],
   "1d": [
     {
       "Actif": "Argent (Silver)",
