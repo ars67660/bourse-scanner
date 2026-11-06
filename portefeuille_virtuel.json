@@ -1,23 +1,7 @@
 {
   "initial_capital": 10000.0,
-  "cash": 2996.1189299996918,
+  "cash": 2998.6603719293735,
   "positions": [
-    {
-      "name": "Airbus",
-      "symbol": "AIR.PA",
-      "side": "SHORT",
-      "score": 80,
-      "entry": 198.39999389648438,
-      "last_price": 198.63999938964844,
-      "currency": "EUR",
-      "sl": 199.9407070704869,
-      "tp": 196.34570966448103,
-      "tp_long": 195.31856754847936,
-      "qty": 4.03225818856326,
-      "capital": 800.0,
-      "opened_at": "2026-11-05T17:12:42",
-      "timeframe": "15 minutes"
-    },
     {
       "name": "Alphabet / Google (GOOGL)",
       "symbol": "GOOGL",
@@ -137,6 +121,36 @@
       "capital": 794.3502180751739,
       "opened_at": "2026-11-06T08:48:45+00:00",
       "timeframe": "15 minutes"
+    },
+    {
+      "name": "BNP Paribas",
+      "symbol": "BNP.PA",
+      "side": "SHORT",
+      "score": 81,
+      "entry": 91.87000274658203,
+      "last_price": 91.87000274658203,
+      "sl": 92.66125052315849,
+      "tp": 90.81500571114677,
+      "tp_long": 90.28750719342914,
+      "qty": 8.712780618156472,
+      "capital": 800.4431793204018,
+      "opened_at": "2026-11-06T10:53:39+00:00",
+      "timeframe": "15 minutes"
+    },
+    {
+      "name": "AMD",
+      "symbol": "AMD",
+      "side": "SHORT",
+      "score": 80,
+      "entry": 402.510009765625,
+      "last_price": 402.510009765625,
+      "sl": 410.64285169328963,
+      "tp": 391.66622052873885,
+      "tp_long": 386.24432591029574,
+      "qty": 0.013164351289384944,
+      "capital": 5.298783166048452,
+      "opened_at": "2026-11-06T10:53:39+00:00",
+      "timeframe": "15 minutes"
     }
   ],
   "closed_trades": [
@@ -219,7 +233,27 @@
       "pnl_eur": -4.033204923706353,
       "exit_reason": "Stop-loss",
       "closed_at": "2026-11-06T08:48:37+00:00"
+    },
+    {
+      "name": "Airbus",
+      "symbol": "AIR.PA",
+      "side": "SHORT",
+      "score": 80,
+      "entry": 198.39999389648438,
+      "last_price": 198.63999938964844,
+      "currency": "EUR",
+      "sl": 199.9407070704869,
+      "tp": 196.34570966448103,
+      "tp_long": 195.31856754847936,
+      "qty": 4.03225818856326,
+      "capital": 800.0,
+      "opened_at": "2026-11-05T17:12:42",
+      "timeframe": "15 minutes",
+      "exit": 196.34570966448103,
+      "pnl_eur": 8.283404416131855,
+      "exit_reason": "Take-profit",
+      "closed_at": "2026-11-06T10:53:30+00:00"
     }
   ],
-  "last_cycle": "2026-11-06T09:53:11+00:00"
+  "last_cycle": "2026-11-06T10:53:39+00:00"
 }
