@@ -12,7 +12,7 @@
       "Entrée": 535.659973,
       "Stop-loss": 539.909191,
       "Objectif CT": 529.99435,
-      "Mis à jour": "2026-11-06 10:51:43"
+      "Mis à jour": "2026-11-06 11:21:45"
     },
     {
       "Actif": "Nvidia (NVDA)",
@@ -26,7 +26,7 @@
       "Entrée": 181.595001,
       "Stop-loss": 183.918016,
       "Objectif CT": 178.497648,
-      "Mis à jour": "2026-11-06 10:51:43"
+      "Mis à jour": "2026-11-06 11:21:45"
     },
     {
       "Actif": "S&P 500",
@@ -40,7 +40,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7402.31393,
       "Objectif CT": 7295.951381,
-      "Mis à jour": "2026-11-06 10:51:45"
+      "Mis à jour": "2026-11-06 11:21:47"
     },
     {
       "Actif": "Nasdaq 100",
@@ -54,7 +54,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 26867.704032,
       "Objectif CT": 26354.724051,
-      "Mis à jour": "2026-11-06 10:51:45"
+      "Mis à jour": "2026-11-06 11:21:47"
     },
     {
       "Actif": "Dow Jones",
@@ -68,7 +68,7 @@
       "Entrée": 51524.128906,
       "Stop-loss": 51792.320452,
       "Objectif CT": 51166.540179,
-      "Mis à jour": "2026-11-06 10:51:45"
+      "Mis à jour": "2026-11-06 11:21:47"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -82,21 +82,21 @@
       "Entrée": 282.600006,
       "Stop-loss": 284.971183,
       "Objectif CT": 279.438437,
-      "Mis à jour": "2026-11-06 10:51:43"
+      "Mis à jour": "2026-11-06 11:21:45"
     },
     {
-      "Actif": "BNP Paribas",
-      "Ticker": "BNP.PA",
-      "Cours": 91.849998,
+      "Actif": "Stellantis",
+      "Ticker": "STLAP.PA",
+      "Cours": 3.941,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 46.3,
+      "RSI": 44.9,
       "Ratio R/R": 1.33,
-      "Entrée": 91.849998,
-      "Stop-loss": 92.641246,
-      "Objectif CT": 90.795001,
-      "Mis à jour": "2026-11-06 10:51:44"
+      "Entrée": 3.941,
+      "Stop-loss": 3.984339,
+      "Objectif CT": 3.883214,
+      "Mis à jour": "2026-11-06 11:21:46"
     }
   ],
   "1h": [
