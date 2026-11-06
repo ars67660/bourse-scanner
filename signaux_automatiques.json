@@ -12,7 +12,7 @@
       "Entrée": 535.659973,
       "Stop-loss": 539.909191,
       "Objectif CT": 529.99435,
-      "Mis à jour": "2026-11-06 09:08:33"
+      "Mis à jour": "2026-11-06 09:36:34"
     },
     {
       "Actif": "Nvidia (NVDA)",
@@ -26,7 +26,7 @@
       "Entrée": 181.595001,
       "Stop-loss": 183.918016,
       "Objectif CT": 178.497648,
-      "Mis à jour": "2026-11-06 09:08:33"
+      "Mis à jour": "2026-11-06 09:36:34"
     },
     {
       "Actif": "S&P 500",
@@ -40,7 +40,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7402.31393,
       "Objectif CT": 7295.951381,
-      "Mis à jour": "2026-11-06 09:08:35"
+      "Mis à jour": "2026-11-06 09:36:36"
     },
     {
       "Actif": "Nasdaq 100",
@@ -54,7 +54,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 26867.704032,
       "Objectif CT": 26354.724051,
-      "Mis à jour": "2026-11-06 09:08:35"
+      "Mis à jour": "2026-11-06 09:36:36"
     },
     {
       "Actif": "Dow Jones",
@@ -68,7 +68,7 @@
       "Entrée": 51524.128906,
       "Stop-loss": 51792.320452,
       "Objectif CT": 51166.540179,
-      "Mis à jour": "2026-11-06 09:08:35"
+      "Mis à jour": "2026-11-06 09:36:36"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -82,7 +82,7 @@
       "Entrée": 282.600006,
       "Stop-loss": 284.971183,
       "Objectif CT": 279.438437,
-      "Mis à jour": "2026-11-06 09:08:33"
+      "Mis à jour": "2026-11-06 09:36:34"
     }
   ],
   "1h": [
@@ -98,7 +98,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7454.412197,
       "Objectif CT": 7226.487026,
-      "Mis à jour": "2026-11-06 08:38:37"
+      "Mis à jour": "2026-11-06 09:36:40"
     },
     {
       "Actif": "Dow Jones",
@@ -112,21 +112,21 @@
       "Entrée": 51524.128906,
       "Stop-loss": 52150.700753,
       "Objectif CT": 50688.699777,
-      "Mis à jour": "2026-11-06 08:38:37"
+      "Mis à jour": "2026-11-06 09:36:41"
     },
     {
-      "Actif": "EUR/CHF",
-      "Ticker": "EURCHF=X",
-      "Cours": 0.91409,
+      "Actif": "Schneider Electric",
+      "Ticker": "SU.PA",
+      "Cours": 228.399994,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 36.6,
+      "RSI": 35.8,
       "Ratio R/R": 1.33,
-      "Entrée": 0.91409,
-      "Stop-loss": 0.916279,
-      "Objectif CT": 0.911171,
-      "Mis à jour": "2026-11-06 08:38:35"
+      "Entrée": 228.399994,
+      "Stop-loss": 232.964277,
+      "Objectif CT": 222.314283,
+      "Mis à jour": "2026-11-06 09:36:39"
     },
     {
       "Actif": "Nasdaq 100",
@@ -140,7 +140,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 27189.618931,
       "Objectif CT": 25925.504185,
-      "Mis à jour": "2026-11-06 08:38:37"
+      "Mis à jour": "2026-11-06 09:36:40"
     }
   ],
   "1d": [
@@ -156,49 +156,21 @@
       "Entrée": 7353.72998,
       "Stop-loss": 7511.143293,
       "Objectif CT": 7143.845564,
-      "Mis à jour": "2026-11-06 05:53:33"
+      "Mis à jour": "2026-11-06 09:36:45"
     },
     {
-      "Actif": "Bitcoin (BTC)",
-      "Ticker": "BTC-USD",
-      "Cours": 75575.53125,
+      "Actif": "XRP",
+      "Ticker": "XRP-USD",
+      "Cours": 1.1982,
       "Opération": "VENTE",
-      "Score": 88,
+      "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 33.9,
+      "RSI": 35.4,
       "Ratio R/R": 1.33,
-      "Entrée": 75575.53125,
-      "Stop-loss": 78979.451451,
-      "Objectif CT": 71036.970982,
-      "Mis à jour": "2026-11-06 05:53:33"
-    },
-    {
-      "Actif": "Argent (Silver)",
-      "Ticker": "SI=F",
-      "Cours": 51.380001,
-      "Opération": "VENTE",
-      "Score": 86,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 33.3,
-      "Ratio R/R": 1.33,
-      "Entrée": 51.380001,
-      "Stop-loss": 53.645753,
-      "Objectif CT": 48.358999,
-      "Mis à jour": "2026-11-06 05:53:34"
-    },
-    {
-      "Actif": "Cuivre (Copper)",
-      "Ticker": "HG=F",
-      "Cours": 6.23,
-      "Opération": "VENTE",
-      "Score": 86,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 36.5,
-      "Ratio R/R": 1.33,
-      "Entrée": 6.23,
-      "Stop-loss": 6.395964,
-      "Objectif CT": 6.008714,
-      "Mis à jour": "2026-11-06 05:53:34"
+      "Entrée": 1.1982,
+      "Stop-loss": 1.27178,
+      "Objectif CT": 1.100094,
+      "Mis à jour": "2026-11-06 09:36:45"
     }
   ]
 }
