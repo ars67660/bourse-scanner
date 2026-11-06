@@ -12,7 +12,7 @@
       "Entrée": 535.659973,
       "Stop-loss": 539.909191,
       "Objectif CT": 529.99435,
-      "Mis à jour": "2026-11-06 08:38:31"
+      "Mis à jour": "2026-11-06 09:08:33"
     },
     {
       "Actif": "Nvidia (NVDA)",
@@ -26,7 +26,7 @@
       "Entrée": 181.595001,
       "Stop-loss": 183.918016,
       "Objectif CT": 178.497648,
-      "Mis à jour": "2026-11-06 08:38:31"
+      "Mis à jour": "2026-11-06 09:08:33"
     },
     {
       "Actif": "S&P 500",
@@ -40,7 +40,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7402.31393,
       "Objectif CT": 7295.951381,
-      "Mis à jour": "2026-11-06 08:38:33"
+      "Mis à jour": "2026-11-06 09:08:35"
     },
     {
       "Actif": "Nasdaq 100",
@@ -54,7 +54,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 26867.704032,
       "Objectif CT": 26354.724051,
-      "Mis à jour": "2026-11-06 08:38:33"
+      "Mis à jour": "2026-11-06 09:08:35"
     },
     {
       "Actif": "Dow Jones",
@@ -68,7 +68,7 @@
       "Entrée": 51524.128906,
       "Stop-loss": 51792.320452,
       "Objectif CT": 51166.540179,
-      "Mis à jour": "2026-11-06 08:38:33"
+      "Mis à jour": "2026-11-06 09:08:35"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -82,21 +82,7 @@
       "Entrée": 282.600006,
       "Stop-loss": 284.971183,
       "Objectif CT": 279.438437,
-      "Mis à jour": "2026-11-06 08:38:32"
-    },
-    {
-      "Actif": "Argent (Silver)",
-      "Ticker": "SI=F",
-      "Cours": 52.014999,
-      "Opération": "ACHAT",
-      "Score": 81,
-      "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 62.5,
-      "Ratio R/R": 1.33,
-      "Entrée": 52.014999,
-      "Stop-loss": 51.624464,
-      "Objectif CT": 52.535713,
-      "Mis à jour": "2026-11-06 08:38:34"
+      "Mis à jour": "2026-11-06 09:08:33"
     }
   ],
   "1h": [
