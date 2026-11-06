@@ -12,21 +12,35 @@
       "Entrée": 416.5,
       "Stop-loss": 419.189293,
       "Objectif CT": 412.914276,
-      "Mis à jour": "2026-11-06 02:12:48"
+      "Mis à jour": "2026-11-06 02:42:51"
     },
     {
-      "Actif": "EUR/USD",
-      "Ticker": "EURUSD=X",
-      "Cours": 1.121202,
+      "Actif": "Microsoft (MSFT)",
+      "Ticker": "MSFT",
+      "Cours": 535.659973,
+      "Opération": "VENTE",
+      "Score": 87,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 36.8,
+      "Ratio R/R": 1.33,
+      "Entrée": 535.659973,
+      "Stop-loss": 539.909191,
+      "Objectif CT": 529.99435,
+      "Mis à jour": "2026-11-06 02:42:50"
+    },
+    {
+      "Actif": "Nvidia (NVDA)",
+      "Ticker": "NVDA",
+      "Cours": 181.595001,
       "Opération": "VENTE",
       "Score": 84,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 40.0,
+      "RSI": 35.6,
       "Ratio R/R": 1.33,
-      "Entrée": 1.121202,
-      "Stop-loss": 1.121985,
-      "Objectif CT": 1.120158,
-      "Mis à jour": "2026-11-06 02:12:48"
+      "Entrée": 181.595001,
+      "Stop-loss": 183.918016,
+      "Objectif CT": 178.497648,
+      "Mis à jour": "2026-11-06 02:42:50"
     },
     {
       "Actif": "S&P 500",
@@ -40,7 +54,7 @@
       "Entrée": 7356.72998,
       "Stop-loss": 7402.31393,
       "Objectif CT": 7295.951381,
-      "Mis à jour": "2026-11-06 02:12:49"
+      "Mis à jour": "2026-11-06 02:42:51"
     },
     {
       "Actif": "Nasdaq 100",
@@ -54,7 +68,7 @@
       "Entrée": 26647.855469,
       "Stop-loss": 26867.704032,
       "Objectif CT": 26354.724051,
-      "Mis à jour": "2026-11-06 02:12:49"
+      "Mis à jour": "2026-11-06 02:42:51"
     },
     {
       "Actif": "Dow Jones",
@@ -68,7 +82,7 @@
       "Entrée": 51524.128906,
       "Stop-loss": 51792.320452,
       "Objectif CT": 51166.540179,
-      "Mis à jour": "2026-11-06 02:12:49"
+      "Mis à jour": "2026-11-06 02:42:51"
     },
     {
       "Actif": "Orange",
@@ -82,21 +96,21 @@
       "Entrée": 15.33,
       "Stop-loss": 15.268929,
       "Objectif CT": 15.411428,
-      "Mis à jour": "2026-11-06 02:12:49"
+      "Mis à jour": "2026-11-06 02:42:51"
     },
     {
-      "Actif": "Microsoft (MSFT)",
-      "Ticker": "MSFT",
-      "Cours": 535.659973,
+      "Actif": "Alphabet / Google (GOOGL)",
+      "Ticker": "GOOGL",
+      "Cours": 282.600006,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 36.8,
+      "RSI": 34.7,
       "Ratio R/R": 1.33,
-      "Entrée": 535.659973,
-      "Stop-loss": 539.909191,
-      "Objectif CT": 529.99435,
-      "Mis à jour": "2026-11-06 02:12:48"
+      "Entrée": 282.600006,
+      "Stop-loss": 284.971183,
+      "Objectif CT": 279.438437,
+      "Mis à jour": "2026-11-06 02:42:50"
     }
   ],
   "1h": [
