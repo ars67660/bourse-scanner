@@ -12,65 +12,23 @@
       "Entrée": 197.039993,
       "Stop-loss": 198.190708,
       "Objectif CT": 195.505707,
-      "Mis à jour": "2026-11-06 17:02:30"
+      "Mis à jour": "2026-11-06 17:32:31"
     }
   ],
   "1h": [
     {
-      "Actif": "Tesla (TSLA)",
-      "Ticker": "TSLA",
-      "Cours": 358.68631,
+      "Actif": "EUR/CHF",
+      "Ticker": "EURCHF=X",
+      "Cours": 0.9136,
       "Opération": "VENTE",
-      "Score": 90,
+      "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 35.6,
+      "RSI": 37.4,
       "Ratio R/R": 1.33,
-      "Entrée": 358.68631,
-      "Stop-loss": 372.276646,
-      "Objectif CT": 340.565861,
-      "Mis à jour": "2026-11-06 16:02:29"
-    },
-    {
-      "Actif": "Alphabet / Google (GOOGL)",
-      "Ticker": "GOOGL",
-      "Cours": 287.100006,
-      "Opération": "VENTE",
-      "Score": 83,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 44.1,
-      "Ratio R/R": 1.33,
-      "Entrée": 287.100006,
-      "Stop-loss": 293.290495,
-      "Objectif CT": 278.846021,
-      "Mis à jour": "2026-11-06 16:02:29"
-    },
-    {
-      "Actif": "Nvidia (NVDA)",
-      "Ticker": "NVDA",
-      "Cours": 188.725006,
-      "Opération": "VENTE",
-      "Score": 82,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 31.8,
-      "Ratio R/R": 1.33,
-      "Entrée": 188.725006,
-      "Stop-loss": 195.43104,
-      "Objectif CT": 179.783628,
-      "Mis à jour": "2026-11-06 16:02:29"
-    },
-    {
-      "Actif": "Cuivre (Copper)",
-      "Ticker": "HG=F",
-      "Cours": 6.2735,
-      "Opération": "VENTE",
-      "Score": 82,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 50.6,
-      "Ratio R/R": 1.33,
-      "Entrée": 6.2735,
-      "Stop-loss": 6.321339,
-      "Objectif CT": 6.209714,
-      "Mis à jour": "2026-11-06 16:02:33"
+      "Entrée": 0.9136,
+      "Stop-loss": 0.915828,
+      "Objectif CT": 0.91063,
+      "Mis à jour": "2026-11-06 17:32:34"
     }
   ],
   "1d": [
