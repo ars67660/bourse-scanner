@@ -12,35 +12,21 @@
       "Entrée": 197.039993,
       "Stop-loss": 198.190708,
       "Objectif CT": 195.505707,
-      "Mis à jour": "2026-11-06 19:02:37"
-    },
-    {
-      "Actif": "Ethereum (ETH)",
-      "Ticker": "ETH-USD",
-      "Cours": 2226.370117,
-      "Opération": "VENTE",
-      "Score": 84,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 52.1,
-      "Ratio R/R": 1.33,
-      "Entrée": 2226.370117,
-      "Stop-loss": 2240.083278,
-      "Objectif CT": 2208.085903,
-      "Mis à jour": "2026-11-06 19:02:39"
+      "Mis à jour": "2026-11-06 19:32:39"
     },
     {
       "Actif": "Tesla (TSLA)",
       "Ticker": "TSLA",
-      "Cours": 359.51001,
+      "Cours": 359.880005,
       "Opération": "ACHAT",
       "Score": 81,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 60.5,
+      "RSI": 62.7,
       "Ratio R/R": 1.33,
-      "Entrée": 359.51001,
-      "Stop-loss": 356.214213,
-      "Objectif CT": 363.904406,
-      "Mis à jour": "2026-11-06 19:02:36"
+      "Entrée": 359.880005,
+      "Stop-loss": 357.081761,
+      "Objectif CT": 363.610997,
+      "Mis à jour": "2026-11-06 19:32:38"
     }
   ],
   "1h": [],
