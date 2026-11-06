@@ -12,35 +12,7 @@
       "Entrée": 197.039993,
       "Stop-loss": 198.190708,
       "Objectif CT": 195.505707,
-      "Mis à jour": "2026-11-06 18:02:33"
-    },
-    {
-      "Actif": "Netflix (NFLX)",
-      "Ticker": "NFLX",
-      "Cours": 63.674999,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 49.1,
-      "Ratio R/R": 1.33,
-      "Entrée": 63.674999,
-      "Stop-loss": 64.109474,
-      "Objectif CT": 63.095699,
-      "Mis à jour": "2026-11-06 18:02:33"
-    },
-    {
-      "Actif": "Ethereum (ETH)",
-      "Ticker": "ETH-USD",
-      "Cours": 2221.530029,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 43.5,
-      "Ratio R/R": 1.33,
-      "Entrée": 2221.530029,
-      "Stop-loss": 2241.137172,
-      "Objectif CT": 2195.387172,
-      "Mis à jour": "2026-11-06 18:02:35"
+      "Mis à jour": "2026-11-06 18:32:36"
     }
   ],
   "1h": [
