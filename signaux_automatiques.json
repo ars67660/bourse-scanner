@@ -12,7 +12,7 @@
       "Entrée": 342.36499,
       "Stop-loss": 343.724594,
       "Objectif CT": 340.552185,
-      "Mis à jour": "2026-11-07 21:23:27"
+      "Mis à jour": "2026-11-07 22:53:33"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -26,7 +26,7 @@
       "Entrée": 284.730011,
       "Stop-loss": 286.110231,
       "Objectif CT": 282.889718,
-      "Mis à jour": "2026-11-07 21:23:28"
+      "Mis à jour": "2026-11-07 22:53:33"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -40,7 +40,7 @@
       "Entrée": 530.549988,
       "Stop-loss": 533.010899,
       "Objectif CT": 527.268773,
-      "Mis à jour": "2026-11-07 21:23:27"
+      "Mis à jour": "2026-11-07 22:53:33"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -54,7 +54,7 @@
       "Entrée": 259.350006,
       "Stop-loss": 260.870494,
       "Objectif CT": 257.322689,
-      "Mis à jour": "2026-11-07 21:23:28"
+      "Mis à jour": "2026-11-07 22:53:33"
     },
     {
       "Actif": "Airbus",
@@ -68,7 +68,7 @@
       "Entrée": 197.039993,
       "Stop-loss": 198.190708,
       "Objectif CT": 195.505707,
-      "Mis à jour": "2026-11-07 21:23:28"
+      "Mis à jour": "2026-11-07 22:53:34"
     },
     {
       "Actif": "AMD",
@@ -82,38 +82,10 @@
       "Entrée": 449.029999,
       "Stop-loss": 442.196356,
       "Objectif CT": 458.141523,
-      "Mis à jour": "2026-11-07 21:23:28"
+      "Mis à jour": "2026-11-07 22:53:34"
     }
   ],
   "1h": [
-    {
-      "Actif": "Solana (SOL)",
-      "Ticker": "SOL-USD",
-      "Cours": 88.709999,
-      "Opération": "VENTE",
-      "Score": 84,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 23.0,
-      "Ratio R/R": 1.33,
-      "Entrée": 88.709999,
-      "Stop-loss": 89.287499,
-      "Objectif CT": 87.939999,
-      "Mis à jour": "2026-11-07 21:23:33"
-    },
-    {
-      "Actif": "Cardano (ADA)",
-      "Ticker": "ADA-USD",
-      "Cours": 0.1796,
-      "Opération": "VENTE",
-      "Score": 84,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 16.8,
-      "Ratio R/R": 1.33,
-      "Entrée": 0.1796,
-      "Stop-loss": 0.181143,
-      "Objectif CT": 0.177543,
-      "Mis à jour": "2026-11-07 21:23:33"
-    },
     {
       "Actif": "USD/JPY",
       "Ticker": "USDJPY=X",
@@ -126,7 +98,7 @@
       "Entrée": 158.425003,
       "Stop-loss": 158.141286,
       "Objectif CT": 158.803292,
-      "Mis à jour": "2026-11-07 21:23:31"
+      "Mis à jour": "2026-11-07 22:53:36"
     }
   ],
   "1d": [
