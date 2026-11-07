@@ -12,7 +12,7 @@
       "Entrée": 342.36499,
       "Stop-loss": 343.724594,
       "Objectif CT": 340.552185,
-      "Mis à jour": "2026-11-07 17:24:48"
+      "Mis à jour": "2026-11-07 18:53:02"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -26,7 +26,7 @@
       "Entrée": 284.730011,
       "Stop-loss": 286.110231,
       "Objectif CT": 282.889718,
-      "Mis à jour": "2026-11-07 17:24:49"
+      "Mis à jour": "2026-11-07 18:53:02"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -40,7 +40,7 @@
       "Entrée": 530.549988,
       "Stop-loss": 533.010899,
       "Objectif CT": 527.268773,
-      "Mis à jour": "2026-11-07 17:24:49"
+      "Mis à jour": "2026-11-07 18:53:02"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -54,7 +54,7 @@
       "Entrée": 259.350006,
       "Stop-loss": 260.870494,
       "Objectif CT": 257.322689,
-      "Mis à jour": "2026-11-07 17:24:49"
+      "Mis à jour": "2026-11-07 18:53:02"
     },
     {
       "Actif": "Airbus",
@@ -68,7 +68,7 @@
       "Entrée": 197.039993,
       "Stop-loss": 198.190708,
       "Objectif CT": 195.505707,
-      "Mis à jour": "2026-11-07 17:24:50"
+      "Mis à jour": "2026-11-07 18:53:03"
     },
     {
       "Actif": "AMD",
@@ -82,10 +82,38 @@
       "Entrée": 449.029999,
       "Stop-loss": 442.196356,
       "Objectif CT": 458.141523,
-      "Mis à jour": "2026-11-07 17:24:49"
+      "Mis à jour": "2026-11-07 18:53:03"
     }
   ],
   "1h": [
+    {
+      "Actif": "Cardano (ADA)",
+      "Ticker": "ADA-USD",
+      "Cours": 0.18191,
+      "Opération": "VENTE",
+      "Score": 87,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 34.8,
+      "Ratio R/R": 1.33,
+      "Entrée": 0.18191,
+      "Stop-loss": 0.183232,
+      "Objectif CT": 0.180147,
+      "Mis à jour": "2026-11-07 18:53:09"
+    },
+    {
+      "Actif": "Solana (SOL)",
+      "Ticker": "SOL-USD",
+      "Cours": 89.620003,
+      "Opération": "VENTE",
+      "Score": 85,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 44.3,
+      "Ratio R/R": 1.33,
+      "Entrée": 89.620003,
+      "Stop-loss": 90.12786,
+      "Objectif CT": 88.94286,
+      "Mis à jour": "2026-11-07 18:53:09"
+    },
     {
       "Actif": "USD/JPY",
       "Ticker": "USDJPY=X",
@@ -98,21 +126,7 @@
       "Entrée": 158.425003,
       "Stop-loss": 158.141286,
       "Objectif CT": 158.803292,
-      "Mis à jour": "2026-11-07 17:24:52"
-    },
-    {
-      "Actif": "Cardano (ADA)",
-      "Ticker": "ADA-USD",
-      "Cours": 0.182,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 33.6,
-      "Ratio R/R": 1.33,
-      "Entrée": 0.182,
-      "Stop-loss": 0.183353,
-      "Objectif CT": 0.180196,
-      "Mis à jour": "2026-11-07 17:24:55"
+      "Mis à jour": "2026-11-07 18:53:05"
     }
   ],
   "1d": [
