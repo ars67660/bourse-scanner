@@ -1,6 +1,6 @@
 {
   "initial_capital": 10000.0,
-  "cash": 2985.724250123231,
+  "cash": 2983.309209923812,
   "positions": [
     {
       "name": "Alphabet / Google (GOOGL)",
@@ -123,21 +123,6 @@
       "timeframe": "15 minutes"
     },
     {
-      "name": "Ethereum (ETH)",
-      "symbol": "ETH-USD",
-      "side": "SHORT",
-      "score": 87,
-      "entry": 2224.9599609375,
-      "last_price": 2239.080078125,
-      "sl": 2242.838875906808,
-      "tp": 2201.121407645089,
-      "tp_long": 2189.202130998884,
-      "qty": 0.3584716869157957,
-      "capital": 797.5851505173684,
-      "opened_at": "2026-11-06T18:29:48+00:00",
-      "timeframe": "15 minutes"
-    },
-    {
       "name": "Schneider Electric",
       "symbol": "SU.PA",
       "side": "LONG",
@@ -158,13 +143,28 @@
       "side": "SHORT",
       "score": 85,
       "entry": 1.1748000383377075,
-      "last_price": 1.1783000230789185,
+      "last_price": 1.1790000200271606,
       "sl": 1.1813893445900507,
       "tp": 1.1660142966679163,
       "tp_long": 1.1616214258330209,
       "qty": 8.657128082694058,
       "capital": 10.170394403443424,
       "opened_at": "2026-11-06T21:10:31+00:00",
+      "timeframe": "15 minutes"
+    },
+    {
+      "name": "Microsoft (MSFT)",
+      "symbol": "MSFT",
+      "side": "SHORT",
+      "score": 84,
+      "entry": 530.5499877929688,
+      "last_price": 530.5499877929688,
+      "sl": 533.0108991350446,
+      "tp": 527.2687726702009,
+      "tp_long": 525.6281651088169,
+      "qty": 1.4957895093142295,
+      "capital": 793.5911059075152,
+      "opened_at": "2026-11-07T01:43:00+00:00",
       "timeframe": "15 minutes"
     }
   ],
@@ -477,7 +477,26 @@
       "pnl_eur": -0.0003137789302123809,
       "exit_reason": "Signal opposé",
       "closed_at": "2026-11-06T23:51:14+00:00"
+    },
+    {
+      "name": "Ethereum (ETH)",
+      "symbol": "ETH-USD",
+      "side": "SHORT",
+      "score": 87,
+      "entry": 2224.9599609375,
+      "last_price": 2239.080078125,
+      "sl": 2242.838875906808,
+      "tp": 2201.121407645089,
+      "tp_long": 2189.202130998884,
+      "qty": 0.3584716869157957,
+      "capital": 797.5851505173684,
+      "opened_at": "2026-11-06T18:29:48+00:00",
+      "timeframe": "15 minutes",
+      "exit": 2242.838875906808,
+      "pnl_eur": -6.409084809271899,
+      "exit_reason": "Stop-loss",
+      "closed_at": "2026-11-07T01:42:56+00:00"
     }
   ],
-  "last_cycle": "2026-11-07T00:40:30+00:00"
+  "last_cycle": "2026-11-07T01:43:00+00:00"
 }
