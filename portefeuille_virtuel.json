@@ -1,6 +1,6 @@
 {
   "initial_capital": 10000.0,
-  "cash": 2983.266790181143,
+  "cash": 2983.3065758654907,
   "positions": [
     {
       "name": "Alphabet / Google (GOOGL)",
@@ -138,21 +138,6 @@
       "timeframe": "15 minutes"
     },
     {
-      "name": "XRP",
-      "symbol": "XRP-USD",
-      "side": "SHORT",
-      "score": 85,
-      "entry": 1.1748000383377075,
-      "last_price": 1.1720000505447388,
-      "sl": 1.1813893445900507,
-      "tp": 1.1660142966679163,
-      "tp_long": 1.1616214258330209,
-      "qty": 8.657128082694058,
-      "capital": 10.170394403443424,
-      "opened_at": "2026-11-06T21:10:31+00:00",
-      "timeframe": "15 minutes"
-    },
-    {
       "name": "Microsoft (MSFT)",
       "symbol": "MSFT",
       "side": "SHORT",
@@ -180,6 +165,21 @@
       "qty": 0.00016356175697263063,
       "capital": 0.04241974266915349,
       "opened_at": "2026-11-07T02:28:40+00:00",
+      "timeframe": "15 minutes"
+    },
+    {
+      "name": "XRP",
+      "symbol": "XRP-USD",
+      "side": "SHORT",
+      "score": 84,
+      "entry": 1.160099983215332,
+      "last_price": 1.160099983215332,
+      "sl": 1.1661535884652818,
+      "tp": 1.1520285095487321,
+      "tp_long": 1.1479927727154322,
+      "qty": 8.798093403763056,
+      "capital": 10.206668010032445,
+      "opened_at": "2026-11-07T03:19:50+00:00",
       "timeframe": "15 minutes"
     }
   ],
@@ -511,7 +511,26 @@
       "pnl_eur": -6.409084809271899,
       "exit_reason": "Stop-loss",
       "closed_at": "2026-11-07T01:42:56+00:00"
+    },
+    {
+      "name": "XRP",
+      "symbol": "XRP-USD",
+      "side": "SHORT",
+      "score": 85,
+      "entry": 1.1748000383377075,
+      "last_price": 1.1720000505447388,
+      "sl": 1.1813893445900507,
+      "tp": 1.1660142966679163,
+      "tp_long": 1.1616214258330209,
+      "qty": 8.657128082694058,
+      "capital": 10.170394403443424,
+      "opened_at": "2026-11-06T21:10:31+00:00",
+      "timeframe": "15 minutes",
+      "exit": 1.1660142966679163,
+      "pnl_eur": 0.07605929093684462,
+      "exit_reason": "Take-profit",
+      "closed_at": "2026-11-07T03:19:46+00:00"
     }
   ],
-  "last_cycle": "2026-11-07T02:28:40+00:00"
+  "last_cycle": "2026-11-07T03:19:50+00:00"
 }
