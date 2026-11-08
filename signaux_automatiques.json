@@ -12,7 +12,7 @@
       "Entrée": 342.36499,
       "Stop-loss": 343.724594,
       "Objectif CT": 340.552185,
-      "Mis à jour": "2026-11-08 13:51:19"
+      "Mis à jour": "2026-11-08 15:21:25"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -26,7 +26,7 @@
       "Entrée": 284.730011,
       "Stop-loss": 286.110231,
       "Objectif CT": 282.889718,
-      "Mis à jour": "2026-11-08 13:51:19"
+      "Mis à jour": "2026-11-08 15:21:25"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -40,7 +40,7 @@
       "Entrée": 530.549988,
       "Stop-loss": 533.010899,
       "Objectif CT": 527.268773,
-      "Mis à jour": "2026-11-08 13:51:19"
+      "Mis à jour": "2026-11-08 15:21:25"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -54,7 +54,7 @@
       "Entrée": 259.350006,
       "Stop-loss": 260.870494,
       "Objectif CT": 257.322689,
-      "Mis à jour": "2026-11-08 13:51:19"
+      "Mis à jour": "2026-11-08 15:21:25"
     },
     {
       "Actif": "Airbus",
@@ -68,7 +68,7 @@
       "Entrée": 197.039993,
       "Stop-loss": 198.190708,
       "Objectif CT": 195.505707,
-      "Mis à jour": "2026-11-08 13:51:19"
+      "Mis à jour": "2026-11-08 15:21:26"
     },
     {
       "Actif": "AMD",
@@ -82,7 +82,7 @@
       "Entrée": 449.029999,
       "Stop-loss": 442.196356,
       "Objectif CT": 458.141523,
-      "Mis à jour": "2026-11-08 13:51:19"
+      "Mis à jour": "2026-11-08 15:21:26"
     }
   ],
   "1h": [
@@ -98,23 +98,23 @@
       "Entrée": 158.425003,
       "Stop-loss": 158.141286,
       "Objectif CT": 158.803292,
-      "Mis à jour": "2026-11-08 13:21:20"
+      "Mis à jour": "2026-11-08 14:51:26"
     }
   ],
   "1d": [
     {
-      "Actif": "Or (XAU)",
-      "Ticker": "GC=F",
-      "Cours": 4074.899902,
+      "Actif": "Cuivre (Copper)",
+      "Ticker": "HG=F",
+      "Cours": 6.2375,
       "Opération": "VENTE",
-      "Score": 84,
+      "Score": 86,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 44.1,
+      "RSI": 36.8,
       "Ratio R/R": 1.33,
-      "Entrée": 4074.899902,
-      "Stop-loss": 4202.367702,
-      "Objectif CT": 3904.942836,
-      "Mis à jour": "2026-11-07 14:54:47"
+      "Entrée": 6.2375,
+      "Stop-loss": 6.405447,
+      "Objectif CT": 6.013572,
+      "Mis à jour": "2026-11-08 15:21:32"
     },
     {
       "Actif": "Airbus",
@@ -128,7 +128,7 @@
       "Entrée": 196.399994,
       "Stop-loss": 188.080355,
       "Objectif CT": 207.492846,
-      "Mis à jour": "2026-11-07 14:54:44"
+      "Mis à jour": "2026-11-08 15:21:30"
     },
     {
       "Actif": "DAX 40 (Allemagne)",
@@ -142,7 +142,7 @@
       "Entrée": 25820.359375,
       "Stop-loss": 25233.96317,
       "Objectif CT": 26602.220982,
-      "Mis à jour": "2026-11-07 14:54:46"
+      "Mis à jour": "2026-11-08 15:21:31"
     }
   ]
 }
