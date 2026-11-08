@@ -12,7 +12,7 @@
       "Entrée": 342.36499,
       "Stop-loss": 343.724594,
       "Objectif CT": 340.552185,
-      "Mis à jour": "2026-11-08 21:21:47"
+      "Mis à jour": "2026-11-08 22:21:50"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -26,21 +26,7 @@
       "Entrée": 284.730011,
       "Stop-loss": 286.110231,
       "Objectif CT": 282.889718,
-      "Mis à jour": "2026-11-08 21:21:47"
-    },
-    {
-      "Actif": "XRP",
-      "Ticker": "XRP-USD",
-      "Cours": 1.1456,
-      "Opération": "VENTE",
-      "Score": 85,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 35.7,
-      "Ratio R/R": 1.33,
-      "Entrée": 1.1456,
-      "Stop-loss": 1.151836,
-      "Objectif CT": 1.137286,
-      "Mis à jour": "2026-11-08 21:21:50"
+      "Mis à jour": "2026-11-08 22:21:51"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -54,7 +40,7 @@
       "Entrée": 530.549988,
       "Stop-loss": 533.010899,
       "Objectif CT": 527.268773,
-      "Mis à jour": "2026-11-08 21:21:47"
+      "Mis à jour": "2026-11-08 22:21:51"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -68,7 +54,7 @@
       "Entrée": 259.350006,
       "Stop-loss": 260.870494,
       "Objectif CT": 257.322689,
-      "Mis à jour": "2026-11-08 21:21:47"
+      "Mis à jour": "2026-11-08 22:21:51"
     },
     {
       "Actif": "Airbus",
@@ -82,7 +68,7 @@
       "Entrée": 197.039993,
       "Stop-loss": 198.190708,
       "Objectif CT": 195.505707,
-      "Mis à jour": "2026-11-08 21:21:48"
+      "Mis à jour": "2026-11-08 22:21:52"
     },
     {
       "Actif": "AMD",
@@ -96,23 +82,23 @@
       "Entrée": 449.029999,
       "Stop-loss": 442.196356,
       "Objectif CT": 458.141523,
-      "Mis à jour": "2026-11-08 21:21:48"
+      "Mis à jour": "2026-11-08 22:21:51"
     }
   ],
   "1h": [
     {
-      "Actif": "Ethereum (ETH)",
-      "Ticker": "ETH-USD",
-      "Cours": 2224.389893,
+      "Actif": "Cardano (ADA)",
+      "Ticker": "ADA-USD",
+      "Cours": 0.17557,
       "Opération": "VENTE",
-      "Score": 88,
+      "Score": 85,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 44.2,
+      "RSI": 36.9,
       "Ratio R/R": 1.33,
-      "Entrée": 2224.389893,
-      "Stop-loss": 2235.101013,
-      "Objectif CT": 2210.108398,
-      "Mis à jour": "2026-11-08 20:51:52"
+      "Entrée": 0.17557,
+      "Stop-loss": 0.178426,
+      "Objectif CT": 0.171761,
+      "Mis à jour": "2026-11-08 22:21:57"
     },
     {
       "Actif": "USD/JPY",
@@ -126,21 +112,7 @@
       "Entrée": 158.425003,
       "Stop-loss": 158.141286,
       "Objectif CT": 158.803292,
-      "Mis à jour": "2026-11-08 20:51:49"
-    },
-    {
-      "Actif": "XRP",
-      "Ticker": "XRP-USD",
-      "Cours": 1.1502,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 31.8,
-      "Ratio R/R": 1.33,
-      "Entrée": 1.1502,
-      "Stop-loss": 1.160111,
-      "Objectif CT": 1.136986,
-      "Mis à jour": "2026-11-08 20:51:52"
+      "Mis à jour": "2026-11-08 22:21:54"
     }
   ],
   "1d": [
