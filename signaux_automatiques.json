@@ -12,7 +12,7 @@
       "Entrée": 342.36499,
       "Stop-loss": 343.724594,
       "Objectif CT": 340.552185,
-      "Mis à jour": "2026-11-08 02:09:30"
+      "Mis à jour": "2026-11-08 02:39:31"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -26,21 +26,21 @@
       "Entrée": 284.730011,
       "Stop-loss": 286.110231,
       "Objectif CT": 282.889718,
-      "Mis à jour": "2026-11-08 02:09:30"
+      "Mis à jour": "2026-11-08 02:39:32"
     },
     {
-      "Actif": "Solana (SOL)",
-      "Ticker": "SOL-USD",
-      "Cours": 88.889999,
+      "Actif": "Cardano (ADA)",
+      "Ticker": "ADA-USD",
+      "Cours": 0.17986,
       "Opération": "VENTE",
       "Score": 87,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 39.7,
+      "RSI": 33.4,
       "Ratio R/R": 1.33,
-      "Entrée": 88.889999,
-      "Stop-loss": 89.153572,
-      "Objectif CT": 88.538569,
-      "Mis à jour": "2026-11-08 02:09:32"
+      "Entrée": 0.17986,
+      "Stop-loss": 0.180488,
+      "Objectif CT": 0.179023,
+      "Mis à jour": "2026-11-08 02:39:34"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -54,7 +54,7 @@
       "Entrée": 530.549988,
       "Stop-loss": 533.010899,
       "Objectif CT": 527.268773,
-      "Mis à jour": "2026-11-08 02:09:30"
+      "Mis à jour": "2026-11-08 02:39:32"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -68,7 +68,7 @@
       "Entrée": 259.350006,
       "Stop-loss": 260.870494,
       "Objectif CT": 257.322689,
-      "Mis à jour": "2026-11-08 02:09:30"
+      "Mis à jour": "2026-11-08 02:39:32"
     },
     {
       "Actif": "Airbus",
@@ -82,7 +82,7 @@
       "Entrée": 197.039993,
       "Stop-loss": 198.190708,
       "Objectif CT": 195.505707,
-      "Mis à jour": "2026-11-08 02:09:31"
+      "Mis à jour": "2026-11-08 02:39:32"
     },
     {
       "Actif": "AMD",
@@ -96,7 +96,21 @@
       "Entrée": 449.029999,
       "Stop-loss": 442.196356,
       "Objectif CT": 458.141523,
-      "Mis à jour": "2026-11-08 02:09:31"
+      "Mis à jour": "2026-11-08 02:39:32"
+    },
+    {
+      "Actif": "Ethereum (ETH)",
+      "Ticker": "ETH-USD",
+      "Cours": 2229.330078,
+      "Opération": "VENTE",
+      "Score": 81,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 43.0,
+      "Ratio R/R": 1.33,
+      "Entrée": 2229.330078,
+      "Stop-loss": 2233.167943,
+      "Objectif CT": 2224.212926,
+      "Mis à jour": "2026-11-08 02:39:34"
     }
   ],
   "1h": [
