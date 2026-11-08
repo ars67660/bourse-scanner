@@ -1,20 +1,6 @@
 {
   "15m": [
     {
-      "Actif": "XRP",
-      "Ticker": "XRP-USD",
-      "Cours": 1.1532,
-      "Opération": "VENTE",
-      "Score": 90,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 41.3,
-      "Ratio R/R": 1.33,
-      "Entrée": 1.1532,
-      "Stop-loss": 1.159029,
-      "Objectif CT": 1.145429,
-      "Mis à jour": "2026-11-08 17:51:37"
-    },
-    {
       "Actif": "Apple (AAPL)",
       "Ticker": "AAPL",
       "Cours": 342.36499,
@@ -26,7 +12,7 @@
       "Entrée": 342.36499,
       "Stop-loss": 343.724594,
       "Objectif CT": 340.552185,
-      "Mis à jour": "2026-11-08 17:51:34"
+      "Mis à jour": "2026-11-08 18:21:35"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -40,7 +26,7 @@
       "Entrée": 284.730011,
       "Stop-loss": 286.110231,
       "Objectif CT": 282.889718,
-      "Mis à jour": "2026-11-08 17:51:34"
+      "Mis à jour": "2026-11-08 18:21:36"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -54,7 +40,7 @@
       "Entrée": 530.549988,
       "Stop-loss": 533.010899,
       "Objectif CT": 527.268773,
-      "Mis à jour": "2026-11-08 17:51:34"
+      "Mis à jour": "2026-11-08 18:21:36"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -68,7 +54,7 @@
       "Entrée": 259.350006,
       "Stop-loss": 260.870494,
       "Objectif CT": 257.322689,
-      "Mis à jour": "2026-11-08 17:51:34"
+      "Mis à jour": "2026-11-08 18:21:36"
     },
     {
       "Actif": "Airbus",
@@ -82,7 +68,7 @@
       "Entrée": 197.039993,
       "Stop-loss": 198.190708,
       "Objectif CT": 195.505707,
-      "Mis à jour": "2026-11-08 17:51:35"
+      "Mis à jour": "2026-11-08 18:21:37"
     },
     {
       "Actif": "AMD",
@@ -96,7 +82,7 @@
       "Entrée": 449.029999,
       "Stop-loss": 442.196356,
       "Objectif CT": 458.141523,
-      "Mis à jour": "2026-11-08 17:51:35"
+      "Mis à jour": "2026-11-08 18:21:36"
     }
   ],
   "1h": [
