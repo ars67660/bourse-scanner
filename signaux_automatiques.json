@@ -12,7 +12,7 @@
       "Entrée": 342.36499,
       "Stop-loss": 343.724594,
       "Objectif CT": 340.552185,
-      "Mis à jour": "2026-11-09 12:15:45"
+      "Mis à jour": "2026-11-09 12:45:48"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -26,7 +26,7 @@
       "Entrée": 284.730011,
       "Stop-loss": 286.110231,
       "Objectif CT": 282.889718,
-      "Mis à jour": "2026-11-09 12:15:46"
+      "Mis à jour": "2026-11-09 12:45:48"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -40,7 +40,7 @@
       "Entrée": 530.549988,
       "Stop-loss": 533.010899,
       "Objectif CT": 527.268773,
-      "Mis à jour": "2026-11-09 12:15:46"
+      "Mis à jour": "2026-11-09 12:45:48"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -54,7 +54,21 @@
       "Entrée": 259.350006,
       "Stop-loss": 260.870494,
       "Objectif CT": 257.322689,
-      "Mis à jour": "2026-11-09 12:15:46"
+      "Mis à jour": "2026-11-09 12:45:48"
+    },
+    {
+      "Actif": "EUR/CHF",
+      "Ticker": "EURCHF=X",
+      "Cours": 0.91617,
+      "Opération": "ACHAT",
+      "Score": 81,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 67.4,
+      "Ratio R/R": 1.33,
+      "Entrée": 0.91617,
+      "Stop-loss": 0.915083,
+      "Objectif CT": 0.91762,
+      "Mis à jour": "2026-11-09 12:45:48"
     },
     {
       "Actif": "AMD",
@@ -68,93 +82,65 @@
       "Entrée": 449.029999,
       "Stop-loss": 442.196356,
       "Objectif CT": 458.141523,
-      "Mis à jour": "2026-11-09 12:15:46"
+      "Mis à jour": "2026-11-09 12:45:49"
+    }
+  ],
+  "1h": [
+    {
+      "Actif": "Euro Stoxx 50",
+      "Ticker": "^STOXX50E",
+      "Cours": 6245.549805,
+      "Opération": "ACHAT",
+      "Score": 87,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 54.1,
+      "Ratio R/R": 1.33,
+      "Entrée": 6245.549805,
+      "Stop-loss": 6200.156703,
+      "Objectif CT": 6306.07394,
+      "Mis à jour": "2026-11-09 12:45:53"
+    },
+    {
+      "Actif": "XRP",
+      "Ticker": "XRP-USD",
+      "Cours": 1.1022,
+      "Opération": "VENTE",
+      "Score": 87,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 46.4,
+      "Ratio R/R": 1.33,
+      "Entrée": 1.1022,
+      "Stop-loss": 1.124893,
+      "Objectif CT": 1.071943,
+      "Mis à jour": "2026-11-09 12:45:54"
     },
     {
       "Actif": "CAC 40",
       "Ticker": "^FCHI",
-      "Cours": 8193.080078,
+      "Cours": 8195.879883,
+      "Opération": "ACHAT",
+      "Score": 84,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 49.3,
+      "Ratio R/R": 1.33,
+      "Entrée": 8195.879883,
+      "Stop-loss": 8139.190691,
+      "Objectif CT": 8271.465472,
+      "Mis à jour": "2026-11-09 12:45:53"
+    },
+    {
+      "Actif": "Or (XAU)",
+      "Ticker": "GC=F",
+      "Cours": 4123.899902,
       "Opération": "ACHAT",
       "Score": 81,
       "Signal": "LONG — Configuration forte à étudier",
       "RSI": 64.9,
       "Ratio R/R": 1.33,
-      "Entrée": 8193.080078,
-      "Stop-loss": 8178.627616,
-      "Objectif CT": 8212.350028,
-      "Mis à jour": "2026-11-09 12:15:47"
-    },
-    {
-      "Actif": "DAX 40 (Allemagne)",
-      "Ticker": "^GDAXI",
-      "Cours": 26058.179688,
-      "Opération": "ACHAT",
-      "Score": 81,
-      "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 63.9,
-      "Ratio R/R": 1.33,
-      "Entrée": 26058.179688,
-      "Stop-loss": 26006.429688,
-      "Objectif CT": 26127.179688,
-      "Mis à jour": "2026-11-09 12:15:47"
-    },
-    {
-      "Actif": "Euro Stoxx 50",
-      "Ticker": "^STOXX50E",
-      "Cours": 6241.310059,
-      "Opération": "ACHAT",
-      "Score": 81,
-      "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 64.0,
-      "Ratio R/R": 1.33,
-      "Entrée": 6241.310059,
-      "Stop-loss": 6228.270752,
-      "Objectif CT": 6258.695801,
-      "Mis à jour": "2026-11-09 12:15:48"
-    }
-  ],
-  "1h": [
-    {
-      "Actif": "Airbus",
-      "Ticker": "AIR.PA",
-      "Cours": 200.899994,
-      "Opération": "ACHAT",
-      "Score": 81,
-      "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 65.6,
-      "Ratio R/R": 1.33,
-      "Entrée": 200.899994,
-      "Stop-loss": 198.568564,
-      "Objectif CT": 204.008567,
-      "Mis à jour": "2026-11-09 11:15:46"
-    },
-    {
-      "Actif": "Ethereum (ETH)",
-      "Ticker": "ETH-USD",
-      "Cours": 2104.330078,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 41.5,
-      "Ratio R/R": 1.33,
-      "Entrée": 2104.330078,
-      "Stop-loss": 2139.530797,
-      "Objectif CT": 2057.395787,
-      "Mis à jour": "2026-11-09 11:15:47"
-    },
-    {
-      "Actif": "Solana (SOL)",
-      "Ticker": "SOL-USD",
-      "Cours": 85.82,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 49.4,
-      "Ratio R/R": 1.33,
-      "Entrée": 85.82,
-      "Stop-loss": 87.363928,
-      "Objectif CT": 83.761429,
-      "Mis à jour": "2026-11-09 11:15:47"
+      "Entrée": 4123.899902,
+      "Stop-loss": 4097.714146,
+      "Objectif CT": 4158.814244,
+      "Mis à jour": "2026-11-09 12:45:54"
     }
   ],
   "1d": [
