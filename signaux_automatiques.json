@@ -1,32 +1,60 @@
 {
   "15m": [
     {
-      "Actif": "Amazon (AMZN)",
-      "Ticker": "AMZN",
-      "Cours": 269.559998,
+      "Actif": "Argent (Silver)",
+      "Ticker": "SI=F",
+      "Cours": 52.950001,
       "Opération": "ACHAT",
-      "Score": 81,
+      "Score": 85,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 63.3,
+      "RSI": 57.0,
       "Ratio R/R": 1.33,
-      "Entrée": 269.559998,
-      "Stop-loss": 266.130213,
-      "Objectif CT": 274.133044,
-      "Mis à jour": "2026-11-09 15:46:00"
+      "Entrée": 52.950001,
+      "Stop-loss": 52.533965,
+      "Objectif CT": 53.504715,
+      "Mis à jour": "2026-11-09 16:16:05"
     },
     {
-      "Actif": "Cuivre (Copper)",
-      "Ticker": "HG=F",
-      "Cours": 6.349,
+      "Actif": "Amazon (AMZN)",
+      "Ticker": "AMZN",
+      "Cours": 268.329987,
       "Opération": "ACHAT",
       "Score": 81,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 61.6,
+      "RSI": 62.2,
       "Ratio R/R": 1.33,
-      "Entrée": 6.349,
-      "Stop-loss": 6.315786,
-      "Objectif CT": 6.393286,
-      "Mis à jour": "2026-11-09 15:46:03"
+      "Entrée": 268.329987,
+      "Stop-loss": 264.78426,
+      "Objectif CT": 273.057622,
+      "Mis à jour": "2026-11-09 16:16:02"
+    },
+    {
+      "Actif": "Alphabet / Google (GOOGL)",
+      "Ticker": "GOOGL",
+      "Cours": 291.565002,
+      "Opération": "ACHAT",
+      "Score": 81,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 64.1,
+      "Ratio R/R": 1.33,
+      "Entrée": 291.565002,
+      "Stop-loss": 288.58123,
+      "Objectif CT": 295.543365,
+      "Mis à jour": "2026-11-09 16:16:02"
+    },
+    {
+      "Actif": "Hermès",
+      "Ticker": "RMS.PA",
+      "Cours": 1351.5,
+      "Opération": "ACHAT",
+      "Score": 81,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 60.3,
+      "Ratio R/R": 1.33,
+      "Entrée": 1351.5,
+      "Stop-loss": 1344.964286,
+      "Objectif CT": 1360.214286,
+      "Mis à jour": "2026-11-09 16:16:03"
     }
   ],
   "1h": [
