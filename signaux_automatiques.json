@@ -12,7 +12,7 @@
       "Entrée": 342.36499,
       "Stop-loss": 343.724594,
       "Objectif CT": 340.552185,
-      "Mis à jour": "2026-11-09 09:45:11"
+      "Mis à jour": "2026-11-09 10:15:16"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -26,7 +26,7 @@
       "Entrée": 284.730011,
       "Stop-loss": 286.110231,
       "Objectif CT": 282.889718,
-      "Mis à jour": "2026-11-09 09:45:12"
+      "Mis à jour": "2026-11-09 10:15:16"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -40,7 +40,7 @@
       "Entrée": 530.549988,
       "Stop-loss": 533.010899,
       "Objectif CT": 527.268773,
-      "Mis à jour": "2026-11-09 09:45:11"
+      "Mis à jour": "2026-11-09 10:15:16"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -54,7 +54,7 @@
       "Entrée": 259.350006,
       "Stop-loss": 260.870494,
       "Objectif CT": 257.322689,
-      "Mis à jour": "2026-11-09 09:45:12"
+      "Mis à jour": "2026-11-09 10:15:16"
     },
     {
       "Actif": "AMD",
@@ -68,7 +68,21 @@
       "Entrée": 449.029999,
       "Stop-loss": 442.196356,
       "Objectif CT": 458.141523,
-      "Mis à jour": "2026-11-09 09:45:12"
+      "Mis à jour": "2026-11-09 10:15:17"
+    },
+    {
+      "Actif": "CAC 40",
+      "Ticker": "^FCHI",
+      "Cours": 8160.459961,
+      "Opération": "ACHAT",
+      "Score": 81,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 67.2,
+      "Ratio R/R": 1.33,
+      "Entrée": 8160.459961,
+      "Stop-loss": 8137.248675,
+      "Objectif CT": 8191.408343,
+      "Mis à jour": "2026-11-09 10:15:18"
     }
   ],
   "1h": [
