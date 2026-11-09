@@ -12,7 +12,7 @@
       "Entrée": 1353.5,
       "Stop-loss": 1345.464286,
       "Objectif CT": 1364.214286,
-      "Mis à jour": "2026-11-09 17:16:06"
+      "Mis à jour": "2026-11-09 17:46:08"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,21 +26,21 @@
       "Entrée": 78.879997,
       "Stop-loss": 78.373212,
       "Objectif CT": 79.555711,
-      "Mis à jour": "2026-11-09 17:16:06"
+      "Mis à jour": "2026-11-09 17:46:08"
     },
     {
-      "Actif": "Amazon (AMZN)",
-      "Ticker": "AMZN",
-      "Cours": 268.654999,
+      "Actif": "EUR/USD",
+      "Ticker": "EURUSD=X",
+      "Cours": 1.120699,
       "Opération": "ACHAT",
       "Score": 81,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 64.5,
+      "RSI": 61.5,
       "Ratio R/R": 1.33,
-      "Entrée": 268.654999,
-      "Stop-loss": 265.114314,
-      "Objectif CT": 273.375911,
-      "Mis à jour": "2026-11-09 17:16:05"
+      "Entrée": 1.120699,
+      "Stop-loss": 1.120027,
+      "Objectif CT": 1.121596,
+      "Mis à jour": "2026-11-09 17:46:06"
     }
   ],
   "1h": [
