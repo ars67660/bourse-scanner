@@ -12,7 +12,7 @@
       "Entrée": 342.36499,
       "Stop-loss": 343.724594,
       "Objectif CT": 340.552185,
-      "Mis à jour": "2026-11-09 11:45:43"
+      "Mis à jour": "2026-11-09 12:15:45"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -26,7 +26,7 @@
       "Entrée": 284.730011,
       "Stop-loss": 286.110231,
       "Objectif CT": 282.889718,
-      "Mis à jour": "2026-11-09 11:45:44"
+      "Mis à jour": "2026-11-09 12:15:46"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -40,7 +40,7 @@
       "Entrée": 530.549988,
       "Stop-loss": 533.010899,
       "Objectif CT": 527.268773,
-      "Mis à jour": "2026-11-09 11:45:43"
+      "Mis à jour": "2026-11-09 12:15:46"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -54,7 +54,7 @@
       "Entrée": 259.350006,
       "Stop-loss": 260.870494,
       "Objectif CT": 257.322689,
-      "Mis à jour": "2026-11-09 11:45:43"
+      "Mis à jour": "2026-11-09 12:15:46"
     },
     {
       "Actif": "AMD",
@@ -68,21 +68,49 @@
       "Entrée": 449.029999,
       "Stop-loss": 442.196356,
       "Objectif CT": 458.141523,
-      "Mis à jour": "2026-11-09 11:45:44"
+      "Mis à jour": "2026-11-09 12:15:46"
     },
     {
-      "Actif": "Stellantis",
-      "Ticker": "STLAP.PA",
-      "Cours": 3.995,
+      "Actif": "CAC 40",
+      "Ticker": "^FCHI",
+      "Cours": 8193.080078,
       "Opération": "ACHAT",
       "Score": 81,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 62.3,
+      "RSI": 64.9,
       "Ratio R/R": 1.33,
-      "Entrée": 3.995,
-      "Stop-loss": 3.974536,
-      "Objectif CT": 4.022286,
-      "Mis à jour": "2026-11-09 11:45:45"
+      "Entrée": 8193.080078,
+      "Stop-loss": 8178.627616,
+      "Objectif CT": 8212.350028,
+      "Mis à jour": "2026-11-09 12:15:47"
+    },
+    {
+      "Actif": "DAX 40 (Allemagne)",
+      "Ticker": "^GDAXI",
+      "Cours": 26058.179688,
+      "Opération": "ACHAT",
+      "Score": 81,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 63.9,
+      "Ratio R/R": 1.33,
+      "Entrée": 26058.179688,
+      "Stop-loss": 26006.429688,
+      "Objectif CT": 26127.179688,
+      "Mis à jour": "2026-11-09 12:15:47"
+    },
+    {
+      "Actif": "Euro Stoxx 50",
+      "Ticker": "^STOXX50E",
+      "Cours": 6241.310059,
+      "Opération": "ACHAT",
+      "Score": 81,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 64.0,
+      "Ratio R/R": 1.33,
+      "Entrée": 6241.310059,
+      "Stop-loss": 6228.270752,
+      "Objectif CT": 6258.695801,
+      "Mis à jour": "2026-11-09 12:15:48"
     }
   ],
   "1h": [
