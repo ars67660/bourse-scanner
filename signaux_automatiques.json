@@ -12,7 +12,7 @@
       "Entrée": 342.36499,
       "Stop-loss": 343.724594,
       "Objectif CT": 340.552185,
-      "Mis à jour": "2026-11-09 10:45:17"
+      "Mis à jour": "2026-11-09 11:15:41"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -26,7 +26,7 @@
       "Entrée": 284.730011,
       "Stop-loss": 286.110231,
       "Objectif CT": 282.889718,
-      "Mis à jour": "2026-11-09 10:45:17"
+      "Mis à jour": "2026-11-09 11:15:41"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -40,7 +40,7 @@
       "Entrée": 530.549988,
       "Stop-loss": 533.010899,
       "Objectif CT": 527.268773,
-      "Mis à jour": "2026-11-09 10:45:17"
+      "Mis à jour": "2026-11-09 11:15:41"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -54,7 +54,7 @@
       "Entrée": 259.350006,
       "Stop-loss": 260.870494,
       "Objectif CT": 257.322689,
-      "Mis à jour": "2026-11-09 10:45:17"
+      "Mis à jour": "2026-11-09 11:15:41"
     },
     {
       "Actif": "AMD",
@@ -68,79 +68,51 @@
       "Entrée": 449.029999,
       "Stop-loss": 442.196356,
       "Objectif CT": 458.141523,
-      "Mis à jour": "2026-11-09 10:45:17"
-    },
-    {
-      "Actif": "Hermès",
-      "Ticker": "RMS.PA",
-      "Cours": 1332.0,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 34.0,
-      "Ratio R/R": 1.33,
-      "Entrée": 1332.0,
-      "Stop-loss": 1342.982143,
-      "Objectif CT": 1317.357143,
-      "Mis à jour": "2026-11-09 10:45:18"
+      "Mis à jour": "2026-11-09 11:15:42"
     }
   ],
   "1h": [
     {
-      "Actif": "Bitcoin (BTC)",
-      "Ticker": "BTC-USD",
-      "Cours": 74127.359375,
-      "Opération": "VENTE",
-      "Score": 96,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 34.6,
-      "Ratio R/R": 1.33,
-      "Entrée": 74127.359375,
-      "Stop-loss": 75238.662667,
-      "Objectif CT": 72645.621652,
-      "Mis à jour": "2026-11-09 09:45:17"
-    },
-    {
-      "Actif": "Sanofi",
-      "Ticker": "SAN.PA",
-      "Cours": 85.290001,
+      "Actif": "Airbus",
+      "Ticker": "AIR.PA",
+      "Cours": 200.899994,
       "Opération": "ACHAT",
       "Score": 81,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 52.4,
+      "RSI": 65.6,
       "Ratio R/R": 1.33,
-      "Entrée": 85.290001,
-      "Stop-loss": 84.146786,
-      "Objectif CT": 86.814287,
-      "Mis à jour": "2026-11-09 09:45:16"
+      "Entrée": 200.899994,
+      "Stop-loss": 198.568564,
+      "Objectif CT": 204.008567,
+      "Mis à jour": "2026-11-09 11:15:46"
+    },
+    {
+      "Actif": "Ethereum (ETH)",
+      "Ticker": "ETH-USD",
+      "Cours": 2104.330078,
+      "Opération": "VENTE",
+      "Score": 81,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 41.5,
+      "Ratio R/R": 1.33,
+      "Entrée": 2104.330078,
+      "Stop-loss": 2139.530797,
+      "Objectif CT": 2057.395787,
+      "Mis à jour": "2026-11-09 11:15:47"
     },
     {
       "Actif": "Solana (SOL)",
       "Ticker": "SOL-USD",
-      "Cours": 86.400002,
+      "Cours": 85.82,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 34.5,
+      "RSI": 49.4,
       "Ratio R/R": 1.33,
-      "Entrée": 86.400002,
-      "Stop-loss": 88.307143,
-      "Objectif CT": 83.857146,
-      "Mis à jour": "2026-11-09 09:45:17"
-    },
-    {
-      "Actif": "Cardano (ADA)",
-      "Ticker": "ADA-USD",
-      "Cours": 0.17569,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 39.9,
-      "Ratio R/R": 1.33,
-      "Entrée": 0.17569,
-      "Stop-loss": 0.179802,
-      "Objectif CT": 0.170207,
-      "Mis à jour": "2026-11-09 09:45:17"
+      "Entrée": 85.82,
+      "Stop-loss": 87.363928,
+      "Objectif CT": 83.761429,
+      "Mis à jour": "2026-11-09 11:15:47"
     }
   ],
   "1d": [
