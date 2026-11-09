@@ -12,7 +12,7 @@
       "Entrée": 1353.5,
       "Stop-loss": 1345.464286,
       "Objectif CT": 1364.214286,
-      "Mis à jour": "2026-11-09 19:57:08"
+      "Mis à jour": "2026-11-09 20:27:10"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,7 +26,21 @@
       "Entrée": 78.879997,
       "Stop-loss": 78.373212,
       "Objectif CT": 79.555711,
-      "Mis à jour": "2026-11-09 19:57:07"
+      "Mis à jour": "2026-11-09 20:27:09"
+    },
+    {
+      "Actif": "USD/JPY",
+      "Ticker": "USDJPY=X",
+      "Cours": 157.826996,
+      "Opération": "VENTE",
+      "Score": 81,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 38.1,
+      "Ratio R/R": 1.33,
+      "Entrée": 157.826996,
+      "Stop-loss": 157.954926,
+      "Objectif CT": 157.656422,
+      "Mis à jour": "2026-11-09 20:27:08"
     }
   ],
   "1h": [
