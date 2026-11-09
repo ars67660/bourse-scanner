@@ -12,7 +12,7 @@
       "Entrée": 1353.5,
       "Stop-loss": 1345.464286,
       "Objectif CT": 1364.214286,
-      "Mis à jour": "2026-11-09 17:46:08"
+      "Mis à jour": "2026-11-09 18:27:02"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,67 +26,81 @@
       "Entrée": 78.879997,
       "Stop-loss": 78.373212,
       "Objectif CT": 79.555711,
-      "Mis à jour": "2026-11-09 17:46:08"
+      "Mis à jour": "2026-11-09 18:27:02"
     },
     {
-      "Actif": "EUR/USD",
-      "Ticker": "EURUSD=X",
-      "Cours": 1.120699,
+      "Actif": "Microsoft (MSFT)",
+      "Ticker": "MSFT",
+      "Cours": 543.179993,
       "Opération": "ACHAT",
       "Score": 81,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 61.5,
+      "RSI": 60.0,
       "Ratio R/R": 1.33,
-      "Entrée": 1.120699,
-      "Stop-loss": 1.120027,
-      "Objectif CT": 1.121596,
-      "Mis à jour": "2026-11-09 17:46:06"
+      "Entrée": 543.179993,
+      "Stop-loss": 540.63412,
+      "Objectif CT": 546.574489,
+      "Mis à jour": "2026-11-09 18:27:01"
     }
   ],
   "1h": [
     {
-      "Actif": "Alphabet / Google (GOOGL)",
-      "Ticker": "GOOGL",
-      "Cours": 291.839996,
+      "Actif": "Apple (AAPL)",
+      "Ticker": "AAPL",
+      "Cours": 349.100006,
       "Opération": "ACHAT",
-      "Score": 96,
+      "Score": 87,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 60.8,
+      "RSI": 67.5,
       "Ratio R/R": 1.33,
-      "Entrée": 291.839996,
-      "Stop-loss": 286.687425,
-      "Objectif CT": 298.710092,
-      "Mis à jour": "2026-11-09 17:16:09"
+      "Entrée": 349.100006,
+      "Stop-loss": 345.117685,
+      "Objectif CT": 354.409768,
+      "Mis à jour": "2026-11-09 18:27:04"
     },
     {
-      "Actif": "Amazon (AMZN)",
-      "Ticker": "AMZN",
-      "Cours": 268.679993,
+      "Actif": "Microsoft (MSFT)",
+      "Ticker": "MSFT",
+      "Cours": 543.179993,
+      "Opération": "ACHAT",
+      "Score": 87,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 59.3,
+      "Ratio R/R": 1.33,
+      "Entrée": 543.179993,
+      "Stop-loss": 535.376822,
+      "Objectif CT": 553.58422,
+      "Mis à jour": "2026-11-09 18:27:05"
+    },
+    {
+      "Actif": "Alphabet / Google (GOOGL)",
+      "Ticker": "GOOGL",
+      "Cours": 289.595001,
       "Opération": "ACHAT",
       "Score": 81,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 65.1,
+      "RSI": 62.7,
       "Ratio R/R": 1.33,
-      "Entrée": 268.679993,
-      "Stop-loss": 263.570801,
-      "Objectif CT": 275.492249,
-      "Mis à jour": "2026-11-09 17:16:09"
+      "Entrée": 289.595001,
+      "Stop-loss": 284.521718,
+      "Objectif CT": 296.359379,
+      "Mis à jour": "2026-11-09 18:27:05"
     }
   ],
   "1d": [
     {
       "Actif": "Airbus",
       "Ticker": "AIR.PA",
-      "Cours": 205.0,
+      "Cours": 206.0,
       "Opération": "ACHAT",
-      "Score": 81,
+      "Score": 86,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 61.9,
+      "RSI": 62.7,
       "Ratio R/R": 1.33,
-      "Entrée": 205.0,
-      "Stop-loss": 196.331074,
-      "Objectif CT": 216.558568,
-      "Mis à jour": "2026-11-09 15:46:08"
+      "Entrée": 206.0,
+      "Stop-loss": 197.24536,
+      "Objectif CT": 217.672854,
+      "Mis à jour": "2026-11-09 18:27:09"
     }
   ]
 }
