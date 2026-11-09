@@ -12,7 +12,7 @@
       "Entrée": 342.36499,
       "Stop-loss": 343.724594,
       "Objectif CT": 340.552185,
-      "Mis à jour": "2026-11-09 13:15:50"
+      "Mis à jour": "2026-11-09 13:45:52"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -26,7 +26,21 @@
       "Entrée": 284.730011,
       "Stop-loss": 286.110231,
       "Objectif CT": 282.889718,
-      "Mis à jour": "2026-11-09 13:15:50"
+      "Mis à jour": "2026-11-09 13:45:52"
+    },
+    {
+      "Actif": "Argent (Silver)",
+      "Ticker": "SI=F",
+      "Cours": 52.77,
+      "Opération": "ACHAT",
+      "Score": 88,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 58.3,
+      "Ratio R/R": 1.33,
+      "Entrée": 52.77,
+      "Stop-loss": 52.528393,
+      "Objectif CT": 53.092144,
+      "Mis à jour": "2026-11-09 13:45:54"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -40,7 +54,7 @@
       "Entrée": 530.549988,
       "Stop-loss": 533.010899,
       "Objectif CT": 527.268773,
-      "Mis à jour": "2026-11-09 13:15:50"
+      "Mis à jour": "2026-11-09 13:45:52"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -54,7 +68,7 @@
       "Entrée": 259.350006,
       "Stop-loss": 260.870494,
       "Objectif CT": 257.322689,
-      "Mis à jour": "2026-11-09 13:15:50"
+      "Mis à jour": "2026-11-09 13:45:52"
     },
     {
       "Actif": "AMD",
@@ -68,7 +82,21 @@
       "Entrée": 449.029999,
       "Stop-loss": 442.196356,
       "Objectif CT": 458.141523,
-      "Mis à jour": "2026-11-09 13:15:51"
+      "Mis à jour": "2026-11-09 13:45:52"
+    },
+    {
+      "Actif": "TotalEnergies",
+      "Ticker": "TTE.PA",
+      "Cours": 78.589996,
+      "Opération": "VENTE",
+      "Score": 81,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 34.0,
+      "Ratio R/R": 1.33,
+      "Entrée": 78.589996,
+      "Stop-loss": 79.008925,
+      "Objectif CT": 78.031424,
+      "Mis à jour": "2026-11-09 13:45:52"
     }
   ],
   "1h": [
