@@ -12,7 +12,7 @@
       "Entrée": 342.36499,
       "Stop-loss": 343.724594,
       "Objectif CT": 340.552185,
-      "Mis à jour": "2026-11-09 02:22:06"
+      "Mis à jour": "2026-11-09 02:52:07"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -26,7 +26,7 @@
       "Entrée": 284.730011,
       "Stop-loss": 286.110231,
       "Objectif CT": 282.889718,
-      "Mis à jour": "2026-11-09 02:22:07"
+      "Mis à jour": "2026-11-09 02:52:08"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -40,7 +40,7 @@
       "Entrée": 530.549988,
       "Stop-loss": 533.010899,
       "Objectif CT": 527.268773,
-      "Mis à jour": "2026-11-09 02:22:06"
+      "Mis à jour": "2026-11-09 02:52:08"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -54,7 +54,7 @@
       "Entrée": 259.350006,
       "Stop-loss": 260.870494,
       "Objectif CT": 257.322689,
-      "Mis à jour": "2026-11-09 02:22:07"
+      "Mis à jour": "2026-11-09 02:52:08"
     },
     {
       "Actif": "Airbus",
@@ -68,7 +68,7 @@
       "Entrée": 197.039993,
       "Stop-loss": 198.190708,
       "Objectif CT": 195.505707,
-      "Mis à jour": "2026-11-09 02:22:07"
+      "Mis à jour": "2026-11-09 02:52:09"
     },
     {
       "Actif": "AMD",
@@ -82,79 +82,51 @@
       "Entrée": 449.029999,
       "Stop-loss": 442.196356,
       "Objectif CT": 458.141523,
-      "Mis à jour": "2026-11-09 02:22:07"
-    },
-    {
-      "Actif": "Bitcoin (BTC)",
-      "Ticker": "BTC-USD",
-      "Cours": 75231.890625,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 39.1,
-      "Ratio R/R": 1.33,
-      "Entrée": 75231.890625,
-      "Stop-loss": 75753.016741,
-      "Objectif CT": 74537.055804,
-      "Mis à jour": "2026-11-09 02:22:09"
-    },
-    {
-      "Actif": "Solana (SOL)",
-      "Ticker": "SOL-USD",
-      "Cours": 87.940002,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 36.0,
-      "Ratio R/R": 1.33,
-      "Entrée": 87.940002,
-      "Stop-loss": 88.998573,
-      "Objectif CT": 86.528575,
-      "Mis à jour": "2026-11-09 02:22:09"
+      "Mis à jour": "2026-11-09 02:52:09"
     }
   ],
   "1h": [
     {
-      "Actif": "Cardano (ADA)",
-      "Ticker": "ADA-USD",
-      "Cours": 0.17685,
-      "Opération": "VENTE",
-      "Score": 92,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 35.1,
-      "Ratio R/R": 1.33,
-      "Entrée": 0.17685,
-      "Stop-loss": 0.179158,
-      "Objectif CT": 0.173773,
-      "Mis à jour": "2026-11-09 01:22:11"
-    },
-    {
       "Actif": "Bitcoin (BTC)",
       "Ticker": "BTC-USD",
-      "Cours": 74924.898438,
+      "Cours": 75200.992188,
       "Opération": "VENTE",
-      "Score": 88,
+      "Score": 87,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 25.1,
+      "RSI": 33.2,
       "Ratio R/R": 1.33,
-      "Entrée": 74924.898438,
-      "Stop-loss": 75349.159877,
-      "Objectif CT": 74359.216518,
-      "Mis à jour": "2026-11-09 01:22:11"
+      "Entrée": 75200.992188,
+      "Stop-loss": 75691.757533,
+      "Objectif CT": 74546.638393,
+      "Mis à jour": "2026-11-09 02:52:14"
+    },
+    {
+      "Actif": "Cardano (ADA)",
+      "Ticker": "ADA-USD",
+      "Cours": 0.17791,
+      "Opération": "VENTE",
+      "Score": 83,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 41.1,
+      "Ratio R/R": 1.33,
+      "Entrée": 0.17791,
+      "Stop-loss": 0.180389,
+      "Objectif CT": 0.174604,
+      "Mis à jour": "2026-11-09 02:52:15"
     },
     {
       "Actif": "Solana (SOL)",
       "Ticker": "SOL-USD",
-      "Cours": 87.269997,
+      "Cours": 88.029999,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 30.7,
+      "RSI": 39.6,
       "Ratio R/R": 1.33,
-      "Entrée": 87.269997,
-      "Stop-loss": 88.363925,
-      "Objectif CT": 85.811425,
-      "Mis à jour": "2026-11-09 01:22:11"
+      "Entrée": 88.029999,
+      "Stop-loss": 89.202143,
+      "Objectif CT": 86.46714,
+      "Mis à jour": "2026-11-09 02:52:14"
     }
   ],
   "1d": [
