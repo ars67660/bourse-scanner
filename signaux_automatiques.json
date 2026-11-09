@@ -12,7 +12,7 @@
       "Entrée": 342.36499,
       "Stop-loss": 343.724594,
       "Objectif CT": 340.552185,
-      "Mis à jour": "2026-11-09 13:45:52"
+      "Mis à jour": "2026-11-09 14:15:54"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -26,21 +26,7 @@
       "Entrée": 284.730011,
       "Stop-loss": 286.110231,
       "Objectif CT": 282.889718,
-      "Mis à jour": "2026-11-09 13:45:52"
-    },
-    {
-      "Actif": "Argent (Silver)",
-      "Ticker": "SI=F",
-      "Cours": 52.77,
-      "Opération": "ACHAT",
-      "Score": 88,
-      "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 58.3,
-      "Ratio R/R": 1.33,
-      "Entrée": 52.77,
-      "Stop-loss": 52.528393,
-      "Objectif CT": 53.092144,
-      "Mis à jour": "2026-11-09 13:45:54"
+      "Mis à jour": "2026-11-09 14:15:54"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -54,7 +40,7 @@
       "Entrée": 530.549988,
       "Stop-loss": 533.010899,
       "Objectif CT": 527.268773,
-      "Mis à jour": "2026-11-09 13:45:52"
+      "Mis à jour": "2026-11-09 14:15:54"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -68,7 +54,7 @@
       "Entrée": 259.350006,
       "Stop-loss": 260.870494,
       "Objectif CT": 257.322689,
-      "Mis à jour": "2026-11-09 13:45:52"
+      "Mis à jour": "2026-11-09 14:15:54"
     },
     {
       "Actif": "AMD",
@@ -82,79 +68,65 @@
       "Entrée": 449.029999,
       "Stop-loss": 442.196356,
       "Objectif CT": 458.141523,
-      "Mis à jour": "2026-11-09 13:45:52"
+      "Mis à jour": "2026-11-09 14:15:54"
     },
     {
       "Actif": "TotalEnergies",
       "Ticker": "TTE.PA",
-      "Cours": 78.589996,
+      "Cours": 78.309998,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 34.0,
+      "RSI": 33.2,
       "Ratio R/R": 1.33,
-      "Entrée": 78.589996,
-      "Stop-loss": 79.008925,
-      "Objectif CT": 78.031424,
-      "Mis à jour": "2026-11-09 13:45:52"
+      "Entrée": 78.309998,
+      "Stop-loss": 78.771783,
+      "Objectif CT": 77.694284,
+      "Mis à jour": "2026-11-09 14:15:55"
+    },
+    {
+      "Actif": "Stellantis",
+      "Ticker": "STLAP.PA",
+      "Cours": 4.002,
+      "Opération": "ACHAT",
+      "Score": 81,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 62.1,
+      "Ratio R/R": 1.33,
+      "Entrée": 4.002,
+      "Stop-loss": 3.981268,
+      "Objectif CT": 4.029643,
+      "Mis à jour": "2026-11-09 14:15:55"
     }
   ],
   "1h": [
     {
-      "Actif": "Euro Stoxx 50",
-      "Ticker": "^STOXX50E",
-      "Cours": 6245.549805,
-      "Opération": "ACHAT",
-      "Score": 87,
-      "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 54.1,
-      "Ratio R/R": 1.33,
-      "Entrée": 6245.549805,
-      "Stop-loss": 6200.156703,
-      "Objectif CT": 6306.07394,
-      "Mis à jour": "2026-11-09 12:45:53"
-    },
-    {
-      "Actif": "XRP",
-      "Ticker": "XRP-USD",
-      "Cours": 1.1022,
-      "Opération": "VENTE",
-      "Score": 87,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 46.4,
-      "Ratio R/R": 1.33,
-      "Entrée": 1.1022,
-      "Stop-loss": 1.124893,
-      "Objectif CT": 1.071943,
-      "Mis à jour": "2026-11-09 12:45:54"
-    },
-    {
       "Actif": "CAC 40",
       "Ticker": "^FCHI",
-      "Cours": 8195.879883,
+      "Cours": 8227.290039,
       "Opération": "ACHAT",
-      "Score": 84,
+      "Score": 82,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 49.3,
+      "RSI": 71.6,
       "Ratio R/R": 1.33,
-      "Entrée": 8195.879883,
-      "Stop-loss": 8139.190691,
-      "Objectif CT": 8271.465472,
-      "Mis à jour": "2026-11-09 12:45:53"
+      "Entrée": 8227.290039,
+      "Stop-loss": 8181.611973,
+      "Objectif CT": 8288.194127,
+      "Mis à jour": "2026-11-09 14:15:59"
     },
     {
       "Actif": "Or (XAU)",
       "Ticker": "GC=F",
-      "Cours": 4123.899902,
+      "Cours": 4131.299805,
       "Opération": "ACHAT",
       "Score": 81,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 64.9,
+      "RSI": 57.7,
       "Ratio R/R": 1.33,
-      "Entrée": 4123.899902,
-      "Stop-loss": 4097.714146,
-      "Objectif CT": 4158.814244,
-      "Mis à jour": "2026-11-09 12:45:54"
+      "Entrée": 4131.299805,
+      "Stop-loss": 4109.946123,
+      "Objectif CT": 4159.77138,
+      "Mis à jour": "2026-11-09 14:16:00"
     }
   ],
   "1d": [
