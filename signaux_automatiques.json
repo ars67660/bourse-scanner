@@ -12,7 +12,7 @@
       "Entrée": 1353.5,
       "Stop-loss": 1345.464286,
       "Objectif CT": 1364.214286,
-      "Mis à jour": "2026-11-09 18:27:02"
+      "Mis à jour": "2026-11-09 18:57:04"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,21 +26,7 @@
       "Entrée": 78.879997,
       "Stop-loss": 78.373212,
       "Objectif CT": 79.555711,
-      "Mis à jour": "2026-11-09 18:27:02"
-    },
-    {
-      "Actif": "Microsoft (MSFT)",
-      "Ticker": "MSFT",
-      "Cours": 543.179993,
-      "Opération": "ACHAT",
-      "Score": 81,
-      "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 60.0,
-      "Ratio R/R": 1.33,
-      "Entrée": 543.179993,
-      "Stop-loss": 540.63412,
-      "Objectif CT": 546.574489,
-      "Mis à jour": "2026-11-09 18:27:01"
+      "Mis à jour": "2026-11-09 18:57:03"
     }
   ],
   "1h": [
