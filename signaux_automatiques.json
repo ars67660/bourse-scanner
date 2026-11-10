@@ -12,7 +12,21 @@
       "Entrée": 3.84,
       "Stop-loss": 3.875143,
       "Objectif CT": 3.793143,
-      "Mis à jour": "2026-11-10 20:29:12"
+      "Mis à jour": "2026-11-10 20:59:14"
+    },
+    {
+      "Actif": "Netflix (NFLX)",
+      "Ticker": "NFLX",
+      "Cours": 63.255001,
+      "Opération": "ACHAT",
+      "Score": 83,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 73.8,
+      "Ratio R/R": 1.33,
+      "Entrée": 63.255001,
+      "Stop-loss": 62.903444,
+      "Objectif CT": 63.723744,
+      "Mis à jour": "2026-11-10 20:59:13"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,7 +40,21 @@
       "Entrée": 78.169998,
       "Stop-loss": 77.732852,
       "Objectif CT": 78.75286,
-      "Mis à jour": "2026-11-10 20:29:12"
+      "Mis à jour": "2026-11-10 20:59:13"
+    },
+    {
+      "Actif": "Amazon (AMZN)",
+      "Ticker": "AMZN",
+      "Cours": 270.940002,
+      "Opération": "ACHAT",
+      "Score": 81,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 64.1,
+      "Ratio R/R": 1.33,
+      "Entrée": 270.940002,
+      "Stop-loss": 269.37518,
+      "Objectif CT": 273.026433,
+      "Mis à jour": "2026-11-10 20:59:13"
     }
   ],
   "1h": [
