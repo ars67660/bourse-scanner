@@ -12,7 +12,7 @@
       "Entrée": 1353.5,
       "Stop-loss": 1345.464286,
       "Objectif CT": 1364.214286,
-      "Mis à jour": "2026-11-10 06:58:01"
+      "Mis à jour": "2026-11-10 07:28:03"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,21 +26,35 @@
       "Entrée": 78.879997,
       "Stop-loss": 78.373212,
       "Objectif CT": 79.555711,
-      "Mis à jour": "2026-11-10 06:58:00"
+      "Mis à jour": "2026-11-10 07:28:02"
     },
     {
-      "Actif": "Ethereum (ETH)",
-      "Ticker": "ETH-USD",
-      "Cours": 2114.120117,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 49.5,
+      "Actif": "EUR/USD",
+      "Ticker": "EURUSD=X",
+      "Cours": 1.123974,
+      "Opération": "ACHAT",
+      "Score": 85,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 67.9,
       "Ratio R/R": 1.33,
-      "Entrée": 2114.120117,
-      "Stop-loss": 2123.696507,
-      "Objectif CT": 2101.351597,
-      "Mis à jour": "2026-11-10 06:58:01"
+      "Entrée": 1.123974,
+      "Stop-loss": 1.123407,
+      "Objectif CT": 1.124731,
+      "Mis à jour": "2026-11-10 07:28:01"
+    },
+    {
+      "Actif": "GBP/USD",
+      "Ticker": "GBPUSD=X",
+      "Cours": 1.345714,
+      "Opération": "ACHAT",
+      "Score": 85,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 65.0,
+      "Ratio R/R": 1.33,
+      "Entrée": 1.345714,
+      "Stop-loss": 1.345117,
+      "Objectif CT": 1.34651,
+      "Mis à jour": "2026-11-10 07:28:01"
     }
   ],
   "1h": [
