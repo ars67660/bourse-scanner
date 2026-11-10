@@ -1,48 +1,48 @@
 {
   "15m": [
     {
-      "Actif": "Ethereum (ETH)",
-      "Ticker": "ETH-USD",
-      "Cours": 2102.360107,
+      "Actif": "Cardano (ADA)",
+      "Ticker": "ADA-USD",
+      "Cours": 0.17731,
       "Opération": "VENTE",
-      "Score": 87,
+      "Score": 92,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 35.9,
+      "RSI": 34.2,
       "Ratio R/R": 1.33,
-      "Entrée": 2102.360107,
-      "Stop-loss": 2113.738674,
-      "Objectif CT": 2087.188686,
-      "Mis à jour": "2026-11-10 09:58:14"
+      "Entrée": 0.17731,
+      "Stop-loss": 0.17828,
+      "Objectif CT": 0.176017,
+      "Mis à jour": "2026-11-10 10:28:27"
     },
     {
-      "Actif": "XRP",
-      "Ticker": "XRP-USD",
-      "Cours": 1.0883,
-      "Opération": "VENTE",
+      "Actif": "EUR/GBP",
+      "Ticker": "EURGBP=X",
+      "Cours": 0.83571,
+      "Opération": "ACHAT",
       "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 34.7,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 65.4,
       "Ratio R/R": 1.33,
-      "Entrée": 1.0883,
-      "Stop-loss": 1.096014,
-      "Objectif CT": 1.078014,
-      "Mis à jour": "2026-11-10 09:58:14"
+      "Entrée": 0.83571,
+      "Stop-loss": 0.835106,
+      "Objectif CT": 0.836516,
+      "Mis à jour": "2026-11-10 10:28:24"
     }
   ],
   "1h": [
     {
-      "Actif": "Solana (SOL)",
-      "Ticker": "SOL-USD",
-      "Cours": 85.290001,
+      "Actif": "Bitcoin (BTC)",
+      "Ticker": "BTC-USD",
+      "Cours": 74139.890625,
       "Opération": "VENTE",
-      "Score": 91,
+      "Score": 94,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 31.3,
+      "RSI": 36.4,
       "Ratio R/R": 1.33,
-      "Entrée": 85.290001,
-      "Stop-loss": 86.163215,
-      "Objectif CT": 84.125716,
-      "Mis à jour": "2026-11-10 09:28:16"
+      "Entrée": 74139.890625,
+      "Stop-loss": 74688.615234,
+      "Objectif CT": 73408.257812,
+      "Mis à jour": "2026-11-10 10:28:30"
     },
     {
       "Actif": "Apple (AAPL)",
@@ -56,21 +56,21 @@
       "Entrée": 350.48999,
       "Stop-loss": 346.767803,
       "Objectif CT": 355.452907,
-      "Mis à jour": "2026-11-10 09:28:14"
+      "Mis à jour": "2026-11-10 10:28:28"
     },
     {
-      "Actif": "Bitcoin (BTC)",
-      "Ticker": "BTC-USD",
-      "Cours": 74346.140625,
-      "Opération": "VENTE",
-      "Score": 85,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 40.5,
+      "Actif": "EUR/GBP",
+      "Ticker": "EURGBP=X",
+      "Cours": 0.83573,
+      "Opération": "ACHAT",
+      "Score": 81,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 64.4,
       "Ratio R/R": 1.33,
-      "Entrée": 74346.140625,
-      "Stop-loss": 74899.836496,
-      "Objectif CT": 73607.879464,
-      "Mis à jour": "2026-11-10 09:28:16"
+      "Entrée": 0.83573,
+      "Stop-loss": 0.834955,
+      "Objectif CT": 0.836763,
+      "Mis à jour": "2026-11-10 10:28:27"
     },
     {
       "Actif": "Nvidia (NVDA)",
@@ -84,7 +84,7 @@
       "Entrée": 178.600006,
       "Stop-loss": 185.168344,
       "Objectif CT": 169.842222,
-      "Mis à jour": "2026-11-10 09:28:14"
+      "Mis à jour": "2026-11-10 10:28:28"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -98,7 +98,7 @@
       "Entrée": 545.179993,
       "Stop-loss": 538.125416,
       "Objectif CT": 554.586094,
-      "Mis à jour": "2026-11-10 09:28:14"
+      "Mis à jour": "2026-11-10 10:28:28"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -112,7 +112,7 @@
       "Entrée": 267.01001,
       "Stop-loss": 262.49577,
       "Objectif CT": 273.028996,
-      "Mis à jour": "2026-11-10 09:28:14"
+      "Mis à jour": "2026-11-10 10:28:28"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -126,7 +126,7 @@
       "Entrée": 288.147888,
       "Stop-loss": 283.379949,
       "Objectif CT": 294.50514,
-      "Mis à jour": "2026-11-10 09:28:15"
+      "Mis à jour": "2026-11-10 10:28:28"
     }
   ],
   "1d": [
