@@ -12,7 +12,7 @@
       "Entrée": 3.84,
       "Stop-loss": 3.875143,
       "Objectif CT": 3.793143,
-      "Mis à jour": "2026-11-10 17:58:56"
+      "Mis à jour": "2026-11-10 18:29:04"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,77 +26,21 @@
       "Entrée": 78.169998,
       "Stop-loss": 77.732852,
       "Objectif CT": 78.75286,
-      "Mis à jour": "2026-11-10 17:58:55"
-    },
-    {
-      "Actif": "EUR/GBP",
-      "Ticker": "EURGBP=X",
-      "Cours": 0.83667,
-      "Opération": "ACHAT",
-      "Score": 81,
-      "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 67.8,
-      "Ratio R/R": 1.33,
-      "Entrée": 0.83667,
-      "Stop-loss": 0.836097,
-      "Objectif CT": 0.837434,
-      "Mis à jour": "2026-11-10 17:58:54"
-    },
-    {
-      "Actif": "Bitcoin (BTC)",
-      "Ticker": "BTC-USD",
-      "Cours": 73210.828125,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 43.3,
-      "Ratio R/R": 1.33,
-      "Entrée": 73210.828125,
-      "Stop-loss": 73901.342076,
-      "Objectif CT": 72290.142857,
-      "Mis à jour": "2026-11-10 17:58:56"
-    },
-    {
-      "Actif": "Ethereum (ETH)",
-      "Ticker": "ETH-USD",
-      "Cours": 2027.75,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 37.2,
-      "Ratio R/R": 1.33,
-      "Entrée": 2027.75,
-      "Stop-loss": 2055.071455,
-      "Objectif CT": 1991.321394,
-      "Mis à jour": "2026-11-10 17:58:56"
-    },
-    {
-      "Actif": "Solana (SOL)",
-      "Ticker": "SOL-USD",
-      "Cours": 82.339996,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 40.0,
-      "Ratio R/R": 1.33,
-      "Entrée": 82.339996,
-      "Stop-loss": 83.572139,
-      "Objectif CT": 80.697139,
-      "Mis à jour": "2026-11-10 17:58:56"
+      "Mis à jour": "2026-11-10 18:29:04"
     },
     {
       "Actif": "Cardano (ADA)",
       "Ticker": "ADA-USD",
-      "Cours": 0.17242,
+      "Cours": 0.1729,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 39.9,
+      "RSI": 35.4,
       "Ratio R/R": 1.33,
-      "Entrée": 0.17242,
-      "Stop-loss": 0.175237,
-      "Objectif CT": 0.168664,
-      "Mis à jour": "2026-11-10 17:58:56"
+      "Entrée": 0.1729,
+      "Stop-loss": 0.175513,
+      "Objectif CT": 0.169416,
+      "Mis à jour": "2026-11-10 18:29:06"
     }
   ],
   "1h": [
@@ -203,16 +147,16 @@
     {
       "Actif": "Airbus",
       "Ticker": "AIR.PA",
-      "Cours": 206.0,
+      "Cours": 208.25,
       "Opération": "ACHAT",
-      "Score": 86,
+      "Score": 95,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 62.7,
+      "RSI": 60.3,
       "Ratio R/R": 1.33,
-      "Entrée": 206.0,
-      "Stop-loss": 197.24536,
-      "Objectif CT": 217.672854,
-      "Mis à jour": "2026-11-09 18:27:09"
+      "Entrée": 208.25,
+      "Stop-loss": 199.633573,
+      "Objectif CT": 219.738569,
+      "Mis à jour": "2026-11-10 18:29:08"
     }
   ]
 }
