@@ -12,7 +12,7 @@
       "Entrée": 3.84,
       "Stop-loss": 3.875143,
       "Objectif CT": 3.793143,
-      "Mis à jour": "2026-11-10 23:29:27"
+      "Mis à jour": "2026-11-10 23:59:29"
     },
     {
       "Actif": "Netflix (NFLX)",
@@ -26,7 +26,7 @@
       "Entrée": 63.25,
       "Stop-loss": 62.8963,
       "Objectif CT": 63.7216,
-      "Mis à jour": "2026-11-10 23:29:26"
+      "Mis à jour": "2026-11-10 23:59:28"
     },
     {
       "Actif": "TotalEnergies",
@@ -40,7 +40,7 @@
       "Entrée": 78.169998,
       "Stop-loss": 77.732852,
       "Objectif CT": 78.75286,
-      "Mis à jour": "2026-11-10 23:29:26"
+      "Mis à jour": "2026-11-10 23:59:28"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -54,7 +54,21 @@
       "Entrée": 270.899994,
       "Stop-loss": 269.326601,
       "Objectif CT": 272.997851,
-      "Mis à jour": "2026-11-10 23:29:25"
+      "Mis à jour": "2026-11-10 23:59:28"
+    },
+    {
+      "Actif": "XRP",
+      "Ticker": "XRP-USD",
+      "Cours": 1.0564,
+      "Opération": "VENTE",
+      "Score": 81,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 41.5,
+      "Ratio R/R": 1.33,
+      "Entrée": 1.0564,
+      "Stop-loss": 1.062861,
+      "Objectif CT": 1.047786,
+      "Mis à jour": "2026-11-10 23:59:30"
     }
   ],
   "1h": [
