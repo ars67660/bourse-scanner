@@ -12,7 +12,7 @@
       "Entrée": 1353.5,
       "Stop-loss": 1345.464286,
       "Objectif CT": 1364.214286,
-      "Mis à jour": "2026-11-10 01:57:39"
+      "Mis à jour": "2026-11-10 02:27:41"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,21 +26,7 @@
       "Entrée": 78.879997,
       "Stop-loss": 78.373212,
       "Objectif CT": 79.555711,
-      "Mis à jour": "2026-11-10 01:57:38"
-    },
-    {
-      "Actif": "XRP",
-      "Ticker": "XRP-USD",
-      "Cours": 1.1013,
-      "Opération": "ACHAT",
-      "Score": 86,
-      "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 63.9,
-      "Ratio R/R": 1.33,
-      "Entrée": 1.1013,
-      "Stop-loss": 1.093296,
-      "Objectif CT": 1.111971,
-      "Mis à jour": "2026-11-10 01:57:40"
+      "Mis à jour": "2026-11-10 02:27:40"
     }
   ],
   "1h": [
