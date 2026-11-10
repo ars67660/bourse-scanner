@@ -1,46 +1,32 @@
 {
   "15m": [
     {
-      "Actif": "XRP",
-      "Ticker": "XRP-USD",
-      "Cours": 1.0874,
+      "Actif": "Ethereum (ETH)",
+      "Ticker": "ETH-USD",
+      "Cours": 2102.360107,
       "Opération": "VENTE",
       "Score": 87,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 37.6,
+      "RSI": 35.9,
       "Ratio R/R": 1.33,
-      "Entrée": 1.0874,
-      "Stop-loss": 1.0955,
-      "Objectif CT": 1.0766,
-      "Mis à jour": "2026-11-10 09:28:13"
+      "Entrée": 2102.360107,
+      "Stop-loss": 2113.738674,
+      "Objectif CT": 2087.188686,
+      "Mis à jour": "2026-11-10 09:58:14"
     },
     {
-      "Actif": "TotalEnergies",
-      "Ticker": "TTE.PA",
-      "Cours": 77.730003,
-      "Opération": "VENTE",
-      "Score": 85,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 36.5,
-      "Ratio R/R": 1.33,
-      "Entrée": 77.730003,
-      "Stop-loss": 78.338575,
-      "Objectif CT": 76.918575,
-      "Mis à jour": "2026-11-10 09:28:11"
-    },
-    {
-      "Actif": "Pétrole Brent",
-      "Ticker": "BZ=F",
-      "Cours": 90.43,
+      "Actif": "XRP",
+      "Ticker": "XRP-USD",
+      "Cours": 1.0883,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 33.4,
+      "RSI": 34.7,
       "Ratio R/R": 1.33,
-      "Entrée": 90.43,
-      "Stop-loss": 91.181074,
-      "Objectif CT": 89.428568,
-      "Mis à jour": "2026-11-10 09:28:14"
+      "Entrée": 1.0883,
+      "Stop-loss": 1.096014,
+      "Objectif CT": 1.078014,
+      "Mis à jour": "2026-11-10 09:58:14"
     }
   ],
   "1h": [
