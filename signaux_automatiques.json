@@ -12,7 +12,7 @@
       "Entrée": 1353.5,
       "Stop-loss": 1345.464286,
       "Objectif CT": 1364.214286,
-      "Mis à jour": "2026-11-10 04:27:50"
+      "Mis à jour": "2026-11-10 04:57:53"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,35 +26,35 @@
       "Entrée": 78.879997,
       "Stop-loss": 78.373212,
       "Objectif CT": 79.555711,
-      "Mis à jour": "2026-11-10 04:27:50"
+      "Mis à jour": "2026-11-10 04:57:52"
     },
     {
       "Actif": "Solana (SOL)",
       "Ticker": "SOL-USD",
-      "Cours": 86.010002,
+      "Cours": 85.900002,
       "Opération": "VENTE",
       "Score": 87,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 40.9,
+      "RSI": 36.4,
       "Ratio R/R": 1.33,
-      "Entrée": 86.010002,
-      "Stop-loss": 86.431074,
-      "Objectif CT": 85.448574,
-      "Mis à jour": "2026-11-10 04:27:51"
+      "Entrée": 85.900002,
+      "Stop-loss": 86.352145,
+      "Objectif CT": 85.297143,
+      "Mis à jour": "2026-11-10 04:57:54"
     },
     {
-      "Actif": "Ethereum (ETH)",
-      "Ticker": "ETH-USD",
-      "Cours": 2120.23999,
+      "Actif": "Bitcoin (BTC)",
+      "Ticker": "BTC-USD",
+      "Cours": 74666.3125,
       "Opération": "VENTE",
-      "Score": 84,
+      "Score": 83,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 46.8,
+      "RSI": 37.1,
       "Ratio R/R": 1.33,
-      "Entrée": 2120.23999,
-      "Stop-loss": 2130.085414,
-      "Objectif CT": 2107.112758,
-      "Mis à jour": "2026-11-10 04:27:51"
+      "Entrée": 74666.3125,
+      "Stop-loss": 74951.691685,
+      "Objectif CT": 74285.80692,
+      "Mis à jour": "2026-11-10 04:57:54"
     }
   ],
   "1h": [
@@ -70,7 +70,7 @@
       "Entrée": 350.48999,
       "Stop-loss": 346.767803,
       "Objectif CT": 355.452907,
-      "Mis à jour": "2026-11-10 03:27:49"
+      "Mis à jour": "2026-11-10 04:57:55"
     },
     {
       "Actif": "Nvidia (NVDA)",
@@ -84,7 +84,7 @@
       "Entrée": 178.600006,
       "Stop-loss": 185.168344,
       "Objectif CT": 169.842222,
-      "Mis à jour": "2026-11-10 03:27:49"
+      "Mis à jour": "2026-11-10 04:57:55"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -98,7 +98,7 @@
       "Entrée": 545.179993,
       "Stop-loss": 538.125416,
       "Objectif CT": 554.586094,
-      "Mis à jour": "2026-11-10 03:27:49"
+      "Mis à jour": "2026-11-10 04:57:55"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -112,7 +112,7 @@
       "Entrée": 267.01001,
       "Stop-loss": 262.49577,
       "Objectif CT": 273.028996,
-      "Mis à jour": "2026-11-10 03:27:49"
+      "Mis à jour": "2026-11-10 04:57:55"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -126,21 +126,21 @@
       "Entrée": 288.147888,
       "Stop-loss": 283.379949,
       "Objectif CT": 294.50514,
-      "Mis à jour": "2026-11-10 03:27:49"
+      "Mis à jour": "2026-11-10 04:57:55"
     },
     {
       "Actif": "Pétrole Brent",
       "Ticker": "BZ=F",
-      "Cours": 91.760002,
+      "Cours": 91.610001,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
       "RSI": 36.2,
       "Ratio R/R": 1.33,
-      "Entrée": 91.760002,
-      "Stop-loss": 93.366073,
-      "Objectif CT": 89.618574,
-      "Mis à jour": "2026-11-10 03:27:52"
+      "Entrée": 91.610001,
+      "Stop-loss": 93.137858,
+      "Objectif CT": 89.572857,
+      "Mis à jour": "2026-11-10 04:57:58"
     }
   ],
   "1d": [
