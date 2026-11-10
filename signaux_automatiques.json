@@ -12,7 +12,7 @@
       "Entrée": 1353.5,
       "Stop-loss": 1345.464286,
       "Objectif CT": 1364.214286,
-      "Mis à jour": "2026-11-10 04:57:53"
+      "Mis à jour": "2026-11-10 05:27:55"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,35 +26,7 @@
       "Entrée": 78.879997,
       "Stop-loss": 78.373212,
       "Objectif CT": 79.555711,
-      "Mis à jour": "2026-11-10 04:57:52"
-    },
-    {
-      "Actif": "Solana (SOL)",
-      "Ticker": "SOL-USD",
-      "Cours": 85.900002,
-      "Opération": "VENTE",
-      "Score": 87,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 36.4,
-      "Ratio R/R": 1.33,
-      "Entrée": 85.900002,
-      "Stop-loss": 86.352145,
-      "Objectif CT": 85.297143,
-      "Mis à jour": "2026-11-10 04:57:54"
-    },
-    {
-      "Actif": "Bitcoin (BTC)",
-      "Ticker": "BTC-USD",
-      "Cours": 74666.3125,
-      "Opération": "VENTE",
-      "Score": 83,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 37.1,
-      "Ratio R/R": 1.33,
-      "Entrée": 74666.3125,
-      "Stop-loss": 74951.691685,
-      "Objectif CT": 74285.80692,
-      "Mis à jour": "2026-11-10 04:57:54"
+      "Mis à jour": "2026-11-10 05:27:54"
     }
   ],
   "1h": [
