@@ -1,32 +1,18 @@
 {
   "15m": [
     {
-      "Actif": "Cardano (ADA)",
-      "Ticker": "ADA-USD",
-      "Cours": 0.17731,
+      "Actif": "Bitcoin (BTC)",
+      "Ticker": "BTC-USD",
+      "Cours": 74155.460938,
       "Opération": "VENTE",
-      "Score": 92,
+      "Score": 83,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 34.2,
+      "RSI": 33.2,
       "Ratio R/R": 1.33,
-      "Entrée": 0.17731,
-      "Stop-loss": 0.17828,
-      "Objectif CT": 0.176017,
-      "Mis à jour": "2026-11-10 10:28:27"
-    },
-    {
-      "Actif": "EUR/GBP",
-      "Ticker": "EURGBP=X",
-      "Cours": 0.83571,
-      "Opération": "ACHAT",
-      "Score": 81,
-      "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 65.4,
-      "Ratio R/R": 1.33,
-      "Entrée": 0.83571,
-      "Stop-loss": 0.835106,
-      "Objectif CT": 0.836516,
-      "Mis à jour": "2026-11-10 10:28:24"
+      "Entrée": 74155.460938,
+      "Stop-loss": 74451.843192,
+      "Objectif CT": 73760.284598,
+      "Mis à jour": "2026-11-10 10:58:28"
     }
   ],
   "1h": [
