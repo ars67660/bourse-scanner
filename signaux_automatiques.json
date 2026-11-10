@@ -12,7 +12,7 @@
       "Entrée": 1353.5,
       "Stop-loss": 1345.464286,
       "Objectif CT": 1364.214286,
-      "Mis à jour": "2026-11-09 21:27:17"
+      "Mis à jour": "2026-11-10 01:57:39"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,7 +26,21 @@
       "Entrée": 78.879997,
       "Stop-loss": 78.373212,
       "Objectif CT": 79.555711,
-      "Mis à jour": "2026-11-09 21:27:16"
+      "Mis à jour": "2026-11-10 01:57:38"
+    },
+    {
+      "Actif": "XRP",
+      "Ticker": "XRP-USD",
+      "Cours": 1.1013,
+      "Opération": "ACHAT",
+      "Score": 86,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 63.9,
+      "Ratio R/R": 1.33,
+      "Entrée": 1.1013,
+      "Stop-loss": 1.093296,
+      "Objectif CT": 1.111971,
+      "Mis à jour": "2026-11-10 01:57:40"
     }
   ],
   "1h": [
@@ -42,7 +56,7 @@
       "Entrée": 178.600006,
       "Stop-loss": 185.168344,
       "Objectif CT": 169.842222,
-      "Mis à jour": "2026-11-09 21:27:19"
+      "Mis à jour": "2026-11-10 01:57:41"
     },
     {
       "Actif": "Apple (AAPL)",
@@ -56,7 +70,21 @@
       "Entrée": 350.48999,
       "Stop-loss": 346.767803,
       "Objectif CT": 355.452907,
-      "Mis à jour": "2026-11-09 21:27:19"
+      "Mis à jour": "2026-11-10 01:57:41"
+    },
+    {
+      "Actif": "Argent (Silver)",
+      "Ticker": "SI=F",
+      "Cours": 53.215,
+      "Opération": "ACHAT",
+      "Score": 86,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 64.4,
+      "Ratio R/R": 1.33,
+      "Entrée": 53.215,
+      "Stop-loss": 52.567001,
+      "Objectif CT": 54.079,
+      "Mis à jour": "2026-11-10 01:57:43"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -70,7 +98,7 @@
       "Entrée": 545.179993,
       "Stop-loss": 538.125416,
       "Objectif CT": 554.586094,
-      "Mis à jour": "2026-11-09 21:27:19"
+      "Mis à jour": "2026-11-10 01:57:41"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -84,7 +112,7 @@
       "Entrée": 267.01001,
       "Stop-loss": 262.49577,
       "Objectif CT": 273.028996,
-      "Mis à jour": "2026-11-09 21:27:19"
+      "Mis à jour": "2026-11-10 01:57:41"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -98,7 +126,7 @@
       "Entrée": 288.147888,
       "Stop-loss": 283.379949,
       "Objectif CT": 294.50514,
-      "Mis à jour": "2026-11-09 21:27:19"
+      "Mis à jour": "2026-11-10 01:57:41"
     }
   ],
   "1d": [
