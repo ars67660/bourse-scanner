@@ -1,18 +1,32 @@
 {
   "15m": [
     {
+      "Actif": "Ethereum (ETH)",
+      "Ticker": "ETH-USD",
+      "Cours": 2093.23999,
+      "Opération": "VENTE",
+      "Score": 96,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 34.6,
+      "Ratio R/R": 1.33,
+      "Entrée": 2093.23999,
+      "Stop-loss": 2107.587533,
+      "Objectif CT": 2074.109933,
+      "Mis à jour": "2026-11-10 11:28:30"
+    },
+    {
       "Actif": "Bitcoin (BTC)",
       "Ticker": "BTC-USD",
-      "Cours": 74155.460938,
+      "Cours": 74187.429688,
       "Opération": "VENTE",
-      "Score": 83,
+      "Score": 92,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 33.2,
+      "RSI": 33.7,
       "Ratio R/R": 1.33,
-      "Entrée": 74155.460938,
-      "Stop-loss": 74451.843192,
-      "Objectif CT": 73760.284598,
-      "Mis à jour": "2026-11-10 10:58:28"
+      "Entrée": 74187.429688,
+      "Stop-loss": 74503.662667,
+      "Objectif CT": 73765.785714,
+      "Mis à jour": "2026-11-10 11:28:30"
     }
   ],
   "1h": [
