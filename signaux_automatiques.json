@@ -12,7 +12,7 @@
       "Entrée": 3.84,
       "Stop-loss": 3.875143,
       "Objectif CT": 3.793143,
-      "Mis à jour": "2026-11-10 19:29:09"
+      "Mis à jour": "2026-11-10 19:59:10"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,21 +26,7 @@
       "Entrée": 78.169998,
       "Stop-loss": 77.732852,
       "Objectif CT": 78.75286,
-      "Mis à jour": "2026-11-10 19:29:08"
-    },
-    {
-      "Actif": "Nasdaq 100",
-      "Ticker": "^NDX",
-      "Cours": 27624.341797,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 47.8,
-      "Ratio R/R": 1.33,
-      "Entrée": 27624.341797,
-      "Stop-loss": 27754.047015,
-      "Objectif CT": 27451.401507,
-      "Mis à jour": "2026-11-10 19:29:09"
+      "Mis à jour": "2026-11-10 19:59:10"
     }
   ],
   "1h": [
