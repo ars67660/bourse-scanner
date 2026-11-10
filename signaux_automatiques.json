@@ -12,7 +12,7 @@
       "Entrée": 1353.5,
       "Stop-loss": 1345.464286,
       "Objectif CT": 1364.214286,
-      "Mis à jour": "2026-11-10 06:27:59"
+      "Mis à jour": "2026-11-10 06:58:01"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,7 +26,21 @@
       "Entrée": 78.879997,
       "Stop-loss": 78.373212,
       "Objectif CT": 79.555711,
-      "Mis à jour": "2026-11-10 06:27:58"
+      "Mis à jour": "2026-11-10 06:58:00"
+    },
+    {
+      "Actif": "Ethereum (ETH)",
+      "Ticker": "ETH-USD",
+      "Cours": 2114.120117,
+      "Opération": "VENTE",
+      "Score": 81,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 49.5,
+      "Ratio R/R": 1.33,
+      "Entrée": 2114.120117,
+      "Stop-loss": 2123.696507,
+      "Objectif CT": 2101.351597,
+      "Mis à jour": "2026-11-10 06:58:01"
     }
   ],
   "1h": [
