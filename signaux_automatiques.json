@@ -1,74 +1,18 @@
 {
   "15m": [
     {
-      "Actif": "Ethereum (ETH)",
-      "Ticker": "ETH-USD",
-      "Cours": 2091.110107,
-      "Opération": "VENTE",
-      "Score": 87,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 35.2,
-      "Ratio R/R": 1.33,
-      "Entrée": 2091.110107,
-      "Stop-loss": 2105.527283,
-      "Objectif CT": 2071.887207,
-      "Mis à jour": "2026-11-10 11:58:32"
-    },
-    {
-      "Actif": "Bitcoin (BTC)",
-      "Ticker": "BTC-USD",
-      "Cours": 74303.0,
-      "Opération": "VENTE",
-      "Score": 83,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 41.6,
-      "Ratio R/R": 1.33,
-      "Entrée": 74303.0,
-      "Stop-loss": 74626.444196,
-      "Objectif CT": 73871.741071,
-      "Mis à jour": "2026-11-10 11:58:32"
-    },
-    {
-      "Actif": "Orange",
-      "Ticker": "ORA.PA",
-      "Cours": 15.255,
-      "Opération": "ACHAT",
-      "Score": 81,
-      "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 50.7,
-      "Ratio R/R": 1.33,
-      "Entrée": 15.255,
-      "Stop-loss": 15.185893,
-      "Objectif CT": 15.347143,
-      "Mis à jour": "2026-11-10 11:58:31"
-    },
-    {
-      "Actif": "Solana (SOL)",
-      "Ticker": "SOL-USD",
-      "Cours": 84.580002,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 32.5,
-      "Ratio R/R": 1.33,
-      "Entrée": 84.580002,
-      "Stop-loss": 85.218576,
-      "Objectif CT": 83.728569,
-      "Mis à jour": "2026-11-10 11:58:32"
-    },
-    {
       "Actif": "XRP",
       "Ticker": "XRP-USD",
-      "Cours": 1.0774,
+      "Cours": 1.0773,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 36.6,
+      "RSI": 39.0,
       "Ratio R/R": 1.33,
-      "Entrée": 1.0774,
-      "Stop-loss": 1.086057,
-      "Objectif CT": 1.065857,
-      "Mis à jour": "2026-11-10 11:58:32"
+      "Entrée": 1.0773,
+      "Stop-loss": 1.085936,
+      "Objectif CT": 1.065786,
+      "Mis à jour": "2026-11-10 12:28:34"
     }
   ],
   "1h": [
