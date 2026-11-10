@@ -12,7 +12,7 @@
       "Entrée": 3.84,
       "Stop-loss": 3.875143,
       "Objectif CT": 3.793143,
-      "Mis à jour": "2026-11-10 18:29:04"
+      "Mis à jour": "2026-11-10 18:59:07"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,37 +26,37 @@
       "Entrée": 78.169998,
       "Stop-loss": 77.732852,
       "Objectif CT": 78.75286,
-      "Mis à jour": "2026-11-10 18:29:04"
-    },
-    {
-      "Actif": "Cardano (ADA)",
-      "Ticker": "ADA-USD",
-      "Cours": 0.1729,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 35.4,
-      "Ratio R/R": 1.33,
-      "Entrée": 0.1729,
-      "Stop-loss": 0.175513,
-      "Objectif CT": 0.169416,
-      "Mis à jour": "2026-11-10 18:29:06"
+      "Mis à jour": "2026-11-10 18:59:06"
     }
   ],
   "1h": [
     {
       "Actif": "Bitcoin (BTC)",
       "Ticker": "BTC-USD",
-      "Cours": 73210.640625,
+      "Cours": 73399.117188,
       "Opération": "VENTE",
       "Score": 87,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 36.6,
+      "RSI": 36.1,
       "Ratio R/R": 1.33,
-      "Entrée": 73210.640625,
-      "Stop-loss": 74084.404855,
-      "Objectif CT": 72045.621652,
-      "Mis à jour": "2026-11-10 17:58:59"
+      "Entrée": 73399.117188,
+      "Stop-loss": 74299.634487,
+      "Objectif CT": 72198.427455,
+      "Mis à jour": "2026-11-10 18:59:11"
+    },
+    {
+      "Actif": "XRP",
+      "Ticker": "XRP-USD",
+      "Cours": 1.0712,
+      "Opération": "VENTE",
+      "Score": 87,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 40.1,
+      "Ratio R/R": 1.33,
+      "Entrée": 1.0712,
+      "Stop-loss": 1.094471,
+      "Objectif CT": 1.040171,
+      "Mis à jour": "2026-11-10 18:59:11"
     },
     {
       "Actif": "Stellantis",
@@ -70,21 +70,21 @@
       "Entrée": 3.84,
       "Stop-loss": 3.907232,
       "Objectif CT": 3.750357,
-      "Mis à jour": "2026-11-10 17:58:59"
+      "Mis à jour": "2026-11-10 18:59:10"
     },
     {
       "Actif": "Pétrole Brent",
       "Ticker": "BZ=F",
-      "Cours": 91.849998,
+      "Cours": 91.419998,
       "Opération": "VENTE",
       "Score": 84,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 51.7,
+      "RSI": 49.9,
       "Ratio R/R": 1.33,
-      "Entrée": 91.849998,
-      "Stop-loss": 93.424999,
-      "Objectif CT": 89.749998,
-      "Mis à jour": "2026-11-10 17:59:00"
+      "Entrée": 91.419998,
+      "Stop-loss": 93.039999,
+      "Objectif CT": 89.259997,
+      "Mis à jour": "2026-11-10 18:59:11"
     },
     {
       "Actif": "Hermès",
@@ -98,7 +98,7 @@
       "Entrée": 1347.5,
       "Stop-loss": 1364.375,
       "Objectif CT": 1325.0,
-      "Mis à jour": "2026-11-10 17:58:59"
+      "Mis à jour": "2026-11-10 18:59:10"
     },
     {
       "Actif": "BNP Paribas",
@@ -112,7 +112,7 @@
       "Entrée": 95.980003,
       "Stop-loss": 94.651434,
       "Objectif CT": 97.751429,
-      "Mis à jour": "2026-11-10 17:58:59"
+      "Mis à jour": "2026-11-10 18:59:10"
     },
     {
       "Actif": "DAX 40 (Allemagne)",
@@ -126,7 +126,7 @@
       "Entrée": 26387.939453,
       "Stop-loss": 26243.743373,
       "Objectif CT": 26580.200893,
-      "Mis à jour": "2026-11-10 17:58:59"
+      "Mis à jour": "2026-11-10 18:59:10"
     },
     {
       "Actif": "Euro Stoxx 50",
@@ -140,7 +140,7 @@
       "Entrée": 6337.47998,
       "Stop-loss": 6303.231672,
       "Objectif CT": 6383.144392,
-      "Mis à jour": "2026-11-10 17:58:59"
+      "Mis à jour": "2026-11-10 18:59:10"
     }
   ],
   "1d": [
