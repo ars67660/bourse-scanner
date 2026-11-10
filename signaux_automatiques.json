@@ -12,21 +12,21 @@
       "Entrée": 3.84,
       "Stop-loss": 3.875143,
       "Objectif CT": 3.793143,
-      "Mis à jour": "2026-11-10 20:59:14"
+      "Mis à jour": "2026-11-10 21:59:21"
     },
     {
       "Actif": "Netflix (NFLX)",
       "Ticker": "NFLX",
-      "Cours": 63.255001,
+      "Cours": 63.25,
       "Opération": "ACHAT",
       "Score": 83,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 73.8,
+      "RSI": 73.7,
       "Ratio R/R": 1.33,
-      "Entrée": 63.255001,
-      "Stop-loss": 62.903444,
-      "Objectif CT": 63.723744,
-      "Mis à jour": "2026-11-10 20:59:13"
+      "Entrée": 63.25,
+      "Stop-loss": 62.8963,
+      "Objectif CT": 63.7216,
+      "Mis à jour": "2026-11-10 21:59:20"
     },
     {
       "Actif": "TotalEnergies",
@@ -40,51 +40,51 @@
       "Entrée": 78.169998,
       "Stop-loss": 77.732852,
       "Objectif CT": 78.75286,
-      "Mis à jour": "2026-11-10 20:59:13"
+      "Mis à jour": "2026-11-10 21:59:20"
     },
     {
       "Actif": "Amazon (AMZN)",
       "Ticker": "AMZN",
-      "Cours": 270.940002,
+      "Cours": 270.899994,
       "Opération": "ACHAT",
       "Score": 81,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 64.1,
+      "RSI": 63.7,
       "Ratio R/R": 1.33,
-      "Entrée": 270.940002,
-      "Stop-loss": 269.37518,
-      "Objectif CT": 273.026433,
-      "Mis à jour": "2026-11-10 20:59:13"
+      "Entrée": 270.899994,
+      "Stop-loss": 269.326601,
+      "Objectif CT": 272.997851,
+      "Mis à jour": "2026-11-10 21:59:20"
     }
   ],
   "1h": [
     {
-      "Actif": "Bitcoin (BTC)",
-      "Ticker": "BTC-USD",
-      "Cours": 73606.78125,
-      "Opération": "VENTE",
-      "Score": 87,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 39.8,
-      "Ratio R/R": 1.33,
-      "Entrée": 73606.78125,
-      "Stop-loss": 74531.117746,
-      "Objectif CT": 72374.332589,
-      "Mis à jour": "2026-11-10 20:29:17"
-    },
-    {
       "Actif": "Ethereum (ETH)",
       "Ticker": "ETH-USD",
-      "Cours": 2050.860107,
+      "Cours": 2054.100098,
+      "Opération": "VENTE",
+      "Score": 96,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 35.0,
+      "Ratio R/R": 1.33,
+      "Entrée": 2054.100098,
+      "Stop-loss": 2093.979723,
+      "Objectif CT": 2000.927264,
+      "Mis à jour": "2026-11-10 21:59:25"
+    },
+    {
+      "Actif": "Bitcoin (BTC)",
+      "Ticker": "BTC-USD",
+      "Cours": 73756.601562,
       "Opération": "VENTE",
       "Score": 87,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 33.0,
+      "RSI": 39.3,
       "Ratio R/R": 1.33,
-      "Entrée": 2050.860107,
-      "Stop-loss": 2090.114035,
-      "Objectif CT": 1998.521537,
-      "Mis à jour": "2026-11-10 20:29:17"
+      "Entrée": 73756.601562,
+      "Stop-loss": 74685.764509,
+      "Objectif CT": 72517.717634,
+      "Mis à jour": "2026-11-10 21:59:25"
     },
     {
       "Actif": "Stellantis",
@@ -98,7 +98,7 @@
       "Entrée": 3.84,
       "Stop-loss": 3.907232,
       "Objectif CT": 3.750357,
-      "Mis à jour": "2026-11-10 20:29:16"
+      "Mis à jour": "2026-11-10 21:59:24"
     },
     {
       "Actif": "Hermès",
@@ -112,7 +112,21 @@
       "Entrée": 1347.5,
       "Stop-loss": 1364.375,
       "Objectif CT": 1325.0,
-      "Mis à jour": "2026-11-10 20:29:16"
+      "Mis à jour": "2026-11-10 21:59:24"
+    },
+    {
+      "Actif": "Amazon (AMZN)",
+      "Ticker": "AMZN",
+      "Cours": 270.899994,
+      "Opération": "ACHAT",
+      "Score": 82,
+      "Signal": "LONG — Configuration forte à étudier",
+      "RSI": 70.9,
+      "Ratio R/R": 1.33,
+      "Entrée": 270.899994,
+      "Stop-loss": 266.008704,
+      "Objectif CT": 277.421714,
+      "Mis à jour": "2026-11-10 21:59:23"
     },
     {
       "Actif": "BNP Paribas",
@@ -126,7 +140,7 @@
       "Entrée": 95.980003,
       "Stop-loss": 94.651434,
       "Objectif CT": 97.751429,
-      "Mis à jour": "2026-11-10 20:29:16"
+      "Mis à jour": "2026-11-10 21:59:24"
     },
     {
       "Actif": "DAX 40 (Allemagne)",
@@ -140,7 +154,7 @@
       "Entrée": 26387.939453,
       "Stop-loss": 26243.743373,
       "Objectif CT": 26580.200893,
-      "Mis à jour": "2026-11-10 20:29:16"
+      "Mis à jour": "2026-11-10 21:59:25"
     },
     {
       "Actif": "Euro Stoxx 50",
@@ -154,49 +168,49 @@
       "Entrée": 6337.47998,
       "Stop-loss": 6303.231672,
       "Objectif CT": 6383.144392,
-      "Mis à jour": "2026-11-10 20:29:16"
+      "Mis à jour": "2026-11-10 21:59:25"
     },
     {
       "Actif": "EUR/GBP",
       "Ticker": "EURGBP=X",
-      "Cours": 0.83653,
+      "Cours": 0.83652,
       "Opération": "ACHAT",
       "Score": 81,
       "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 66.8,
+      "RSI": 61.0,
       "Ratio R/R": 1.33,
-      "Entrée": 0.83653,
-      "Stop-loss": 0.835458,
-      "Objectif CT": 0.83796,
-      "Mis à jour": "2026-11-10 20:29:14"
+      "Entrée": 0.83652,
+      "Stop-loss": 0.835516,
+      "Objectif CT": 0.837859,
+      "Mis à jour": "2026-11-10 21:59:23"
     },
     {
-      "Actif": "Cardano (ADA)",
-      "Ticker": "ADA-USD",
-      "Cours": 0.17458,
+      "Actif": "XRP",
+      "Ticker": "XRP-USD",
+      "Cours": 1.0592,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 33.5,
+      "RSI": 32.8,
       "Ratio R/R": 1.33,
-      "Entrée": 0.17458,
-      "Stop-loss": 0.177941,
-      "Objectif CT": 0.170099,
-      "Mis à jour": "2026-11-10 20:29:17"
+      "Entrée": 1.0592,
+      "Stop-loss": 1.082086,
+      "Objectif CT": 1.028686,
+      "Mis à jour": "2026-11-10 21:59:25"
     },
     {
       "Actif": "Cuivre (Copper)",
       "Ticker": "HG=F",
-      "Cours": 6.27,
+      "Cours": 6.2745,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 37.5,
+      "RSI": 40.9,
       "Ratio R/R": 1.33,
-      "Entrée": 6.27,
-      "Stop-loss": 6.307339,
-      "Objectif CT": 6.220215,
-      "Mis à jour": "2026-11-10 20:29:17"
+      "Entrée": 6.2745,
+      "Stop-loss": 6.311571,
+      "Objectif CT": 6.225072,
+      "Mis à jour": "2026-11-10 21:59:26"
     }
   ],
   "1d": [
