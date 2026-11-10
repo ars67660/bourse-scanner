@@ -12,7 +12,7 @@
       "Entrée": 1353.5,
       "Stop-loss": 1345.464286,
       "Objectif CT": 1364.214286,
-      "Mis à jour": "2026-11-10 05:27:55"
+      "Mis à jour": "2026-11-10 06:27:59"
     },
     {
       "Actif": "TotalEnergies",
@@ -26,10 +26,24 @@
       "Entrée": 78.879997,
       "Stop-loss": 78.373212,
       "Objectif CT": 79.555711,
-      "Mis à jour": "2026-11-10 05:27:54"
+      "Mis à jour": "2026-11-10 06:27:58"
     }
   ],
   "1h": [
+    {
+      "Actif": "Bitcoin (BTC)",
+      "Ticker": "BTC-USD",
+      "Cours": 74635.023438,
+      "Opération": "VENTE",
+      "Score": 94,
+      "Signal": "SHORT — Configuration forte à étudier",
+      "RSI": 42.2,
+      "Ratio R/R": 1.33,
+      "Entrée": 74635.023438,
+      "Stop-loss": 75223.311384,
+      "Objectif CT": 73850.639509,
+      "Mis à jour": "2026-11-10 06:28:03"
+    },
     {
       "Actif": "Apple (AAPL)",
       "Ticker": "AAPL",
@@ -42,7 +56,7 @@
       "Entrée": 350.48999,
       "Stop-loss": 346.767803,
       "Objectif CT": 355.452907,
-      "Mis à jour": "2026-11-10 04:57:55"
+      "Mis à jour": "2026-11-10 06:28:01"
     },
     {
       "Actif": "Nvidia (NVDA)",
@@ -56,7 +70,7 @@
       "Entrée": 178.600006,
       "Stop-loss": 185.168344,
       "Objectif CT": 169.842222,
-      "Mis à jour": "2026-11-10 04:57:55"
+      "Mis à jour": "2026-11-10 06:28:01"
     },
     {
       "Actif": "Microsoft (MSFT)",
@@ -70,7 +84,7 @@
       "Entrée": 545.179993,
       "Stop-loss": 538.125416,
       "Objectif CT": 554.586094,
-      "Mis à jour": "2026-11-10 04:57:55"
+      "Mis à jour": "2026-11-10 06:28:01"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -84,7 +98,7 @@
       "Entrée": 267.01001,
       "Stop-loss": 262.49577,
       "Objectif CT": 273.028996,
-      "Mis à jour": "2026-11-10 04:57:55"
+      "Mis à jour": "2026-11-10 06:28:01"
     },
     {
       "Actif": "Alphabet / Google (GOOGL)",
@@ -98,21 +112,21 @@
       "Entrée": 288.147888,
       "Stop-loss": 283.379949,
       "Objectif CT": 294.50514,
-      "Mis à jour": "2026-11-10 04:57:55"
+      "Mis à jour": "2026-11-10 06:28:01"
     },
     {
       "Actif": "Pétrole Brent",
       "Ticker": "BZ=F",
-      "Cours": 91.610001,
+      "Cours": 91.559998,
       "Opération": "VENTE",
       "Score": 81,
       "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 36.2,
+      "RSI": 32.8,
       "Ratio R/R": 1.33,
-      "Entrée": 91.610001,
-      "Stop-loss": 93.137858,
-      "Objectif CT": 89.572857,
-      "Mis à jour": "2026-11-10 04:57:58"
+      "Entrée": 91.559998,
+      "Stop-loss": 93.005356,
+      "Objectif CT": 89.632853,
+      "Mis à jour": "2026-11-10 06:28:03"
     }
   ],
   "1d": [
