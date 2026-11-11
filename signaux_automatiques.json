@@ -12,21 +12,7 @@
       "Entrée": 3.84,
       "Stop-loss": 3.875143,
       "Objectif CT": 3.793143,
-      "Mis à jour": "2026-11-11 01:15:55"
-    },
-    {
-      "Actif": "Cuivre (Copper)",
-      "Ticker": "HG=F",
-      "Cours": 6.2835,
-      "Opération": "ACHAT",
-      "Score": 86,
-      "Signal": "LONG — Configuration forte à étudier",
-      "RSI": 64.6,
-      "Ratio R/R": 1.33,
-      "Entrée": 6.2835,
-      "Stop-loss": 6.272197,
-      "Objectif CT": 6.298572,
-      "Mis à jour": "2026-11-11 01:15:56"
+      "Mis à jour": "2026-11-11 01:45:57"
     },
     {
       "Actif": "Netflix (NFLX)",
@@ -40,7 +26,7 @@
       "Entrée": 63.25,
       "Stop-loss": 62.8963,
       "Objectif CT": 63.7216,
-      "Mis à jour": "2026-11-11 01:15:54"
+      "Mis à jour": "2026-11-11 01:45:56"
     },
     {
       "Actif": "TotalEnergies",
@@ -54,7 +40,7 @@
       "Entrée": 78.169998,
       "Stop-loss": 77.732852,
       "Objectif CT": 78.75286,
-      "Mis à jour": "2026-11-11 01:15:54"
+      "Mis à jour": "2026-11-11 01:45:56"
     },
     {
       "Actif": "Amazon (AMZN)",
@@ -68,21 +54,7 @@
       "Entrée": 270.899994,
       "Stop-loss": 269.326601,
       "Objectif CT": 272.997851,
-      "Mis à jour": "2026-11-11 01:15:54"
-    },
-    {
-      "Actif": "XRP",
-      "Ticker": "XRP-USD",
-      "Cours": 1.048,
-      "Opération": "VENTE",
-      "Score": 81,
-      "Signal": "SHORT — Configuration forte à étudier",
-      "RSI": 32.0,
-      "Ratio R/R": 1.33,
-      "Entrée": 1.048,
-      "Stop-loss": 1.053764,
-      "Objectif CT": 1.040314,
-      "Mis à jour": "2026-11-11 01:15:56"
+      "Mis à jour": "2026-11-11 01:45:56"
     }
   ],
   "1h": [
