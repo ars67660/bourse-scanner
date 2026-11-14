@@ -1,6 +1,6 @@
 {
   "initial_capital": 10000.0,
-  "cash": 2950.3868173418955,
+  "cash": 2949.4706302097834,
   "positions": [
     {
       "name": "BNP Paribas",
@@ -153,21 +153,6 @@
       "timeframe": "15 minutes"
     },
     {
-      "name": "Netflix (NFLX)",
-      "symbol": "NFLX",
-      "side": "SHORT",
-      "score": 80,
-      "entry": 62.13999938964844,
-      "last_price": 62.13999938964844,
-      "sl": 62.37975433894566,
-      "tp": 61.820326123918804,
-      "tp_long": 61.66048949105399,
-      "qty": 12.737827168914151,
-      "capital": 791.5285725017726,
-      "opened_at": "2026-11-14T16:08:00+00:00",
-      "timeframe": "15 minutes"
-    },
-    {
       "name": "Schneider Electric",
       "symbol": "SU.PA",
       "side": "LONG",
@@ -180,6 +165,21 @@
       "qty": 0.06598347379486567,
       "capital": 16.086771112553834,
       "opened_at": "2026-11-14T16:08:00+00:00",
+      "timeframe": "15 minutes"
+    },
+    {
+      "name": "Netflix (NFLX)",
+      "symbol": "NFLX",
+      "side": "SHORT",
+      "score": 80,
+      "entry": 62.150001525878906,
+      "last_price": 62.150001525878906,
+      "sl": 62.38975647517613,
+      "tp": 61.83032826014927,
+      "tp_long": 61.670491627284456,
+      "qty": 12.70138025979206,
+      "capital": 789.3908025268447,
+      "opened_at": "2026-11-14T16:49:36+00:00",
       "timeframe": "15 minutes"
     }
   ],
@@ -4273,7 +4273,26 @@
       "pnl_eur": -0.059514651961457235,
       "exit_reason": "Stop-loss",
       "closed_at": "2026-11-14T16:07:56+00:00"
+    },
+    {
+      "name": "Netflix (NFLX)",
+      "symbol": "NFLX",
+      "side": "SHORT",
+      "score": 80,
+      "entry": 62.13999938964844,
+      "last_price": 62.13999938964844,
+      "sl": 62.37975433894566,
+      "tp": 61.820326123918804,
+      "tp_long": 61.66048949105399,
+      "qty": 12.737827168914151,
+      "capital": 791.5285725017726,
+      "opened_at": "2026-11-14T16:08:00+00:00",
+      "timeframe": "15 minutes",
+      "exit": 62.37975433894566,
+      "pnl_eur": -3.053957107039786,
+      "exit_reason": "Stop-loss",
+      "closed_at": "2026-11-14T16:49:31+00:00"
     }
   ],
-  "last_cycle": "2026-11-14T16:08:00+00:00"
+  "last_cycle": "2026-11-14T16:49:36+00:00"
 }
