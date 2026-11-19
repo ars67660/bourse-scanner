@@ -1,6 +1,6 @@
 {
   "initial_capital": 10000.0,
-  "cash": 2923.3574183401092,
+  "cash": 2918.997696604062,
   "positions": [
     {
       "name": "Nvidia (NVDA)",
@@ -18,27 +18,12 @@
       "timeframe": "15 minutes"
     },
     {
-      "name": "Argent (Silver)",
-      "symbol": "SI=F",
-      "side": "SHORT",
-      "score": 85,
-      "entry": 45.01499938964844,
-      "last_price": 45.3849983215332,
-      "sl": 45.45803574153355,
-      "tp": 44.424284253801616,
-      "tp_long": 44.128926685878206,
-      "qty": 17.466666338354305,
-      "capital": 786.2619745602119,
-      "opened_at": "2026-11-18T14:46:28+00:00",
-      "timeframe": "15 minutes"
-    },
-    {
       "name": "Pétrole Brent",
       "symbol": "BZ=F",
       "side": "SHORT",
       "score": 81,
       "entry": 89.08999633789062,
-      "last_price": 88.77999877929688,
+      "last_price": 88.62999725341797,
       "sl": 89.77892657688686,
       "tp": 88.17142268589565,
       "tp_long": 87.71213585989815,
@@ -180,6 +165,21 @@
       "qty": 0.023273735624629335,
       "capital": 6.229681127158074,
       "opened_at": "2026-11-18T21:35:48+00:00",
+      "timeframe": "15 minutes"
+    },
+    {
+      "name": "Schneider Electric",
+      "symbol": "SU.PA",
+      "side": "SHORT",
+      "score": 79,
+      "entry": 238.0500030517578,
+      "last_price": 238.0500030517578,
+      "sl": 239.67589623587472,
+      "tp": 235.88214547293526,
+      "tp_long": 234.798216683524,
+      "qty": 3.288734795739122,
+      "capital": 782.88332816212,
+      "opened_at": "2026-11-19T00:35:20+00:00",
       "timeframe": "15 minutes"
     }
   ],
@@ -6705,7 +6705,26 @@
       "pnl_eur": 0.8706027353707181,
       "exit_reason": "Take-profit",
       "closed_at": "2026-11-18T19:44:14+00:00"
+    },
+    {
+      "name": "Argent (Silver)",
+      "symbol": "SI=F",
+      "side": "SHORT",
+      "score": 85,
+      "entry": 45.01499938964844,
+      "last_price": 45.3849983215332,
+      "sl": 45.45803574153355,
+      "tp": 44.424284253801616,
+      "tp_long": 44.128926685878206,
+      "qty": 17.466666338354305,
+      "capital": 786.2619745602119,
+      "opened_at": "2026-11-18T14:46:28+00:00",
+      "timeframe": "15 minutes",
+      "exit": 45.45803574153355,
+      "pnl_eur": -7.738368134138985,
+      "exit_reason": "Stop-loss",
+      "closed_at": "2026-11-19T00:35:14+00:00"
     }
   ],
-  "last_cycle": "2026-11-18T23:32:09+00:00"
+  "last_cycle": "2026-11-19T00:35:20+00:00"
 }
