@@ -1,6 +1,6 @@
 {
   "initial_capital": 10000.0,
-  "cash": 2953.846927547127,
+  "cash": 2962.8931649696933,
   "positions": [
     {
       "name": "S&P 500",
@@ -138,21 +138,6 @@
       "timeframe": "15 minutes"
     },
     {
-      "name": "Stellantis",
-      "symbol": "STLAP.PA",
-      "side": "SHORT",
-      "score": 85,
-      "entry": 3.1875,
-      "last_price": 3.1589999198913574,
-      "sl": 3.218410772936685,
-      "tp": 3.1462856360844205,
-      "tp_long": 3.1256784541266307,
-      "qty": 246.99416365887447,
-      "capital": 787.2938966626624,
-      "opened_at": "2026-11-20T09:52:30+00:00",
-      "timeframe": "15 minutes"
-    },
-    {
       "name": "Orange",
       "symbol": "ORA.PA",
       "side": "LONG",
@@ -173,13 +158,28 @@
       "side": "SHORT",
       "score": 81,
       "entry": 71.25,
-      "last_price": 71.25,
+      "last_price": 71.20999908447266,
       "sl": 71.84142821175712,
       "tp": 70.46142905099052,
       "tp_long": 70.06714357648578,
       "qty": 11.06162442478859,
       "capital": 788.1407402661871,
       "opened_at": "2026-11-20T12:54:52+00:00",
+      "timeframe": "15 minutes"
+    },
+    {
+      "name": "XRP",
+      "symbol": "XRP-USD",
+      "side": "SHORT",
+      "score": 87,
+      "entry": 0.9490000009536743,
+      "last_price": 0.9490000009536743,
+      "sl": 0.9576892916645322,
+      "tp": 0.9374142800058637,
+      "tp_long": 0.9316214195319584,
+      "qty": 830.7980672221776,
+      "capital": 788.4273665861573,
+      "opened_at": "2026-11-20T14:10:35+00:00",
       "timeframe": "15 minutes"
     }
   ],
@@ -7788,7 +7788,26 @@
       "pnl_eur": 4.531669913606566,
       "exit_reason": "Take-profit",
       "closed_at": "2026-11-20T12:54:45+00:00"
+    },
+    {
+      "name": "Stellantis",
+      "symbol": "STLAP.PA",
+      "side": "SHORT",
+      "score": 85,
+      "entry": 3.1875,
+      "last_price": 3.1589999198913574,
+      "sl": 3.218410772936685,
+      "tp": 3.1462856360844205,
+      "tp_long": 3.1256784541266307,
+      "qty": 246.99416365887447,
+      "capital": 787.2938966626624,
+      "opened_at": "2026-11-20T09:52:30+00:00",
+      "timeframe": "15 minutes",
+      "exit": 3.1462856360844205,
+      "pnl_eur": 10.179707346061061,
+      "exit_reason": "Take-profit",
+      "closed_at": "2026-11-20T14:10:28+00:00"
     }
   ],
-  "last_cycle": "2026-11-20T12:54:52+00:00"
+  "last_cycle": "2026-11-20T14:10:35+00:00"
 }
