@@ -1,6 +1,6 @@
 {
   "initial_capital": 10000.0,
-  "cash": 2962.336494357835,
+  "cash": 2960.7852877897462,
   "positions": [
     {
       "name": "Dow Jones",
@@ -138,21 +138,6 @@
       "timeframe": "15 minutes"
     },
     {
-      "name": "Microsoft (MSFT)",
-      "symbol": "MSFT",
-      "side": "SHORT",
-      "score": 92,
-      "entry": 492.9700012207031,
-      "last_price": 492.9700012207031,
-      "sl": 496.1941877092634,
-      "tp": 488.6710859026228,
-      "tp_long": 486.5216282435826,
-      "qty": 1.603718822916645,
-      "capital": 790.5852700908831,
-      "opened_at": "2026-11-24T02:52:12+00:00",
-      "timeframe": "15 minutes"
-    },
-    {
       "name": "Netflix (NFLX)",
       "symbol": "NFLX",
       "side": "LONG",
@@ -165,6 +150,21 @@
       "qty": 0.025534159830494188,
       "capital": 1.4834070465221885,
       "opened_at": "2026-11-24T02:52:12+00:00",
+      "timeframe": "15 minutes"
+    },
+    {
+      "name": "Microsoft (MSFT)",
+      "symbol": "MSFT",
+      "side": "SHORT",
+      "score": 92,
+      "entry": 492.9700012207031,
+      "last_price": 492.9700012207031,
+      "sl": 496.1941877092634,
+      "tp": 488.6710859026228,
+      "tp_long": 486.5216282435826,
+      "qty": 1.5963766276851985,
+      "capital": 786.9657880986742,
+      "opened_at": "2026-11-24T03:51:17+00:00",
       "timeframe": "15 minutes"
     }
   ],
@@ -8894,7 +8894,26 @@
       "pnl_eur": -0.023804585012152813,
       "exit_reason": "Stop-loss",
       "closed_at": "2026-11-24T02:52:06+00:00"
+    },
+    {
+      "name": "Microsoft (MSFT)",
+      "symbol": "MSFT",
+      "side": "SHORT",
+      "score": 92,
+      "entry": 492.9700012207031,
+      "last_price": 492.9700012207031,
+      "sl": 496.1941877092634,
+      "tp": 488.6710859026228,
+      "tp_long": 486.5216282435826,
+      "qty": 1.603718822916645,
+      "capital": 790.5852700908831,
+      "opened_at": "2026-11-24T02:52:12+00:00",
+      "timeframe": "15 minutes",
+      "exit": 496.1941877092634,
+      "pnl_eur": -5.170688560297663,
+      "exit_reason": "Stop-loss",
+      "closed_at": "2026-11-24T03:51:11+00:00"
     }
   ],
-  "last_cycle": "2026-11-24T02:52:12+00:00"
+  "last_cycle": "2026-11-24T03:51:17+00:00"
 }
